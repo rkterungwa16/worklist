@@ -7,8 +7,9 @@
     "prestart": "babel-node buildScripts/startMessage.js",
     "start": "npm-run-all --parallel open:src test:watch",
     "open:src": "babel-node buildScripts/srcServer.js",
-    "test": "jasmine-node --noStack spec/",
-    "test:watch": "npm run test -- --watch"
+    "test": "istanbul cover jasmine-node --noStack spec/",
+    "test:watch": "npm run test -- --watch",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "chalk": "^2.2.0",
+    "coveralls": "^3.0.0",
     "enzyme": "^2.9.1",
     "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
@@ -25,6 +27,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.1.0",
     "gulp-bower": "0.0.13",
+    "istanbul": "^0.4.5",
     "jest": "^20.0.4",
     "jest-css-modules": "^1.1.0",
     "node-sass": "^4.5.3",
