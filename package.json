@@ -4,7 +4,11 @@
   "description": "An application to create todo lists with tasks for each todo list",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prestart": "babel-node buildScripts/startMessage.js",
+    "start": "npm-run-all --parallel open:src test:watch",
+    "open:src": "babel-node buildScripts/srcServer.js",
+    "test": "jasmine-node --noStack spec/",
+    "test:watch": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -12,6 +16,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.24.1",
+    "chalk": "^2.2.0",
     "enzyme": "^2.9.1",
     "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
@@ -23,6 +28,9 @@
     "jest": "^20.0.4",
     "jest-css-modules": "^1.1.0",
     "node-sass": "^4.5.3",
+    "npm-run-all": "^4.1.1",
+    "open": "0.0.5",
+    "parallel": "^1.2.0",
     "redux-mock-store": "^1.2.3"
   },
   "dependencies": {
@@ -87,7 +95,6 @@
     "webpack-dev-server": "^2.5.1",
     "webpack-hot-middleware": "^2.18.2"
   },
-
   "keywords": [
     "todo",
     "list",
