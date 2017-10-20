@@ -1,0 +1,24 @@
+{
+  "name": "worklist",
+  "version": "0.0.1",
+  "description": "An application to create todo lists with tasks for each todo list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkterungwa16/worklist.git"
+  },
+  "keywords": [
+    "todo",
+    "list",
+    "tasks"
+  ],
+  "author": "Richard Terungwa Kombol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rkterungwa16/worklist/issues"
+  },
+  "homepage": "https://github.com/rkterungwa16/worklist#readme"
+}
