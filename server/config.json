@@ -1,0 +1,14 @@
+{
+  "development": {
+    "mongoUrl": "mongodb://localhost/worklist-dev",
+    "port": 3000
+  },
+  "test": {
+    "mongoUrl": "mongodb://localhost/worklist-test",
+    "port": 3000
+  },
+  "production": {
+    "mongoUrl": "mongodb://localhost/worklist",
+    "port": 3000
+  }
+}
