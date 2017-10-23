@@ -3,6 +3,12 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import User from '../models/userModel';
 
+/**
+* Create new user
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
 export const createUser = (req, res) => {
   const username = req.body.username.toLowerCase();
   const email = req.body.email;
@@ -39,12 +45,20 @@ export const createUser = (req, res) => {
         }, 'secrete_key');
         res
           .status(201)
-          .send(token);
+          .json({ token });
       });
     }
   });
 };
 
+/**
+* Log in a registered user
+* @param {object} req for first parameter
+* @param {string} req.email a user's email
+* @param {string} req.password a user's password
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
 export const loginUser = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;

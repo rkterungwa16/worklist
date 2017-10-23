@@ -1,0 +1,10 @@
+[
+  {
+  	"_id": 2,
+  	"username": "logan",
+  	"email": "logan@gmail.com",
+  	"password": "logan",
+    "image": "",
+    "salt": ""
+  }
+]

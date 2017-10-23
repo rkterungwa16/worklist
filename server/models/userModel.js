@@ -1,6 +1,4 @@
-// import passportLocalMongoose from 'passport-local-mongoose';
 import mongoose from 'mongoose';
-// import validator from '../lib/validator';
 
 const Schema = mongoose.Schema;
 
@@ -26,7 +24,5 @@ const User = new Schema({
     contentType: String
   }
 });
-
-// User.plugin(passportLocalMongoose);
 
 export default mongoose.model('User', User);
