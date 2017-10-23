@@ -5,7 +5,7 @@ import path from 'path';
 import open from 'open';
 import routes from '../server/routes';
 import config from '../webpack.config.dev';
-import { connect } from '../server/lib/db';
+import connect from '../server/lib/db';
 import dbConfigJson from '../server/config.json';
 import User from '../server/models/userModel';
 
