@@ -1,6 +1,5 @@
 import proxyquire from 'proxyquire';
-// import User from '../../../models/userModel';
-// import users from '../fixtures/userMockData.json';
+import sinon from 'sinon';
 import mongooseFunc from '../utils/helpers';
 
 const mongoose = mongooseFunc();
@@ -13,14 +12,100 @@ describe('User', () => {
   });
 
   it('should register the Mongoose model', () => {
+    console.log('USER MONGOOSE', mongoose.model.args);
     // mongoose.model.calledWith('User').toBe(true);
     const value = mongoose.model.args[0][1] instanceof mongoose.Schema;
-    value.toBe(true);
+    expect(value).toBe(true);
+  });
+
+  describe('username', () => {
+    it('should be a string', () => {
+      const obj = {};
+      obj.username = {
+        type: String
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+
+    it('should be unique', () => {
+      const obj = {};
+      obj.username = {
+        unique: true
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+
+    it('should be required', () => {
+      const obj = {};
+      obj.username = {
+        required: true
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+  });
+
+  describe('email', () => {
+    it('should be a string', () => {
+      const obj = {};
+      obj.email = {
+        type: String
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+
+    it('should be unique', () => {
+      const obj = {};
+      obj.email = {
+        unique: true
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+
+    it('should be required', () => {
+      const obj = {};
+      obj.email = {
+        required: true
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+  });
+
+  describe('password', () => {
+    it('should be a string', () => {
+      const obj = {};
+      obj.password = {
+        type: String
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+  });
+
+  describe('salt', () => {
+    it('should be a string', () => {
+      const obj = {};
+      obj.salt = {
+        type: String
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+  });
+
+  describe('image', () => {
+    it('should be a buffer', () => {
+      const obj = {};
+      obj.image = {
+        data: Buffer
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+
+    it('should have contentType of buffer to be a string', () => {
+      const obj = {};
+      obj.image = {
+        contentType: String
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
   });
 });
 
-describe('User model', () => {
-  it('Should connect to the DB', () => {
-    //
-  });
-});
