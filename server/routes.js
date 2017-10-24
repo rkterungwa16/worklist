@@ -1,10 +1,19 @@
 import multer from 'multer';
-import { createUser, loginUser, changeProfile } from './controllers/users';
-import { createTodoList, createTasks, getTodoList, getTasks } from './controllers/todoList';
+import {
+  createUser,
+  loginUser,
+  changeProfile,
+  googleAuth
+} from './controllers/users';
+import {
+  createTodoList,
+  createTasks,
+  getTodoList,
+  getTasks
+} from './controllers/todoList';
 import tokenSession from './middleware/tokenSession';
 
 const upload = multer({ dest: 'uploads/' });
-
 
 const router = (app) => {
   app.get('/api/v1/todolist', tokenSession, getTodoList);
@@ -14,5 +23,6 @@ const router = (app) => {
   app.post('/api/v1/user/profile', upload.single('photo'), changeProfile);
   app.post('/api/v1/todolist', tokenSession, createTodoList);
   app.post('/api/v1/tasks/:todoid', tokenSession, createTasks);
+  app.post('/api/v1/auth/google', googleAuth);
 };
 export default router;
