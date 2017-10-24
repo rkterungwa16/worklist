@@ -3,7 +3,7 @@ import path from 'path';
 export default {
   devtool: 'inline-source-map',
   entry: [
-    path.resolve(__dirname, 'src/index')
+    path.resolve(__dirname, 'client/index')
   ],
   target: 'web',
   output: {
@@ -11,11 +11,23 @@ export default {
     publicPath: '/',
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   plugins: [],
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader']},
-      {test: /\.css$/, loaders: ['style-loader', 'css-loader']}
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
+      {
+        test: /\.css$/, loaders: ['style-loader', 'css-loader']
+      }
     ]
   }
-}
+};
