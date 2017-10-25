@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import tasks from './taskModel';
 
 const Schema = mongoose.Schema;
 
