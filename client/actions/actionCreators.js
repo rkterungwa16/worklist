@@ -30,6 +30,26 @@ export const changeRegisterForm = newFormState => ({
 });
 
 /**
+ * Updates the form state when creating a todo list
+ * @param  {boolean} newFormState means a user is registered, false means no user is logged in
+ * @return {object} action type and data
+ */
+export const changeRegisterForm = newFormState => ({
+  type: 'CHANGE_REGISTER_FORM',
+  newFormState
+});
+
+/**
+ * Get user todo lists
+ * @param  {boolean} values user created todo lists
+ * @return {object} action type and data
+ */
+export const getTodoLists = values => ({
+  type: 'GET_TODOLISTS',
+  values
+});
+
+/**
  * Updates the user login form
  * @param  {object} newFormState update form input values
  * @return {object} action type and data
