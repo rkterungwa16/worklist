@@ -83,7 +83,7 @@ export const loginUser = (req, res) => {
       }, 'secrete_key');
       res
         .status(201)
-        .send(token);
+        .json({ token });
     }
   });
 };
