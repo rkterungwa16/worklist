@@ -10,7 +10,7 @@ import reducer from './reducers';
 import App from './App';
 import Signup from './pages/SignupPage';
 import Login from './pages/LoginPage';
-import TaskPage from './pages/TaskPage';
+import Dashboard from './pages/Dashboard';
 import RequireAuthRoute from './components/RequireAuthRoute';
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
@@ -22,7 +22,7 @@ render((
         <Route exact path='/' component={App} />
         <Route exact path='/signup' component={Signup} />
         <Route exact path='/login' component={Login} />
-        <Route exact path='/dashboard' component={TaskPage} />
+        <Route exact path='/dashboard' component={Dashboard} />
       </Switch>
     </HashRouter>
   </Provider>

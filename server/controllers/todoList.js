@@ -1,4 +1,3 @@
-import decodeJwt from 'jwt-decode';
 import User from '../models/userModel';
 import TodoList from '../models/todoListModel';
 import Tasks from '../models/taskModel';
@@ -10,9 +9,7 @@ import Tasks from '../models/taskModel';
 * @returns {object} a response object
 */
 export const createTodoList = (req, res) => {
-  const token = req.headers['x-access-token'];
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
+  const id = req.params.id;
   const todo = req.body.todo;
 
   User.findById(id, (err, user) => {
@@ -35,10 +32,8 @@ export const createTodoList = (req, res) => {
   * @returns {object} a response object
   */
 export const createTasks = (req, res) => {
-  const token = req.headers['x-access-token'];
-  const decodeToken = decodeJwt(token);
   const todoId = req.params.todoid;
-  const id = decodeToken.id;
+  const id = req.params.id;
   const task = req.body.task;
   const priority = req.body.priority;
   const dateCreated = new Date().getDate();
@@ -76,9 +71,7 @@ export const createTasks = (req, res) => {
 * @returns {object} a response object
 */
 export const getTodoList = (req, res) => {
-  const token = req.headers['x-access-token'];
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
+  const id = req.params.id;
 
   const query = {
     author: id
@@ -98,11 +91,8 @@ export const getTodoList = (req, res) => {
 * @returns {object} a response object
 */
 export const getTasks = (req, res) => {
-  const token = req.headers['x-access-token'];
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
+  const id = req.params.id;
   const todoId = req.params.todoid;
-
   const query = {
     _id: todoId,
     author: id
@@ -111,10 +101,10 @@ export const getTasks = (req, res) => {
   TodoList
     .find(query)
     .populate('tasks')
-    .exec((err, tasks) => {
+    .exec((err, todo) => {
       res
         .status(200)
-        .send(tasks[0].tasks);
+        .send(todo[0].tasks);
     });
 };
 

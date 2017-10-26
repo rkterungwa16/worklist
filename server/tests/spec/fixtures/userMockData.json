@@ -1,10 +1,8 @@
 [
   {
-  	"_id": 2,
-  	"username": "logan",
-  	"email": "logan@gmail.com",
-  	"password": "logan",
-    "image": "",
-    "salt": ""
+    "username": "johndoe",
+    "password": "johns_password",
+    "email": "johndoe@example.com",
+    "name": "John Doe"
   }
 ]

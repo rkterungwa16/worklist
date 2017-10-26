@@ -1,20 +1,19 @@
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createTaskForm } from '../actions/actionCreators';
+import { createTodoListForm } from '../actions/actionCreators';
 
 /**
 * Form to create todo lists
 */
-class TaskForm extends React.Component {
+class TodoListForm extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.changeTask = this.changeTask.bind(this);
+    this.changeTodoList = this.changeTodoList.bind(this);
   }
 
   /**
@@ -24,7 +23,7 @@ class TaskForm extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.props.formState.task);
+    this.props.onSubmit(this.props.formState.todolist);
   }
 
   /**
@@ -33,7 +32,7 @@ class TaskForm extends React.Component {
    * @return {*} null
   */
   emitChange(newFormState) {
-    this.props.createTaskForm(newFormState);
+    this.props.createTodoListForm(newFormState);
   }
 
   /**
@@ -41,8 +40,8 @@ class TaskForm extends React.Component {
    * @param {*} event
    * @return {*} null
   */
-  changeTask(event) {
-    this.emitChange({ ...this.props.formState, task: event.target.value });
+  changeTodoList(event) {
+    this.emitChange({ ...this.props.formState, todolist: event.target.value });
   }
 
   /**
@@ -52,15 +51,15 @@ class TaskForm extends React.Component {
   render() {
     return (
       <form className='col s12' onSubmit={this.onSubmit}>
-        <div className='row col s12 m6 l6'>
+        <div className='row'>
           <div className='input-field'>
             <input
               className='validate'
               type='text'
               id='todolist'
               placeholder='Your Todo Lists'
-              value={this.props.formState.task}
-              onChange={this.changeTask}
+              value={this.props.formState.todolist}
+              onChange={this.changeTodoList}
             />
           </div>
           <button
@@ -68,31 +67,25 @@ class TaskForm extends React.Component {
             type='submit'
             name='action'
           >
-              Add Task
+            Create Todo List
           </button>
-          <a
-            className='btn waves-effect waves-light white black-text'
-          >
-            Cancel
-          </a>
         </div>
       </form>
     );
   }
 }
 
-TaskForm.propTypes = {
-  createTaskForm: React.PropTypes.func.isRequired,
+TodoListForm.propTypes = {
+  createTodoListForm: React.PropTypes.func.isRequired,
   formState: React.PropTypes.shape({
-    task: ''
+    todolist: ''
   }).isRequired,
   onSubmit: React.PropTypes.func.isRequired
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  createTaskForm
+  createTodoListForm
 }, dispatch);
 
 export default connect(null,
-  matchDispatchToProps)(TaskForm);
-
+  matchDispatchToProps)(TodoListForm);
