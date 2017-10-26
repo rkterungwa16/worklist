@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 
 /**
-* Registration form for the application
+* Login form form for the application
 */
 class LoginForm extends Component {
   /**
@@ -38,6 +38,10 @@ class LoginForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.onSubmit(this.state);
+    this.setState({
+      email: '',
+      password: ''
+    });
   }
 
 
