@@ -1,5 +1,4 @@
 import { CHANGE_REGISTER_FORM, SENDING_REQUEST, SET_REGISTER_ERROR,
-  SET_AUTH
 } from '../actions/actionTypes';
 
 const initialRegisterState = {
@@ -9,8 +8,7 @@ const initialRegisterState = {
     email: ''
   },
   error: '',
-  currentlySending: false,
-  loggedIn: false
+  currentlySending: false
 };
 
 // The register reducer
@@ -22,8 +20,6 @@ const register = (state = initialRegisterState, action) => {
       return { ...state, currentlySending: action.sending };
     case SET_REGISTER_ERROR:
       return { ...state, error: action.value };
-    case SET_AUTH:
-      return { ...state, loggedIn: action.newAuthState };
     default:
       return state;
   }

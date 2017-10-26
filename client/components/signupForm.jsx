@@ -10,20 +10,35 @@ class RegisterForm extends Component {
   */
   constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      username: '',
+      email: '',
+      password: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   /**
-   * Submit current form values when register form is submitted
+   * Update current form values when user inputs values
    * @param {*} event Html DOM object when register form is submitted
    * @return {*} null
    */
-  onSubmit(event) {
+  handleChange(event) {
     event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const email = document.getElementById('email').value;
-    this.props.onSubmit(username, password, email);
+    const obj = {};
+    obj[event.target.name] = event.target.value;
+    this.setState(obj);
+  }
+
+  /**
+   * Submit current form values when user submits form
+   * @param {*} event Html DOM object when register form is submitted
+   * @return {*} null
+   */
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.onSubmit(this.state);
   }
 
 
@@ -33,29 +48,38 @@ class RegisterForm extends Component {
   */
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <div className='input-field'>
           <input
             className='validate'
+            name='username'
             type='text'
             id='username'
             placeholder='Your username'
+            value={this.state.username}
+            onChange={this.handleChange}
           />
         </div>
         <div className='input-field'>
           <input
             className='validate'
             id='email'
+            name='email'
             type='email'
             placeholder='Your email'
+            value={this.state.email}
+            onChange={this.handleChange}
           />
         </div>
         <div className='input-field'>
           <input
             className='validate'
+            name='password'
             id='password'
             type='password'
             placeholder='Your Password'
+            value={this.state.password}
+            onChange={this.handleChange}
           />
         </div>
 
