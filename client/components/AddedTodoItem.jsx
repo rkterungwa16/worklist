@@ -40,7 +40,6 @@ class AddedTodoItem extends React.Component {
     this.id = this.props.todoItem._id;
     this.todo.todo = this.props.todoItem.todo;
     this.todo.todoId = this.props.todoItem._id;
-    console.log('ADDED TODO VALUES', this.props);
     return (
       <div>
         <a

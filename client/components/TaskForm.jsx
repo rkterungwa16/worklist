@@ -2,7 +2,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createTask } from '../actions/actionCreators';
+import {
+  createTask,
+  getTasks
+} from '../actions/actionCreators';
 
 /**
 * Form to create todo lists
@@ -41,6 +44,7 @@ class TaskForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.createTask(this.state, this.props.todoId);
+    this.props.getTasks(this.props.todoId);
     this.setState({
       task: '',
     });
@@ -80,11 +84,13 @@ class TaskForm extends React.Component {
 
 TaskForm.propTypes = {
   createTask: React.PropTypes.func.isRequired,
+  getTasks: React.PropTypes.func.isRequired,
   todoId: React.PropTypes.string.isRequired
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  createTask
+  createTask,
+  getTasks
 }, dispatch);
 
 export default connect(null,

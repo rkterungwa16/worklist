@@ -173,7 +173,6 @@ export const createTodo = todo => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post(`/api/v1/todolist/${id}`, todo, config)
     .then((response) => {
-      console.log('TODO DATA', response.data);
       dispatch(todoCreated(response.data));
     });
 };
@@ -208,6 +207,7 @@ export const createTask = (task, todoId) => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post(`/api/v1/tasks/${id}/${todoId}`, task, config)
     .then((response) => {
+      console.log('CREATED TASK', response.data);
       dispatch(taskCreated(response.data));
     });
 };

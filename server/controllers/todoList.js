@@ -60,7 +60,8 @@ export const createTasks = (req, res) => {
       res
         .status(201)
         .json({
-          status: 'task created', todolist
+          task: newtask,
+          todolist
         });
     });
   });

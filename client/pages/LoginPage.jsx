@@ -42,7 +42,14 @@ class Login extends React.Component {
               <div className='col s12 m5 l5 offset-s1 offset-m2 offset-l3'>
                 <div className='card blue darken-1'>
                   <div className='card-content black-text'>
-                    <span className='card-title'>WorkList</span>
+                    <a className='brand-logo black-text center'>
+                      <img
+                        className='sigu-brand'
+                        width='120'
+                        src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509116700/Logomakr_0onU3q_h99hgv.png'
+                        alt=''
+                      />
+                    </a>
                     <div className='row' id='RegisterCard'>
                       <h4 className='center-align'>Login</h4>
                       <LoginForm

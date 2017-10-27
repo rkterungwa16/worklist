@@ -84,6 +84,7 @@ class TodoListForm extends React.Component {
 
 TodoListForm.propTypes = {
   createTodo: React.PropTypes.func.isRequired,
+  getTodoList: React.PropTypes.func.isRequired,
   todoList: React.PropTypes.shape([]).isRequired
 };
 

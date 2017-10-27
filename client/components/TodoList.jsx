@@ -43,14 +43,12 @@ class TodoList extends React.Component {
     this.setState({ todos: nextProps.currentState.todo.todolists });
   }
 
-
   /**
   * Create a template of all tasks for a todo list
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
     const addedTodo = this.props.currentState.todo.todoItem;
-    console.log('TODOLIST', addedTodo);
     const todoItems = this.state.todos.map((todoItem) => {
       return (
         <TodoItem

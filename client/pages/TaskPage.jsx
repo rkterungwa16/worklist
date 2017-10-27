@@ -11,6 +11,7 @@ class TaskPage extends React.Component {
   */
   constructor(props) {
     super(props);
+    this.createdTask = {};
     this.tasks = [];
     this.todo = {};
   }
@@ -23,6 +24,8 @@ class TaskPage extends React.Component {
    * @return {*} null
   */
   componentWillReceiveProps(nextProps) {
+    this.tasks = nextProps.currentState.task.tasks;
+    this.createdTask = nextProps.currentState.task.task;
     this.tasks = nextProps.currentState.task.tasks;
     this.todo = nextProps.currentState.todo.todoId;
   }

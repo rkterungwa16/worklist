@@ -6,9 +6,13 @@ const Header = () => (
       <nav className='transparent z-depth-0'>
         <div className='nav-wrapper'>
           <a className='brand-logo black-text left'>
-            <h4>WorkList</h4>
+            <img
+              className='sigu-brand'
+              width='120'
+              src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509116080/Logomakr_6OM41h_nisjmo.png'
+              alt=''
+            />
           </a>
-
           <ul className='right nav-profile'>
             <li>
               <a id='dropProfiles'>
