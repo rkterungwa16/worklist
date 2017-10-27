@@ -56,60 +56,41 @@ export const getTasksAction = value => ({
  * @param  {boolean} value user created todo lists
  * @return {object} action type and data
  */
-export const getTodoItemId = value => ({
+export const getTodoItem = value => ({
   type: 'GET_TODO_ITEM_ID',
   value
 });
 
 /**
  * Confirm that todo has been created
- * @param  {boolean} values boolean to confirm to creation
+ * @param  {boolean} value boolean to confirm to creation
  * @return {object} action type and data
  */
-export const todoCreated = values => ({
-  type: 'TODO_CREATED_SUCCESSFULLY',
-  values
+export const todoCreated = value => ({
+  type: 'CREATE_TODO',
+  value
+});
+
+/**
+ * Update the todo list
+ * @param  {array} value an array of todos
+ * @return {object} action type and data
+ */
+export const updateTodoList = value => ({
+  type: 'UPDATE_TODO',
+  value
 });
 
 /**
  * Confirm that task has been created
- * @param  {boolean} values boolean to confirm to creation
+ * @param  {boolean} value boolean to confirm to creation
  * @return {object} action type and data
  */
-export const taskCreated = values => ({
-  type: 'TODO_CREATED_SUCCESSFULLY',
-  values
+export const taskCreated = value => ({
+  type: 'CREATE_TASK',
+  value
 });
 
-/**
- * Updates the user login form
- * @param  {object} newFormState update form input values
- * @return {object} action type and data
- */
-export const changeLoginForm = newFormState => ({
-  type: 'CHANGE_LOGIN_FORM',
-  newFormState
-});
-
-/**
- * Updates the form state when creating a todo list
- * @param  {boolean} newFormState means a user is registered, false means no user is logged in
- * @return {object} action type and data
- */
-export const createTodoListForm = newFormState => ({
-  type: 'CREATE_TODOLIST_FORM',
-  newFormState
-});
-
-/**
- * Updates the form state when creating a task for a todo list
- * @param  {boolean} newFormState means a user is registered, false means no user is logged in
- * @return {object} action type and data
- */
-export const createTaskForm = newFormState => ({
-  type: 'CREATE_TASK_FORM',
-  newFormState
-});
 
 /**
  * Tells the app we want to register a user
@@ -155,40 +136,39 @@ export const loginUser = userData => (dispatch) => {
   return axios.post('/api/v1/user/login', userData)
     .then((response) => {
       localStorage.setItem('token', response.data.token);
-      console.log(response.data);
       dispatch(setAuthState(true));
     });
 };
 
 /**
- * Tells the app we want to create a todo list
- * @param  {object} data The data we're sending for registration
- * @param  {string} data.todo The username of the user to register
+ * Todo just created by a user
+ * @param  {object} todo an object of the created todo
  * @return {object} server response
  */
 
-export const createTodo = data => (dispatch) => {
-  return axios.post('/api/v1/todolist', data)
-    .then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(todoCreated(true));
-    });
-};
-
-/**
- * Get todo list of a user
- * @param  {object} data The data we're sending for task creation
- * @param  {string} data.task The task to be performed
- * @param  {string} data.priority The priority of the task to be performed
- * @return {object} server response
- */
-
-export const getTodoList = data => (dispatch) => {
+export const createTodo = todo => (dispatch) => {
   const token = localStorage.getItem('token') || null;
   const decodeToken = decodeJwt(token);
   const id = decodeToken.id;
   const config = axiosConfig(token);
-  return axios.get(`/api/v1/todolist/${id}`, data, config)
+  return axios.post(`/api/v1/todolist/${id}`, todo, config)
+    .then((response) => {
+      console.log('TODO DATA', response.data);
+      dispatch(todoCreated(response.data));
+    });
+};
+
+/**
+ * Get a users todo list
+ * @return {object} server response
+ */
+
+export const getTodoList = () => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const decodeToken = decodeJwt(token);
+  const id = decodeToken.id;
+  const config = axiosConfig(token);
+  return axios.get(`/api/v1/todolist/${id}`, config)
     .then((response) => {
       dispatch(getTodoLists(response.data));
     });
@@ -196,17 +176,19 @@ export const getTodoList = data => (dispatch) => {
 
 /**
  * Tells the app we want to create a task for a todo
- * @param  {object} data The data we're sending for task creation
- * @param  {string} data.task The task to be performed
- * @param  {string} data.priority The priority of the task to be performed
+ * @param  {object} task The task just created by the user
+ * @param  {object} todoId The id for a todo
  * @return {object} server response
  */
 
-export const createTask = data => (dispatch) => {
-  return axios.post('/api/v1/task', data)
+export const createTask = (task, todoId) => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const decodeToken = decodeJwt(token);
+  const id = decodeToken.id;
+  const config = axiosConfig(token);
+  return axios.post(`/api/v1/tasks/${id}/${todoId}`, task, config)
     .then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(taskCreated(true));
+      dispatch(taskCreated(response.data));
     });
 };
 
@@ -221,7 +203,7 @@ export const getTasks = todoId => (dispatch) => {
   const decodeToken = decodeJwt(token);
   const id = decodeToken.id;
   const config = axiosConfig(token);
-  return axios.get(`/api/v1/tasks/${id}/${todoId}`, todoId, config)
+  return axios.get(`/api/v1/tasks/${id}/${todoId}`, config)
     .then((response) => {
       dispatch(getTasksAction(response.data));
     });

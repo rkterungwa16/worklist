@@ -1,16 +1,13 @@
-import { CREATE_TODOLIST_FORM, SENDING_REQUEST, TODO_CREATED_SUCCESSFULLY,
+import { CREATE_TODOLIST_FORM, SENDING_REQUEST, CREATE_TODO, UPDATE_TODO,
   GET_TODO_ITEM_ID,
   GET_TODOLISTS
 } from '../actions/actionTypes';
 
 const initialGroupState = {
-  formState: {
-    todolist: ''
-  },
   currentlySending: false,
   todolists: [],
-  success: true,
-  todoId: ''
+  todo: {},
+  todoItem: {}
 };
 
 // The create group reducer
@@ -22,10 +19,12 @@ const createGroup = (state = initialGroupState, action) => {
       return { ...state, currentlySending: action.sending };
     case GET_TODOLISTS:
       return { ...state, todolists: action.value };
+    case UPDATE_TODO:
+      return { ...state, todolists: action.value };
     case GET_TODO_ITEM_ID:
       return { ...state, todoId: action.value };
-    case TODO_CREATED_SUCCESSFULLY:
-      return { ...state, success: action.value };
+    case CREATE_TODO:
+      return { ...state, todoItem: action.value };
     default:
       return state;
   }

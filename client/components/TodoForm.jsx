@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createTodoListForm } from '../actions/actionCreators';
+import {
+  createTodo,
+  getTodoList
+} from '../actions/actionCreators';
 
 /**
 * Form to create todo lists
@@ -12,54 +15,58 @@ class TodoListForm extends React.Component {
   */
   constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.changeTodoList = this.changeTodoList.bind(this);
+    this.state = {
+      todo: ''
+    };
+    this.todoList = [];
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   /**
-   * Submit current form values on submit
-   * @param {*} event html DOM events when form is submitted
+   * Update current form values when user inputs values
+   * @param {*} event Html DOM object when todo form is submitted
    * @return {*} null
    */
-  onSubmit(event) {
+  handleChange(event) {
     event.preventDefault();
-    this.props.onSubmit(this.props.formState.todolist);
+    const obj = {};
+    obj[event.target.name] = event.target.value;
+    this.setState(obj);
   }
 
   /**
-   * Emit the new form state of the application
-   * @param {*} newFormState The current form state
+   * Submit current form values when user submits form
+   * @param {*} event Html DOM object when register form is submitted
    * @return {*} null
-  */
-  emitChange(newFormState) {
-    this.props.createTodoListForm(newFormState);
+   */
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.createTodo(this.state);
+    this.props.getTodoList();
+    this.setState({
+      todo: '',
+    });
   }
 
   /**
-   * Update state groupname on change in the create group form
-   * @param {*} event
-   * @return {*} null
-  */
-  changeTodoList(event) {
-    this.emitChange({ ...this.props.formState, todolist: event.target.value });
-  }
-
-  /**
-  * Renders an html form template to create groups
+  * Renders an html form template to todo form
   * @returns {object} returns an object representing an html form template
   */
   render() {
+    this.todoList = this.props.todoList;
     return (
-      <form className='col s12' onSubmit={this.onSubmit}>
+      <form className='col s12' onSubmit={this.handleSubmit}>
         <div className='row'>
           <div className='input-field'>
             <input
               className='validate'
               type='text'
-              id='todolist'
-              placeholder='Your Todo Lists'
-              value={this.props.formState.todolist}
-              onChange={this.changeTodoList}
+              id='todo'
+              name='todo'
+              placeholder='Your Todos'
+              value={this.state.todo}
+              onChange={this.handleChange}
             />
           </div>
           <button
@@ -76,15 +83,13 @@ class TodoListForm extends React.Component {
 }
 
 TodoListForm.propTypes = {
-  createTodoListForm: React.PropTypes.func.isRequired,
-  formState: React.PropTypes.shape({
-    todolist: ''
-  }).isRequired,
-  onSubmit: React.PropTypes.func.isRequired
+  createTodo: React.PropTypes.func.isRequired,
+  todoList: React.PropTypes.shape([]).isRequired
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  createTodoListForm
+  createTodo,
+  getTodoList
 }, dispatch);
 
 export default connect(null,

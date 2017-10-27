@@ -57,12 +57,15 @@ class TodoListPage extends React.Component {
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
+    console.log(this.props.currentState.todo);
     const formState = this.props.currentState.todo.formState;
+    const todoList = this.props.currentState.todo.todolists;
     return (
       <div className='col s12 m4 l3 color white'>
         <TodolistForm
           onSubmit={this.createTodo}
           formState={formState}
+          todoList={todoList}
         />
         <TodoList />
       </div>

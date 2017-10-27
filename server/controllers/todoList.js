@@ -13,14 +13,16 @@ export const createTodoList = (req, res) => {
   const todo = req.body.todo;
 
   User.findById(id, (err, user) => {
-    const todoList = {
+    const newTodo = {
       author: user._id,
       todo
     };
-    new TodoList(todoList).save((err, newTodo) => {
+    new TodoList(newTodo).save((err, createdTodo) => {
       res
         .status(201)
-        .send(newTodo);
+        .json({
+          createdTodo
+        });
     });
   });
 };

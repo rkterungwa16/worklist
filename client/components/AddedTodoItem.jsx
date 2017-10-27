@@ -9,7 +9,7 @@ import {
 /**
 * Get all todos for a user
 */
-class TodoListItem extends React.Component {
+class AddedTodoItem extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -40,7 +40,7 @@ class TodoListItem extends React.Component {
     this.id = this.props.todoItem._id;
     this.todo.todo = this.props.todoItem.todo;
     this.todo.todoId = this.props.todoItem._id;
-
+    console.log('ADDED TODO VALUES', this.props);
     return (
       <div>
         <a
@@ -57,7 +57,7 @@ class TodoListItem extends React.Component {
   }
 }
 
-TodoListItem.propTypes = {
+AddedTodoItem.propTypes = {
   todoItem: React.PropTypes.shape({
     todo: '',
     tasks: []
@@ -73,5 +73,5 @@ const matchDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(null,
-  matchDispatchToProps)(TodoListItem);
+  matchDispatchToProps)(AddedTodoItem);
 
