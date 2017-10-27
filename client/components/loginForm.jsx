@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import loginFormValidation from '../helper/loginFormValidation';
+import {
+  setLoginError
+} from '../actions/actionCreators';
 
 
 /**
@@ -37,7 +43,11 @@ class LoginForm extends Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    if (loginFormValidation(this.state) === true) {
+      this.props.onSubmit(this.state);
+    } else {
+      this.props.setLoginError(loginFormValidation(this.state));
+    }
     this.setState({
       email: '',
       password: ''
@@ -50,8 +60,17 @@ class LoginForm extends Component {
   * @returns {object} returns an object representing an html form template
   */
   render() {
+    const { loginError } = this.props.error;
     return (
       <form onSubmit={this.handleSubmit}>
+        {
+          loginError ?
+            <div className='red-text'>
+              {loginError}
+            </div>
+            :
+            null
+        }
         <div className='input-field'>
           <input
             className='validate'
@@ -90,7 +109,20 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired
+  onSubmit: React.PropTypes.func.isRequired,
+  setLoginError: React.PropTypes.func.isRequired,
+  error: React.PropTypes.shape({
+    loginError: '' }).isRequired,
 };
 
-export default LoginForm;
+const matchDispatchToProps = dispatch => bindActionCreators({
+  setLoginError
+}, dispatch);
+
+const mapStateToProps = state => ({
+  error: state.error
+});
+
+export default connect(mapStateToProps,
+  matchDispatchToProps)(LoginForm);
+

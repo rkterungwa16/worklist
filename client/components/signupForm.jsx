@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import signupFormValidation from '../helper/signupFormValidation';
+import {
+  setSignupError
+} from '../actions/actionCreators';
 
 /**
 * Registration form for the application
@@ -38,7 +43,11 @@ class RegisterForm extends Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    if (signupFormValidation(this.state) === true) {
+      this.props.onSubmit(this.state);
+    } else {
+      this.props.setSignupError(signupFormValidation(this.state));
+    }
   }
 
 
@@ -47,8 +56,17 @@ class RegisterForm extends Component {
   * @returns {object} returns an object representing an html form template
   */
   render() {
+    const { signupError } = this.props.error;
     return (
       <form onSubmit={this.handleSubmit}>
+        {
+          signupError ?
+            <div className='red-text'>
+              {signupError}
+            </div>
+            :
+            null
+        }
         <div className='input-field'>
           <input
             className='validate'
@@ -98,7 +116,20 @@ class RegisterForm extends Component {
 }
 
 RegisterForm.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired
+  onSubmit: React.PropTypes.func.isRequired,
+  setSignupError: React.PropTypes.func.isRequired,
+  error: React.PropTypes.shape({
+    signupError: '' }).isRequired,
 };
 
-export default RegisterForm;
+const matchDispatchToProps = dispatch => bindActionCreators({
+  setSignupError
+}, dispatch);
+
+const mapStateToProps = state => ({
+  error: state.error
+});
+
+export default connect(mapStateToProps,
+  matchDispatchToProps)(RegisterForm);
+

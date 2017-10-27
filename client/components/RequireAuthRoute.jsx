@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
  */
 const RequireAuthRoute = ({ component: Component, path: route, authenticated }) => {
   const access = authenticated.loggedIn || window.localStorage.token !== undefined;
-  console.log(access);
   if (access) {
     return (<Route
       path={route}

@@ -8,9 +8,6 @@ const Header = () => (
           <a className='brand-logo black-text left'>
             <h4>WorkList</h4>
           </a>
-          <a data-activates='slide-out' className='button-collapse show-on-large'>
-            <i className='material-icons iconColor'>menu</i>
-          </a>
         </div>
       </nav>
     </header>
