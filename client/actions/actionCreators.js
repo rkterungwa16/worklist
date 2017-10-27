@@ -14,6 +14,26 @@ export const googleSignupSuccess = value => ({
 });
 
 /**
+ * Set the signup  error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const setSignupError = value => ({
+  type: 'SET_SIGNUP_ERROR',
+  value
+});
+
+/**
+ * Set the login  error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const setLoginError = value => ({
+  type: 'SET_LOGIN_ERROR',
+  value
+});
+
+/**
  * Sets the authentication state of the application
  * @param  {boolean} newAuthState True means a user is logged in, false means no user is logged in
  * @return {object} action type and data

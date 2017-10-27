@@ -1,10 +1,10 @@
 import { SET_AUTH } from '../actions/actionTypes';
 
-const initialLoginState = {
+const initialAuthState = {
   loggedIn: false
 };
 
-const authenticated = (state = initialLoginState, action) => {
+const authenticated = (state = initialAuthState, action) => {
   switch (action.type) {
     case SET_AUTH:
       return { ...state, loggedIn: action.newAuthState };
