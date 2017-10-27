@@ -1,32 +1,31 @@
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  createTask,
-  getTasks
+  createTodo,
+  getTodoList
 } from '../actions/actionCreators';
 
 /**
 * Form to create todo lists
 */
-class TaskForm extends React.Component {
+class TodoListForm extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */
   constructor(props) {
     super(props);
     this.state = {
-      task: '',
-      priority: ''
+      todo: ''
     };
+    this.todoList = [];
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   /**
    * Update current form values when user inputs values
-   * @param {*} event Html DOM object when task form is submitted
+   * @param {*} event Html DOM object when todo form is submitted
    * @return {*} null
    */
   handleChange(event) {
@@ -38,34 +37,35 @@ class TaskForm extends React.Component {
 
   /**
    * Submit current form values when user submits form
-   * @param {*} event Html DOM object when task form is submitted
+   * @param {*} event Html DOM object when register form is submitted
    * @return {*} null
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.createTask(this.state, this.props.todoId);
-    this.props.getTasks(this.props.todoId);
+    this.props.createTodo(this.state);
+    this.props.getTodoList();
     this.setState({
-      task: '',
+      todo: '',
     });
   }
 
   /**
-  * Renders an html form template to task form
+  * Renders an html form template to todo form
   * @returns {object} returns an object representing an html form template
   */
   render() {
+    this.todoList = this.props.todoList;
     return (
       <form className='col s12' onSubmit={this.handleSubmit}>
-        <div className='row col s12 m6 l6'>
+        <div className='row'>
           <div className='input-field'>
             <input
               className='validate'
               type='text'
-              id='todolist'
-              name='task'
-              placeholder='Your Tasks'
-              value={this.state.task}
+              id='todo'
+              name='todo'
+              placeholder='Your Todos'
+              value={this.state.todo}
               onChange={this.handleChange}
             />
           </div>
@@ -74,7 +74,7 @@ class TaskForm extends React.Component {
             type='submit'
             name='action'
           >
-              Add Task
+            Create Todo List
           </button>
         </div>
       </form>
@@ -82,17 +82,16 @@ class TaskForm extends React.Component {
   }
 }
 
-TaskForm.propTypes = {
-  createTask: React.PropTypes.func.isRequired,
-  getTasks: React.PropTypes.func.isRequired,
-  todoId: React.PropTypes.string.isRequired
+TodoListForm.propTypes = {
+  createTodo: React.PropTypes.func.isRequired,
+  getTodoList: React.PropTypes.func.isRequired,
+  todoList: React.PropTypes.shape([]).isRequired
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  createTask,
-  getTasks
+  createTodo,
+  getTodoList
 }, dispatch);
 
 export default connect(null,
-  matchDispatchToProps)(TaskForm);
-
+  matchDispatchToProps)(TodoListForm);

@@ -3,55 +3,57 @@ import sinon from 'sinon';
 import mongooseFunc from '../utils/helpers';
 
 const mongoose = mongooseFunc();
-describe('Todo list', () => {
+
+describe('User', () => {
   beforeEach(() => {
-    const TodoList = proxyquire('../../../models/todoListModel', {
+    const Task = proxyquire('../../../models/taskModel', {
       mongoose
     });
   });
 
   it('should register the Mongoose model', () => {
-    // mongoose.model.calledWith('User').toBe(true);
     console.log('USER MONGOOSE', mongoose.model.args);
+    // mongoose.model.calledWith('User').toBe(true);
     const value = mongoose.model.args[0][1] instanceof mongoose.Schema;
     expect(value).toBe(true);
   });
 
-  describe('todo', () => {
+  describe('task', () => {
     it('should be a string', () => {
       const obj = {};
-      obj.todo = {
+      obj.task = {
         type: String
       };
       sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
     });
   });
 
-  describe('author', () => {
-    it('should be an object', () => {
+  describe('due date', () => {
+    it('should be a date', () => {
       const obj = {};
-      obj.author = {
-        type: mongoose.Schema.Types.ObjectId
-      };
-      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
-    });
-
-    it('should be unique', () => {
-      const obj = {};
-      obj.author = {
-        ref: 'User'
+      obj.dueDate = {
+        type: Date
       };
       sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
     });
   });
 
-  describe('tasks', () => {
-    it('should be a string', () => {
-
+  describe('date created', () => {
+    it('should be a date', () => {
       const obj = {};
-      obj.tasks = [{
-        type: mongoose.Schema.Types.ObjectId
-      }];
+      obj.dateCreated = {
+        type: Date
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+  });
+
+  describe('priority', () => {
+    it('should be a string', () => {
+      const obj = {};
+      obj.priority = {
+        type: String
+      };
       sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
     });
   });

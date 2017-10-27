@@ -1,32 +1,61 @@
 import React from 'react';
-import TaskForm from '../components/TaskForm';
-import TaskItem from '../components/TaskItem';
-import TodolistItem from '../components/TodolistItem';
-import TodolistForm from '../components/TodolistForm';
+import { connect } from 'react-redux';
+import TaskList from '../components/TaskList';
 
-const TaskPage = () => (
-  <div className='row'>
-    <div className='col s12 m4 l3 color white'>
-      <TodolistForm />
-      <TodolistItem />
-    </div>
+/**
+* Task Page form component
+*/
+class TaskPage extends React.Component {
+  /**
+  * @param {objec} props Represents the state of the application
+  */
+  constructor(props) {
+    super(props);
+    this.createdTask = {};
+    this.tasks = [];
+    this.todo = {};
+  }
 
-    <div className='col s12 m8 l9 red lighten-5'>
-      <h4>Learn JavaScript</h4>
-      <a className='btn-floating btn waves-effect waves-light red'>
-        +
-      </a>
-      <a href='#' className='black-text'>
-        <span>Add Task</span>
-      </a>
+  /**
+   * A react lifecycle method
+   * Recieve the current state of the application
+   * @param {any} nextProps
+   * @memberof ViewGroup
+   * @return {*} null
+  */
+  componentWillReceiveProps(nextProps) {
+    this.tasks = nextProps.currentState.task.tasks;
+    this.createdTask = nextProps.currentState.task.task;
+    this.tasks = nextProps.currentState.task.tasks;
+    this.todo = nextProps.currentState.todo.todoId;
+  }
 
-      <div className='row'>
-        <TaskForm />
+  /**
+  * Create a template of all tasks for a todo list
+  * @returns {object} an object representing the html template of all tasks for a todo list.
+  */
+  render() {
+    return (
+      <div className='col s12 m8 l9 blue darken-1'>
+        <TaskList
+          tasks={this.tasks}
+          todo={this.todo}
+        />
       </div>
+    );
+  }
+}
 
-      <TaskItem />
-    </div>
-  </div>
-);
+TaskPage.propTypes = {
+  currentState: React.PropTypes.shape({
+    task: {},
+    todo: {}
+  }).isRequired
+};
 
-export default TaskPage;
+const mapStateToProps = state => ({
+  currentState: state
+});
+
+export default connect(mapStateToProps)(TaskPage);
+
