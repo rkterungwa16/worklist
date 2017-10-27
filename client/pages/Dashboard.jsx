@@ -4,7 +4,7 @@ import TodoPage from './TodoPage';
 import DashboardHeader from '../components/DashboardHeader';
 
 const Dashboard = () => (
-  <div className='row'>
+  <div className='row blue darken-1'>
     <DashboardHeader />
     <TodoPage />
     <TaskPage />

@@ -40,7 +40,7 @@ class Login extends React.Component {
             :
             <div className='row center'>
               <div className='col s12 m5 l5 offset-s1 offset-m2 offset-l3'>
-                <div className='card blue-grey lighten-1'>
+                <div className='card blue darken-1'>
                   <div className='card-content black-text'>
                     <span className='card-title'>WorkList</span>
                     <div className='row' id='RegisterCard'>

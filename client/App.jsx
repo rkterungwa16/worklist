@@ -1,8 +1,5 @@
-/* global $ */
+
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Header from './components/Header';
 import SignupPage from './pages/SignupPage';
 
