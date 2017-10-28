@@ -1,6 +1,7 @@
 import React from 'react';
 
 const TaskItem = (props) => {
+  console.log('THIS IS THE TASK OBJECT', props.tasks);
   return (
     <div>
       <a

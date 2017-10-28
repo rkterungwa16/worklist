@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import todoFormValidation from '../helper/todoFormValidation';
 import {
   createTodo,
-  getTodoList
+  getTodoList,
+  setTodoFormError
 } from '../actions/actionCreators';
 
 /**
@@ -42,8 +44,12 @@ class TodoListForm extends React.Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.createTodo(this.state);
-    this.props.getTodoList();
+    if (todoFormValidation(this.state) === true) {
+      this.props.createTodo(this.state);
+      this.props.getTodoList();
+    } else {
+      this.props.setTodoFormError(todoFormValidation(this.state));
+    }
     this.setState({
       todo: '',
     });
@@ -55,8 +61,17 @@ class TodoListForm extends React.Component {
   */
   render() {
     this.todoList = this.props.todoList;
+    const { todoFormError } = this.props.error;
     return (
       <form className='col s12' onSubmit={this.handleSubmit}>
+        {
+          this.state.todo === '' ?
+            <div className='red-text'>
+              {todoFormError}
+            </div>
+            :
+            null
+        }
         <div className='row'>
           <div className='input-field'>
             <input
@@ -85,13 +100,21 @@ class TodoListForm extends React.Component {
 TodoListForm.propTypes = {
   createTodo: React.PropTypes.func.isRequired,
   getTodoList: React.PropTypes.func.isRequired,
-  todoList: React.PropTypes.shape([]).isRequired
+  setTodoFormError: React.PropTypes.func.isRequired,
+  todoList: React.PropTypes.shape([]).isRequired,
+  error: React.PropTypes.shape({
+    todoFormError: '' }).isRequired,
 };
+
+const mapStateToProps = state => ({
+  error: state.error
+});
 
 const matchDispatchToProps = dispatch => bindActionCreators({
   createTodo,
-  getTodoList
+  getTodoList,
+  setTodoFormError
 }, dispatch);
 
-export default connect(null,
+export default connect(mapStateToProps,
   matchDispatchToProps)(TodoListForm);

@@ -36,8 +36,8 @@ export const createTodoList = (req, res) => {
 export const createTasks = (req, res) => {
   const todoId = req.params.todoid;
   const id = req.params.id;
-  const task = req.body.task;
-  const priority = req.body.priority;
+  const task = req.body.task.task;
+  const priority = req.body.task.priority;
   const dateCreated = new Date().getDate();
   const dueDate = new Date().setDate(30);
 
