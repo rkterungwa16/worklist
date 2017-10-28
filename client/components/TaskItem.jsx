@@ -1,6 +1,15 @@
 import React from 'react';
 
 const TaskItem = (props) => {
+  console.log('THIS IS THE TASK OBJECT', props.tasks);
+  let color;
+  if (props.tasks.priority === 'urgent') {
+    color = 'task-cat red';
+  } else if (props.tasks.priority === 'critical') {
+    color = 'task-cat orange';
+  } else {
+    color = 'task-cat green';
+  }
   return (
     <div>
       <a
@@ -9,8 +18,15 @@ const TaskItem = (props) => {
         role='menuitem'
         tabIndex='0'
       >
-        <span className='new badge red'>4</span>
-        {props.tasks.task}
+        <div className='row'>
+          <span
+            className={
+              color
+            }
+          >{props.tasks.priority}</span>
+          {props.tasks.task}
+        </div>
+
       </a>
     </div>
   );

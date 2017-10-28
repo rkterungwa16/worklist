@@ -34,6 +34,26 @@ export const setLoginError = value => ({
 });
 
 /**
+ * Set the todo form  error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const setTodoFormError = value => ({
+  type: 'SET_TODO_FORM_ERROR',
+  value
+});
+
+/**
+ * Set the todo form  error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const setTaskFormError = value => ({
+  type: 'SET_TASK_FORM_ERROR',
+  value
+});
+
+/**
  * Sets the authentication state of the application
  * @param  {boolean} newAuthState True means a user is logged in, false means no user is logged in
  * @return {object} action type and data
@@ -196,16 +216,21 @@ export const getTodoList = () => (dispatch) => {
 /**
  * Tells the app we want to create a task for a todo
  * @param  {object} task The task just created by the user
+ * @param  {object} priority The priority level for each task
  * @param  {object} todoId The id for a todo
  * @return {object} server response
  */
 
-export const createTask = (task, todoId) => (dispatch) => {
+export const createTask = (task, todoId, priority) => (dispatch) => {
   const token = localStorage.getItem('token') || null;
   const decodeToken = decodeJwt(token);
   const id = decodeToken.id;
+  const taskInfo = {
+    task,
+    priority
+  };
   const config = axiosConfig(token);
-  return axios.post(`/api/v1/tasks/${id}/${todoId}`, task, config)
+  return axios.post(`/api/v1/tasks/${id}/${todoId}`, taskInfo, config)
     .then((response) => {
       dispatch(taskCreated(response.data));
     });
