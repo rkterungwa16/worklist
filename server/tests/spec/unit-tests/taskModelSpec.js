@@ -57,5 +57,15 @@ describe('User', () => {
       sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
     });
   });
+
+  describe('completed', () => {
+    it('should be a boolean', () => {
+      const obj = {};
+      obj.completed = {
+        type: Boolean
+      };
+      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
+    });
+  });
 });
 

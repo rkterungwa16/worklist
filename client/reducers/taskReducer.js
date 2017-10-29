@@ -1,11 +1,13 @@
 import { SENDING_REQUEST, CREATE_TASK,
+  COMPLETE_TASK_UPDATE,
   GET_TASKS
 } from '../actions/actionTypes';
 
 const initialGroupState = {
   currentlySending: false,
   tasks: [],
-  task: {}
+  task: {},
+  completed: false
 };
 
 // The create group reducer
@@ -17,6 +19,8 @@ const createGroup = (state = initialGroupState, action) => {
       return { ...state, tasks: action.value };
     case CREATE_TASK:
       return { ...state, task: action.value };
+    case COMPLETE_TASK_UPDATE:
+      return { ...state, completed: action.value };
     default:
       return state;
   }
