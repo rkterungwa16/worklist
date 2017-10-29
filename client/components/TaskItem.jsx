@@ -1,41 +1,106 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {
+  checkPriority,
+  checkCompletion
+} from '../helper/taskVariableCheck';
+import {
+  completeTask
+} from '../actions/actionCreators';
 
-const TaskItem = (props) => {
-  console.log('THIS IS THE TASK OBJECT', props.tasks);
-  let color;
-  if (props.tasks.priority === 'urgent') {
-    color = 'task-cat red';
-  } else if (props.tasks.priority === 'critical') {
-    color = 'task-cat orange';
-  } else {
-    color = 'task-cat green';
+
+/**
+* Task Item component
+*/
+class TaskItem extends React.Component {
+  /**
+  * @param {objec} props Represents the state of the application
+  */
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
   }
-  return (
-    <div>
-      <a
-        href='#!'
-        className='collection-item black-text'
-        role='menuitem'
-        tabIndex='0'
-      >
-        <div className='row'>
-          <span
-            className={
-              color
-            }
-          >{props.tasks.priority}</span>
-          {props.tasks.task}
-        </div>
 
-      </a>
-    </div>
-  );
-};
+
+  /**
+   * Update when check box is clicked for a task
+   * @param {*} event Html DOM object when task form is submitted
+   * @return {*} null
+   */
+  handleChange(event) {
+    event.preventDefault();
+    if (event.target.value === 'on') {
+      this.setState({
+        value: 'completed'
+      });
+      this.props.completeTask({
+        id: this.props.tasks._id,
+        completed: true
+      });
+    }
+  }
+
+  /**
+  * Create a template of all tasks for a todo list
+  * @returns {object} an object representing the html template of all tasks for a todo list.
+  */
+  render() {
+    const color = checkPriority(this.props.tasks.priority);
+    let completed;
+    if (!this.props.tasks.completed && this.state.value) {
+      completed = this.state.value;
+    } else {
+      completed = checkCompletion(this.props.tasks.completed);
+    }
+    return (
+      <div>
+        <div
+          className='collection-item white-text'
+        >
+          <input
+            className='toggle'
+            type='checkbox'
+            id={this.props.tasks._id}
+            onChange={this.handleChange}
+          />
+          <label htmlFor={this.props.tasks._id}>Done</label>
+          <div
+            className={color}
+          >
+            <span
+              className={completed}
+            >
+              {this.props.tasks.task}
+            </span>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+}
 
 TaskItem.propTypes = {
   tasks: React.PropTypes.shape({
-    task: {}
-  }).isRequired
+    task: {},
+    priority: '',
+    completed: false
+  }).isRequired,
+  completeTask: React.PropTypes.func.isRequired,
+  completed: React.PropTypes.bool.isRequired,
 };
 
-export default TaskItem;
+const mapStateToProps = state => ({
+  completed: state.task.completed
+});
+
+const matchDispatchToProps = dispatch => bindActionCreators({
+  completeTask
+}, dispatch);
+
+export default connect(mapStateToProps,
+  matchDispatchToProps)(TaskItem);

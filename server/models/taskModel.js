@@ -14,6 +14,9 @@ const Tasks = new Schema({
   },
   priority: {
     type: String
+  },
+  completed: {
+    type: Boolean
   }
 });
 

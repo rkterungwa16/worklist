@@ -111,3 +111,25 @@ export const getTasks = (req, res) => {
     });
 };
 
+/**
+* Update tasks that are completed
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const completeTask = (req, res) => {
+  const id = req.body.id;
+  const completed = req.body.completed;
+
+  const query = {
+    _id: id
+  };
+  const update = { completed };
+  const options = { new: true };
+  Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    res
+      .status(200)
+      .send(task);
+  });
+};
+

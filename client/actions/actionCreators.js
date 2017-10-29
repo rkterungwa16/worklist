@@ -131,6 +131,16 @@ export const taskCreated = value => ({
   value
 });
 
+/**
+ * Update the status of a completed task
+ * @param  {boolean} value boolean to update the status of the task
+ * @return {object} action type and data
+ */
+export const taskCompleteUpdate = value => ({
+  type: 'COMPLETE_TASK_UPDATE',
+  value
+});
+
 
 /**
  * Tells the app we want to register a user
@@ -233,6 +243,21 @@ export const createTask = (task, todoId, priority) => (dispatch) => {
   return axios.post(`/api/v1/tasks/${id}/${todoId}`, taskInfo, config)
     .then((response) => {
       dispatch(taskCreated(response.data));
+    });
+};
+
+/**
+ * Tells the app we want to update the complete state of a task
+ * @param  {object} task The information about task to be updated
+ * @return {object} server response
+ */
+
+export const completeTask = task => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  return axios.post('/api/v1/completeTask/', task, config)
+    .then((response) => {
+      dispatch(taskCompleteUpdate(response.data));
     });
 };
 

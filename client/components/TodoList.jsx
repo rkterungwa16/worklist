@@ -36,7 +36,7 @@ class TodoList extends React.Component {
    * A react lifecycle method
    * Recieve the current state of the application
    * @param {any} nextProps
-   * @memberof TodoItem
+   * @memberof TodoList
    * @return {*} null
   */
   componentWillReceiveProps(nextProps) {

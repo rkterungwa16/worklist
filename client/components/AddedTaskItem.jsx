@@ -2,7 +2,6 @@ import React from 'react';
 
 const TaskItem = (props) => {
   let color;
-  console.log('THIS IS THE PROPS', props);
   if (props.tasks.priority === 'urgent') {
     color = 'task-cat red';
   } else if (props.tasks.priority === 'critical') {
@@ -12,18 +11,23 @@ const TaskItem = (props) => {
   }
   return (
     <div>
-      <a
+      <div
         className='collection-item black-text'
       >
-        <span
+        <input
+          className='toggle'
+          type='checkbox'
+          id={props.tasks._id}
+        />
+        <label htmlFor={props.tasks._id}>Done</label>
+        <div
           className={
             color
           }
         >
-          {props.tasks.priority}
-        </span>
-        {props.tasks.task}
-      </a>
+          {props.tasks.task}
+        </div>
+      </div>
     </div>
   );
 };
