@@ -1,13 +1,15 @@
 import { SET_SIGNUP_ERROR, SET_LOGIN_ERROR,
   SET_TODO_FORM_ERROR,
-  SET_TASK_FORM_ERROR
+  SET_TASK_FORM_ERROR,
+  SET_EDIT_PROFILE_ERROR
 } from '../actions/actionTypes';
 
 const initialErrorState = {
   signupError: '',
   loginError: '',
   todoFormError: '',
-  taskFormError: ''
+  taskFormError: '',
+  editProfileFormError: ''
 };
 
 const error = (state = initialErrorState, action) => {
@@ -20,6 +22,8 @@ const error = (state = initialErrorState, action) => {
       return { ...state, todoFormError: action.value };
     case SET_TASK_FORM_ERROR:
       return { ...state, taskFormError: action.value };
+    case SET_EDIT_PROFILE_ERROR:
+      return { ...state, editProfileFormError: action.value };
     default:
       return state;
   }

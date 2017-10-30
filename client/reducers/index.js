@@ -6,15 +6,19 @@ import todo from './todoListReducer';
 import task from './taskReducer';
 import authenticated from './authReducer';
 import error from './errorReducer';
+import profile from './profileReducer';
+import user from './userReducer';
 
-const user = combineReducers({
+const appReducer = combineReducers({
   GoogleSignup,
   Signup,
   Login,
   todo,
   task,
   authenticated,
-  error
+  error,
+  profile,
+  user
 });
 
-export default user;
+export default appReducer;
