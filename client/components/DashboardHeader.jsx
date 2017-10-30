@@ -26,7 +26,6 @@ class Header extends React.Component {
    */
   componentDidMount() {
     this.props.getCurrentUser();
-    console.log('MY COMPONENT WILL MOUNT');
   }
 
   /**
@@ -34,7 +33,6 @@ class Header extends React.Component {
   * @returns {object} a template of a navigation bar.
   */
   render() {
-    console.log('DASHBOARD HEADER', this.props.user.username);
     const { username } = this.props.user;
     return (
       <div>
@@ -85,7 +83,10 @@ class Header extends React.Component {
 
 Header.propTypes = {
   username: React.PropTypes.string.isRequired,
-  getCurrentUser: React.PropTypes.func.isRequired
+  getCurrentUser: React.PropTypes.func.isRequired,
+  user: React.PropTypes.shape({
+    username: ''
+  }).isRequired,
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
