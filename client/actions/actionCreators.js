@@ -265,7 +265,6 @@ export const getCurrentUser = () => (dispatch) => {
   const config = axiosConfig(token);
   return axios.get(`/api/v1/user/${id}`, config)
     .then((response) => {
-      console.log('GET THE CURRENT USERS', response.data);
       dispatch(getUser(response.data));
     });
 };
@@ -338,7 +337,6 @@ export const editProfile = profile => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post(`/api/v1/user/profile/${id}`, profile, config)
     .then((response) => {
-      console.log('THE RESPONSE FOR UPDATE PROFILE', response.data);
       dispatch(profileChangeSuccess(true));
     })
     .catch((err) => {

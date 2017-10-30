@@ -155,7 +155,6 @@ export const googleAuth = (req, res) => {
             email: `${payload.email}`,
             image: `${payload.picture}`
           };
-
           new User(userData).save((err, newUser) => {
             const token = jwt.sign({
               exp: Math.floor(Date.now() / 1000) + (60 * 60),

@@ -12,8 +12,6 @@ describe('User', () => {
   });
 
   it('should register the Mongoose model', () => {
-    console.log('USER MONGOOSE', mongoose.model.args);
-    // mongoose.model.calledWith('User').toBe(true);
     const value = mongoose.model.args[0][1] instanceof mongoose.Schema;
     expect(value).toBe(true);
   });
