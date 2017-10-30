@@ -32,7 +32,7 @@ class GoogleSignup extends React.Component {
   render() {
     return (
       <GoogleLogin
-        clientId='228047874357-kb46p55473i5005ls6i8vc1b15i2lf7d.apps.googleusercontent.com'
+        clientId='170866267321-gsutr8128dndq2cbftoea7n4tdagftom.apps.googleusercontent.com'
         buttonText='Google Login'
         onSuccess={this.googleResponse}
         onFailure={this.googleResponse}

@@ -14,6 +14,16 @@ export const googleSignupSuccess = value => ({
 });
 
 /**
+ * Ensure successfull google sign up
+ * @param  {boolean} value true means the group has been created hence route redirected.
+ * @return {object} action type and data
+ */
+export const profileChangeSuccess = value => ({
+  type: 'CHANGE_PROFILE_SUCCESS',
+  value
+});
+
+/**
  * Set the signup  error
  * @param  {string} value a string representing the proper error type.
  * @return {object} action type and data
@@ -30,6 +40,16 @@ export const setSignupError = value => ({
  */
 export const setLoginError = value => ({
   type: 'SET_LOGIN_ERROR',
+  value
+});
+
+/**
+ * Set edit profile error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const editProfileError = value => ({
+  type: 'SET_EDIT_PROFILE_ERROR',
   value
 });
 
@@ -102,6 +122,16 @@ export const getTodoItem = value => ({
 });
 
 /**
+ * Get current user
+ * @param  {object} value user info
+ * @return {object} action type and data
+ */
+export const getUser = value => ({
+  type: 'GET_CURRENT_USER',
+  value
+});
+
+/**
  * Confirm that todo has been created
  * @param  {boolean} value boolean to confirm to creation
  * @return {object} action type and data
@@ -144,14 +174,14 @@ export const taskCompleteUpdate = value => ({
 
 /**
  * Tells the app we want to register a user
- * @param  {object} data The data we're sending for registration
- * @param  {string} data.username The username of the user to register
- * @param  {string} data.password The password of the user to register
+ * @param  {object} userInfo The data we're sending for registration
+ * @param  {string} userInfo.username The username of the user to register
+ * @param  {string} userInfo.password The password of the user to register
  * @return {object} server response
  */
 
-export const registerUser = data => (dispatch) => {
-  return axios.post('/api/v1/user/signup', data)
+export const registerUser = userInfo => (dispatch) => {
+  return axios.post('/api/v1/user/signup', userInfo)
     .then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch(setAuthState(true));
@@ -169,8 +199,8 @@ export const registerUser = data => (dispatch) => {
 export const googleSignup = userData => (dispatch) => {
   return axios.post('/api/v1/auth/google', userData)
     .then((response) => {
-      console.log('RESPONSE FROM GOOGLE SIGNUP', response);
-      dispatch(googleSignupSuccess(true));
+      localStorage.setItem('token', response.data.token);
+      dispatch(setAuthState(true));
     });
 };
 
@@ -220,6 +250,22 @@ export const getTodoList = () => (dispatch) => {
   return axios.get(`/api/v1/todolist/${id}`, config)
     .then((response) => {
       dispatch(getTodoLists(response.data));
+    });
+};
+
+/**
+ * Get a users
+ * @return {object} server response
+ */
+
+export const getCurrentUser = () => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const decodeToken = decodeJwt(token);
+  const id = decodeToken.id;
+  const config = axiosConfig(token);
+  return axios.get(`/api/v1/user/${id}`, config)
+    .then((response) => {
+      dispatch(getUser(response.data));
     });
 };
 
@@ -275,5 +321,25 @@ export const getTasks = todoId => (dispatch) => {
   return axios.get(`/api/v1/tasks/${id}/${todoId}`, config)
     .then((response) => {
       dispatch(getTasksAction(response.data));
+    });
+};
+
+/**
+ * Edit the profile of a user
+ * @param  {object} profile The information about profile to be updated
+ * @return {object} server response
+ */
+
+export const editProfile = profile => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const decodeToken = decodeJwt(token);
+  const id = decodeToken.id;
+  const config = axiosConfig(token);
+  return axios.post(`/api/v1/user/profile/${id}`, profile, config)
+    .then((response) => {
+      dispatch(profileChangeSuccess(true));
+    })
+    .catch((err) => {
+      dispatch(editProfileError('No data was sent to update'));
     });
 };

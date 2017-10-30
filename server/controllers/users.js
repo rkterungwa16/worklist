@@ -20,7 +20,6 @@ export const createUser = (req, res) => {
   const query = {
     email
   };
-  console.log('I AM HERE');
   const data = fs.readFileSync('/Users/andeladeveloper/Documents/projectFiles/worklist/public/images/avatar.png');
   const contentType = 'image/png';
   const image = {
@@ -65,11 +64,9 @@ export const createUser = (req, res) => {
 export const loginUser = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  console.log('This is the req body', req.body);
   const query = {
     email
   };
-  console.log('I AM HERE', password);
   User.findOne(query, (err, user) => {
     const hashedPassword = bcrypt.hashSync(password, user.salt);
     if (err || !user || user.password !== hashedPassword) {
@@ -88,67 +85,109 @@ export const loginUser = (req, res) => {
   });
 };
 
-export const changeProfile = (req, res) => {
-  const file = req.files;
-  console.log(file);
-  res
-    .status(201)
-    .send(file);
-  // const newImage = req.body.image;
-  // const change = {image: newImage};
+export const editProfile = (req, res) => {
+  const id = req.params.id;
+  const username = req.body.username;
+  const newPassword = req.body.password;
+  const salt = bcrypt.genSaltSync(10);
+  let password;
 
-  // User.update(query, change, (err, user) => {
-
-  // });
+  const query = {
+    _id: id
+  };
+  let update;
+  if (!username && !newPassword) {
+    return res
+      .status(401)
+      .send('Nothing to change');
+  } else if (!newPassword && username) {
+    update = { username };
+  } else if (!username && newPassword) {
+    password = bcrypt.hashSync(newPassword, salt);
+    update = {
+      password,
+      salt
+    };
+  } else {
+    password = bcrypt.hashSync(newPassword, salt);
+    update = {
+      username,
+      password,
+      salt
+    };
+  }
+  const options = { new: true };
+  User.findOneAndUpdate(query, update, options, (err, user) => {
+    res
+      .status(200)
+      .json({ user });
+  });
 };
 
 export const googleAuth = (req, res) => {
-  console.log('IAM IN THE SERVER SIDE', GOOGLE_CLIENT_ID);
-  console.log('IAM IN THE SERVER SIDE', req.body.id_token);
   const auth = new GoogleAuth();
   const client = new auth.OAuth2(GOOGLE_CLIENT_ID, '', '');
   client.verifyIdToken(req.body.id_token, GOOGLE_CLIENT_ID,
     (error, login) => {
       if (error) {
-        console.log('ERROR', error);
         return res.status(401).json({
           globals: 'Email verification Unsuccessful,'
           + ' Please signup with a valid email'
         });
       }
-      console.log('BEFORE PAYLOAD', login);
       const payload = login.getPayload();
       if (payload.email_verified && payload.aud === GOOGLE_CLIENT_ID) {
         const query = {
           email: payload.email
         };
-        console.log('AFTER PAYLOAD', query);
         User.findOne(query, (err, user) => {
           if (user) {
-            res.status(422).send({
-              errors: 'user already exists'
-            });
-          } else {
-            const userData = {
-              username: `${payload.name}`,
-              email: `${payload.email}`,
-              image: `${payload.picture}`
-            };
-
-            new User(userData).save((err, newUser) => {
-              const token = jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 60),
-                id: newUser.id
-              }, 'secrete_key');
-
-              console.log('GOOGLE TOKEN', token);
-              res
-                .status(201)
-                .json({ token });
-            });
+            const token = jwt.sign({
+              exp: Math.floor(Date.now() / 1000) + (60 * 60),
+              id: user.id
+            }, 'secrete_key');
+            return res
+              .status(201)
+              .json({ token });
           }
+          const userData = {
+            username: `${payload.name}`,
+            email: `${payload.email}`,
+            image: `${payload.picture}`
+          };
+          new User(userData).save((err, newUser) => {
+            const token = jwt.sign({
+              exp: Math.floor(Date.now() / 1000) + (60 * 60),
+              id: newUser.id
+            }, 'secrete_key');
+
+            res
+              .status(201)
+              .json({ token });
+          });
         });
       }
     }
   );
+};
+
+/**
+* Get the current user
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const getUser = (req, res) => {
+  const id = req.params.id;
+
+  const query = {
+    _id: id
+  };
+
+  User.find(query, (err, user) => {
+    const username = user[0].username;
+    res
+      .status(200)
+      .json({ username });
+  });
 };
