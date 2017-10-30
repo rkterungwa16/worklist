@@ -10,3 +10,9 @@ addons:
     - g++-4.8
 env:
   - TRAVIS=traviz CXX=g++-4.8
+services:
+  - mongodb
+
+before_script:
+  - sleep 15
+  - mongo worklist-test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
