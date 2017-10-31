@@ -8,16 +8,6 @@ import axiosConfig from '../helper/axiosConfig';
  * @param  {boolean} value true means the group has been created hence route redirected.
  * @return {object} action type and data
  */
-export const googleSignupSuccess = value => ({
-  type: 'GOOGLE_SIGNUP_SUCCESS',
-  value
-});
-
-/**
- * Ensure successfull google sign up
- * @param  {boolean} value true means the group has been created hence route redirected.
- * @return {object} action type and data
- */
 export const profileChangeSuccess = value => ({
   type: 'CHANGE_PROFILE_SUCCESS',
   value
@@ -158,6 +148,16 @@ export const updateTodoList = value => ({
  */
 export const taskCreated = value => ({
   type: 'CREATE_TASK',
+  value
+});
+
+/**
+ * Task due date and creation date
+ * @param  {boolean} value object of task with updated due date
+ * @return {object} action type and data
+ */
+export const taskDueDate = value => ({
+  type: 'TASK_CREATION_AND_DUE_DATE',
   value
 });
 
@@ -304,6 +304,21 @@ export const completeTask = task => (dispatch) => {
   return axios.post('/api/v1/completeTask/', task, config)
     .then((response) => {
       dispatch(taskCompleteUpdate(response.data));
+    });
+};
+
+/**
+ * Tells the app we want to update the task due date
+ * @param  {object} task The information about task to be updated
+ * @return {object} server response
+ */
+
+export const setTaskDueDate = task => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  return axios.post('/api/v1/dueDate/', task, config)
+    .then((response) => {
+      dispatch(taskDueDate(response.data));
     });
 };
 

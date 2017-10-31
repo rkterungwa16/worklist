@@ -89,18 +89,10 @@ describe('User', () => {
   });
 
   describe('image', () => {
-    it('should be a buffer', () => {
-      const obj = {};
-      obj.image = {
-        data: Buffer
-      };
-      sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
-    });
-
     it('should have contentType of buffer to be a string', () => {
       const obj = {};
       obj.image = {
-        contentType: String
+        type: String
       };
       sinon.assert.called(mongoose.Schema.withArgs(sinon.match(obj)));
     });

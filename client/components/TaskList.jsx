@@ -69,7 +69,7 @@ class TaskList extends React.Component {
 
 
 TaskList.propTypes = {
-  tasks: React.PropTypes.shape([]).isRequired,
+  tasks: React.PropTypes.shape({}).isRequired,
   task: React.PropTypes.shape({}).isRequired,
   todo: React.PropTypes.string.isRequired
 };
