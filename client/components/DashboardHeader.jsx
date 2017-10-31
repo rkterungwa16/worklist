@@ -1,9 +1,11 @@
 import React from 'react';
+import localStorage from 'localStorage';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  getCurrentUser
+  getCurrentUser,
+  setAuthState
 } from '../actions/actionCreators';
 
 /**
@@ -15,7 +17,7 @@ class Header extends React.Component {
   */
   constructor(props) {
     super(props);
-    this.value = '';
+    this.logoutUser = this.logoutUser.bind(this);
   }
 
   /**
@@ -26,6 +28,16 @@ class Header extends React.Component {
    */
   componentDidMount() {
     this.props.getCurrentUser();
+  }
+
+  /**
+   * @param {string} value
+   * @return {*} null
+   */
+  logoutUser() {
+    this.clear = '';
+    localStorage.clear();
+    this.props.setAuthState(false);
   }
 
   /**
@@ -68,6 +80,9 @@ class Header extends React.Component {
                   <a
                     id='dropProfile'
                     className='responsive'
+                    onClick={this.logoutUser}
+                    role='button'
+                    tabIndex='0'
                   >
                     <span className='black-text'>logout</span>
                   </a>
@@ -84,13 +99,15 @@ class Header extends React.Component {
 Header.propTypes = {
   username: React.PropTypes.string.isRequired,
   getCurrentUser: React.PropTypes.func.isRequired,
+  setAuthState: React.PropTypes.func.isRequired,
   user: React.PropTypes.shape({
     username: ''
   }).isRequired,
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  getCurrentUser
+  getCurrentUser,
+  setAuthState
 }, dispatch);
 
 const mapStateToProps = state => ({
