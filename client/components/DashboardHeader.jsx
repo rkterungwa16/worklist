@@ -97,7 +97,6 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  username: React.PropTypes.string.isRequired,
   getCurrentUser: React.PropTypes.func.isRequired,
   setAuthState: React.PropTypes.func.isRequired,
   user: React.PropTypes.shape({

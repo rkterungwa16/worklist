@@ -88,7 +88,7 @@ AddedTaskItem.propTypes = {
   tasks: React.PropTypes.shape({
     task: {},
     priority: '',
-    completed: false
+    completed: {}
   }).isRequired,
   completeTask: React.PropTypes.func.isRequired,
   completed: React.PropTypes.bool.isRequired,

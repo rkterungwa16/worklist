@@ -133,3 +133,28 @@ export const completeTask = (req, res) => {
   });
 };
 
+/**
+* Sets the date a task is due
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const taskDueDate = (req, res) => {
+  const id = req.body.id;
+  const dueDate = req.body.dueDate;
+  const dateCreated = req.body.dateCreated;
+
+  const query = {
+    _id: id
+  };
+  const update = {
+    dueDate,
+    dateCreated
+  };
+  const options = { new: true };
+  Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    res
+      .status(200)
+      .send(task);
+  });
+};
