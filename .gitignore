@@ -20,7 +20,8 @@ libTest/
 *.tar
 *.zip
 *.env
-
+*.woff
+*.woff2
 
 #======================================
 # IDE generated

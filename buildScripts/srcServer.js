@@ -12,7 +12,7 @@ import dbConfigJson from '../server/config.json';
 
 const port = 3000;
 const compiler = webpack(config);
-// dotenv.config({ path: './.env' });
+dotenv.config({ path: `${__dirname}/.env` });
 const app = express();
 const dbConfig = dbConfigJson[app.get('env')];
 connect(dbConfig.mongoUrl);
