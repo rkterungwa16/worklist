@@ -9,7 +9,7 @@
     "port": 3000
   },
   "production": {
-    "mongoUrl": "mongodb://localhost/worklist",
+    "mongoUrl": "mongodb://terungwa:terungwa@ds241395.mlab.com:41395/worklist",
     "port": 3000
   }
 }
