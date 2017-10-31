@@ -4,8 +4,6 @@ import GoogleAuth from 'google-auth-library';
 import fs from 'fs';
 import User from '../models/userModel';
 
-const GOOGLE_CLIENT_ID = '170866267321-gsutr8128dndq2cbftoea7n4tdagftom.apps.googleusercontent.com';
-
 /**
 * Create new user
 * @param {object} req for first parameter
@@ -44,7 +42,7 @@ export const createUser = (req, res) => {
         const token = jwt.sign({
           exp: Math.floor(Date.now() / 1000) + (60 * 60),
           id: newUser.id
-        }, 'secrete_key');
+        }, process.env.SECRET_KEY);
         res
           .status(201)
           .json({ token });
@@ -126,8 +124,8 @@ export const editProfile = (req, res) => {
 
 export const googleAuth = (req, res) => {
   const auth = new GoogleAuth();
-  const client = new auth.OAuth2(GOOGLE_CLIENT_ID, '', '');
-  client.verifyIdToken(req.body.id_token, GOOGLE_CLIENT_ID,
+  const client = new auth.OAuth2(process.env.GOOGLE_CLIENT_ID, '', '');
+  client.verifyIdToken(req.body.id_token, process.env.GOOGLE_CLIENT_ID,
     (error, login) => {
       if (error) {
         return res.status(401).json({
@@ -136,7 +134,7 @@ export const googleAuth = (req, res) => {
         });
       }
       const payload = login.getPayload();
-      if (payload.email_verified && payload.aud === GOOGLE_CLIENT_ID) {
+      if (payload.email_verified && payload.aud === process.env.GOOGLE_CLIENT_ID) {
         const query = {
           email: payload.email
         };
@@ -159,7 +157,7 @@ export const googleAuth = (req, res) => {
             const token = jwt.sign({
               exp: Math.floor(Date.now() / 1000) + (60 * 60),
               id: newUser.id
-            }, 'secrete_key');
+            }, process.env.SECRET_KEY);
 
             res
               .status(201)

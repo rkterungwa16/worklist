@@ -5,7 +5,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import history from 'react-history/BrowserHistory';
+import 'materialize-css/dist/css/materialize.css';
 import reducer from './reducers';
+import './style.scss';
+
 
 import App from './App';
 import Signup from './pages/SignupPage';

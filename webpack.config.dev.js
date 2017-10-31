@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import Dotenv from 'dotenv-webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   devtool: 'inline-source-map',
@@ -19,8 +19,8 @@ export default {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new Dotenv({ systemvars: true }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin({ filename: './style.css', allChunks: true }),
   ],
   module: {
     loaders: [
@@ -33,8 +33,33 @@ export default {
         }
       },
       {
-        test: /\.css$/, loaders: ['style-loader', 'css-loader']
-      }
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader'
+            }
+          ]
+        })
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader'
+            }
+          ]
+        })
+      },
+      {
+        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|)$/,
+        exclude: ['*.woff2', '*.woff2'],
+        use: ['file-loader', 'url-loader?limit=100000']
+      },
     ]
   }
 };
