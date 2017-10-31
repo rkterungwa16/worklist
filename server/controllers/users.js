@@ -75,7 +75,7 @@ export const loginUser = (req, res) => {
       const token = jwt.sign({
         exp: Math.floor(Date.now() / 1000) + (60 * 60),
         id: user.id
-      }, 'secrete_key');
+      }, process.env.SECRET_KEY);
       res
         .status(201)
         .json({ token });
