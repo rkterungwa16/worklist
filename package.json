@@ -68,6 +68,7 @@
     "jasmine": "^2.8.0",
     "jasmine-console-reporter": "^2.0.1",
     "jasmine-node": "^1.14.5",
+    "jquery": "^3.2.1",
     "json-loader": "^0.5.7",
     "jsonwebtoken": "^7.4.1",
     "jwt-decode": "^2.2.0",

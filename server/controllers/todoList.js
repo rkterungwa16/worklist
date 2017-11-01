@@ -39,7 +39,7 @@ export const createTasks = (req, res) => {
   const task = req.body.task.task;
   const priority = req.body.priority;
   const dateCreated = new Date().getDate();
-  const dueDate = new Date().setDate(30);
+  const dueDate = new Date().getDate();
 
   const query = {
     _id: todoId,
@@ -120,11 +120,15 @@ export const getTasks = (req, res) => {
 export const completeTask = (req, res) => {
   const id = req.body.id;
   const completed = req.body.completed;
+  const dateCreated = req.body.dateCreated;
 
   const query = {
     _id: id
   };
-  const update = { completed };
+  const update = {
+    completed,
+    dateCreated
+  };
   const options = { new: true };
   Tasks.findOneAndUpdate(query, update, options, (err, task) => {
     res
@@ -142,14 +146,12 @@ export const completeTask = (req, res) => {
 export const taskDueDate = (req, res) => {
   const id = req.body.id;
   const dueDate = req.body.dueDate;
-  const dateCreated = req.body.dateCreated;
 
   const query = {
     _id: id
   };
   const update = {
-    dueDate,
-    dateCreated
+    dueDate
   };
   const options = { new: true };
   Tasks.findOneAndUpdate(query, update, options, (err, task) => {

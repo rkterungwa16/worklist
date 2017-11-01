@@ -318,6 +318,7 @@ export const setTaskDueDate = task => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post('/api/v1/dueDate/', task, config)
     .then((response) => {
+      console.log('SET TASK DUE DATE', response.data);
       dispatch(taskDueDate(response.data));
     });
 };

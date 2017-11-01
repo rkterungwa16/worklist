@@ -1,3 +1,4 @@
+
 export const checkPriority = (priority) => {
   if (priority === 'urgent') {
     return 'task-cat red';
@@ -14,3 +15,9 @@ export const checkCompletion = (completed) => {
   return '';
 };
 
+export const checkStateDueDate = (stateDueDate, propsDueDate) => {
+  if (stateDueDate) {
+    return stateDueDate;
+  }
+  return propsDueDate;
+};
