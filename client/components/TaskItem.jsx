@@ -6,11 +6,12 @@ import { bindActionCreators } from 'redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   checkPriority,
-  checkCompletion
+  checkCompletion,
+  checkStateDueDate
 } from '../helper/taskVariableCheck';
 import {
   completeTask,
-  taskDueDate
+  setTaskDueDate
 } from '../actions/actionCreators';
 
 /**
@@ -24,11 +25,13 @@ class TaskItem extends React.Component {
     super(props);
     this.state = {
       value: '',
-      dueDate: moment(),
-      dateCreated: moment()
+      dueDate: '',
+      date: '',
+      isOpen: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.toggleCalendar = this.toggleCalendar.bind(this);
   }
 
   /**
@@ -41,11 +44,13 @@ class TaskItem extends React.Component {
     if (event.target.value === 'on') {
       this.setState({
         value: 'completed',
-        dueDate: ''
+        dueDate: '',
+        date: moment()
       });
       this.props.completeTask({
         id: this.props.tasks._id,
-        completed: true
+        completed: true,
+        date: moment()
       });
     }
   }
@@ -56,9 +61,24 @@ class TaskItem extends React.Component {
    * @return {*} null
    */
   handleDateChange(date) {
-    this.setState({
+    this.props.setTaskDueDate({
+      id: this.props.tasks._id,
       dueDate: date
     });
+    this.setState({
+      dueDate: date,
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  /**
+   * Return to application screen from calendar modal
+   * @param {*} event the date selected in date picker
+   * @return {*} null
+   */
+  toggleCalendar(event) {
+    event.preventDefault();
+    this.setState({ isOpen: !this.state.isOpen });
   }
 
   /**
@@ -74,16 +94,60 @@ class TaskItem extends React.Component {
       completed = checkCompletion(this.props.tasks.completed);
     }
 
-    console.log('THIS IS THE DATE CREATED', moment().format());
-    const created = moment();
-    const due = this.state.dueDate;
-    console.log('THIS IS THE DATE DUE', due.format());
-    console.log('DATE CREATED IS BEFORE DUE DATE', moment(created).isBefore(due));
+    const selectedDueDate = checkStateDueDate(this.state.dueDate, this.props.tasks.dueDate);
+    const selectedDueDateFormat = moment(selectedDueDate).format('DD-MM-YYYY');
+    const diffBtwMoments = moment(selectedDueDate).diff(moment(moment()));
+    const hours = Math.ceil(moment.duration(diffBtwMoments).asHours());
+    const days = Math.ceil(moment.duration(diffBtwMoments).asDays());
     return (
       <div>
         <div
           className='collection-item white-text'
+          id='taskCalendar'
         >
+          <span
+            className='waves-effect waves-light task-cat blue'
+          >Select Due date
+          </span>
+          <div>
+            <button
+              className='btn waves-effect waves-light blue'
+              onClick={this.toggleCalendar}
+            >
+              {selectedDueDateFormat}
+            </button>
+          </div>
+          <div>
+            {
+              diffBtwMoments > 0 ?
+                <div>
+                  <span
+                    className='color red'
+                  >
+                    {hours} hours left
+                  </span>
+                  <br />
+                  <span
+                    className='color red'
+                  >
+                    {days} day(s) left
+                  </span>
+                </div>
+                :
+                null
+            }
+          </div>
+          {
+            this.state.isOpen && (
+              <DatePicker
+                selected={this.state.date}
+                onChange={this.handleDateChange}
+                withPortal
+                inline
+              />
+            )
+          }
+
           <input
             className='toggle'
             type='checkbox'
@@ -91,11 +155,6 @@ class TaskItem extends React.Component {
             onChange={this.handleChange}
           />
           <label htmlFor={this.props.tasks._id}>Done</label>
-          <DatePicker
-            selected={this.state.startDate}
-            onChange={this.handleDateChange}
-          />
-          <span className='black-text task-cat blue'>Due date</span>
           <div
             className={color}
           >
@@ -115,9 +174,11 @@ TaskItem.propTypes = {
   tasks: React.PropTypes.shape({
     task: {},
     priority: '',
-    completed: false
+    completed: false,
+    dueDate: {}
   }).isRequired,
   completeTask: React.PropTypes.func.isRequired,
+  setTaskDueDate: React.PropTypes.func.isRequired,
   completed: React.PropTypes.bool.isRequired,
 };
 
@@ -127,7 +188,7 @@ const mapStateToProps = state => ({
 
 const matchDispatchToProps = dispatch => bindActionCreators({
   completeTask,
-  taskDueDate
+  setTaskDueDate
 }, dispatch);
 
 export default connect(mapStateToProps,

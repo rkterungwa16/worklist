@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import GoogleAuth from 'google-auth-library';
-import fs from 'fs';
 import User from '../models/userModel';
 
 /**
@@ -18,12 +17,6 @@ export const createUser = (req, res) => {
   const query = {
     email
   };
-  const data = fs.readFileSync('/Users/andeladeveloper/Documents/projectFiles/worklist/public/images/avatar.png');
-  const contentType = 'image/png';
-  const image = {
-    data,
-    contentType
-  };
 
   User.findOne(query, (err, user) => {
     if (user) {
@@ -36,7 +29,7 @@ export const createUser = (req, res) => {
         password,
         email,
         salt,
-        image
+        image: ''
       };
       new User(userData).save((err, newUser) => {
         const token = jwt.sign({

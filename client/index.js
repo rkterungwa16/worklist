@@ -4,6 +4,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import $ from 'jquery';
 import history from 'react-history/BrowserHistory';
 import 'materialize-css/dist/css/materialize.css';
 import reducer from './reducers';
