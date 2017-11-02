@@ -1,3 +1,6 @@
+import nodemailer from 'nodemailer';
+import jwt from 'jsonwebtoken';
+import smtpTransport from 'nodemailer-smtp-transport';
 import User from '../models/userModel';
 import TodoList from '../models/todoListModel';
 import Tasks from '../models/taskModel';
@@ -43,7 +46,16 @@ export const createTasks = (req, res) => {
 
   const query = {
     _id: todoId,
-    author: id
+    $or: [
+      {
+        author: id
+      },
+      {
+        collaborators: {
+          _id: id
+        }
+      }
+    ]
   };
 
   TodoList.findOne(query, (err, todolist) => {
@@ -75,12 +87,23 @@ export const createTasks = (req, res) => {
 */
 export const getTodoList = (req, res) => {
   const id = req.params.id;
-
   const query = {
-    author: id
+    $or: [
+      {
+        author: id
+      },
+      {
+        collaborators: {
+          _id: id
+        }
+      }
+    ]
   };
 
+  // Get all todos for which I am the author
+  // Get all todos for which I am a collaborator
   TodoList.find(query, (err, todolist) => {
+    console.log('THIS IS THE VALUE OF COLLAB TODO', todolist);
     res
       .status(200)
       .send(todolist);
@@ -98,7 +121,16 @@ export const getTasks = (req, res) => {
   const todoId = req.params.todoid;
   const query = {
     _id: todoId,
-    author: id
+    $or: [
+      {
+        author: id
+      },
+      {
+        collaborators: {
+          _id: id
+        }
+      }
+    ]
   };
 
   TodoList
@@ -160,3 +192,68 @@ export const taskDueDate = (req, res) => {
       .send(task);
   });
 };
+
+/**
+* Add a collaborator
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const addCollaborator = (req, res) => {
+  const email = req.body.email;
+  const todoId = req.body.todoId;
+  const query = {
+    email
+  };
+
+  User.findOne(query, (err, user) => {
+    if (user) {
+      TodoList.findOne({ _id: todoId }, (err, todo) => {
+        todo.collaborators.push(user);
+        todo.save();
+        const transport = nodemailer.createTransport(smtpTransport({
+          service: 'Gmail', // sets automatically host, port and connection security settings
+          auth: {
+            user: 'kombolpostitapp@gmail.com',
+            pass: 'kombolPostIt'
+          }
+        }));
+        const mailOptions = {
+          to: email,
+          from: 'kombol@Worklist.com',
+          subject: 'Add you as a collaborator',
+          html: `<h3>You have been added as a collaborator to [${todo.todo}].\n\n
+          You can now create tasks for this todo</h3>`
+        };
+        transport.sendMail(mailOptions);
+      });
+      return res.status(201).send({ status: 'An email has been sent to the collaborator' });
+    }
+    const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60),
+      id: todoId }, process.env.SECRET_KEY);
+    const transport = nodemailer.createTransport(smtpTransport({
+      service: 'Gmail', // sets automatically host, port and connection security settings
+      auth: {
+        user: 'kombolpostitapp@gmail.com',
+        pass: 'kombolPostIt'
+      }
+    }));
+    const mailOptions = {
+      to: email,
+      from: 'kombol@Worklist.com',
+      subject: 'Add you as a collaborator',
+      html: `<h4>You are receiving this because you (or someone else) has added you as a collaborator.\n\n
+        Please click on the following link, or paste this into your browser to complete the process:</h4>
+        <a
+          href='http://${req.headers.host}/#/collaborator/${token}'
+        >
+        Sign Up
+        </a>
+
+        <h4>If you did not request this, please ignore this email and your password will remain unchanged.</h4>`
+    };
+    transport.sendMail(mailOptions);
+    res.status(201).send({ status: 'An email has been sent to the collaborator' });
+  });
+};
+

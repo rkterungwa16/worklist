@@ -16,6 +16,7 @@ import Signup from './pages/SignupPage';
 import Login from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import EditProfile from './components/EditProfile';
+import Collaborator from './components/Collaborator';
 import RequireAuthRoute from './components/RequireAuthRoute';
 import AuthRoute from './components/AuthRoute';
 
@@ -29,6 +30,7 @@ render((
         <AuthRoute exact path='/signup' component={Signup} />
         <AuthRoute exact path='/login' component={Login} />
         <RequireAuthRoute exact path='/edit-profile' component={EditProfile} />
+        <RequireAuthRoute exact path='/collaborator' component={Collaborator} />
         <RequireAuthRoute exact path='/dashboard' component={Dashboard} />
       </Switch>
     </HashRouter>

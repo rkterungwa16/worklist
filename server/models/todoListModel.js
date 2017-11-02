@@ -13,6 +13,10 @@ const TodoList = new Schema({
   tasks: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tasks'
+  }],
+  collaborators: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }]
 });
 
