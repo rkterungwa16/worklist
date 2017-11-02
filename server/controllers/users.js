@@ -174,7 +174,6 @@ export const getUser = (req, res) => {
   const query = {
     _id: id
   };
-
   User.find(query, (err, user) => {
     const username = user[0].username;
     res
