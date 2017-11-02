@@ -33,7 +33,7 @@ export const createUser = (req, res) => {
       };
       new User(userData).save((err, newUser) => {
         const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 60),
+          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
           id: newUser.id
         }, process.env.SECRET_KEY);
         res
@@ -66,7 +66,7 @@ export const loginUser = (req, res) => {
       });
     } else {
       const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (60 * 60),
+        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
         id: user.id
       }, process.env.SECRET_KEY);
       res
@@ -134,7 +134,7 @@ export const googleAuth = (req, res) => {
         User.findOne(query, (err, user) => {
           if (user) {
             const token = jwt.sign({
-              exp: Math.floor(Date.now() / 1000) + (60 * 60),
+              exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
               id: user.id
             }, 'secrete_key');
             return res
@@ -174,7 +174,6 @@ export const getUser = (req, res) => {
   const query = {
     _id: id
   };
-
   User.find(query, (err, user) => {
     const username = user[0].username;
     res

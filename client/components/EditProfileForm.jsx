@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import editProfileFormValidation from '../helper/editProfileFormValidation';
 import {
@@ -58,60 +59,68 @@ class EditProfileForm extends Component {
   */
   render() {
     const { editProfileFormError } = this.props.error;
+    const { success } = this.props.profile;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div>
         {
-          editProfileFormError ?
-            <div className='red-text'>
-              {editProfileFormError}
-            </div>
+          success ?
+            <Redirect to='/dashboard' />
             :
-            null
-        }
-        <div className='input-field'>
-          <input
-            className='validate'
-            name='username'
-            type='text'
-            id='username'
-            placeholder='Your new username'
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className='input-field'>
-          <input
-            className='validate'
-            name='password'
-            id='password'
-            type='password'
-            placeholder='Your new Password'
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className='input-field'>
-          <input
-            className='validate'
-            id='confirmPassword'
-            name='confirmPassword'
-            type='password'
-            placeholder='Confirm Your Password'
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-          />
-        </div>
+            <form onSubmit={this.handleSubmit}>
+              {
+                editProfileFormError ?
+                  <div className='red-text'>
+                    {editProfileFormError}
+                  </div>
+                  :
+                  null
+              }
+              <div className='input-field'>
+                <input
+                  className='validate'
+                  name='username'
+                  type='text'
+                  id='username'
+                  placeholder='Your new username'
+                  value={this.state.username}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className='input-field'>
+                <input
+                  className='validate'
+                  name='password'
+                  id='password'
+                  type='password'
+                  placeholder='Your new Password'
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className='input-field'>
+                <input
+                  className='validate'
+                  id='confirmPassword'
+                  name='confirmPassword'
+                  type='password'
+                  placeholder='Confirm Your Password'
+                  value={this.state.confirmPassword}
+                  onChange={this.handleChange}
+                />
+              </div>
 
-        <div className='center'>
-          <button
-            className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-            id='signup-btn'
-            type='submit'
-          >
-            EditProfile
-          </button>
-        </div>
-      </form>
+              <div className='center'>
+                <button
+                  className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
+                  id='signup-btn'
+                  type='submit'
+                >
+                  EditProfile
+                </button>
+              </div>
+            </form>
+        }
+      </div>
     );
   }
 }
@@ -121,6 +130,8 @@ EditProfileForm.propTypes = {
   editProfileError: React.PropTypes.func.isRequired,
   error: React.PropTypes.shape({
     editProfileFormError: '' }).isRequired,
+  profile: React.PropTypes.shape({
+    success: false }).isRequired,
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
@@ -129,7 +140,8 @@ const matchDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const mapStateToProps = state => ({
-  error: state.error
+  error: state.error,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps,

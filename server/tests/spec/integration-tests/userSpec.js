@@ -28,6 +28,31 @@ describe('User', () => {
     reset();
   });
 
+  it('should get a user', () => {
+    // /api/v1/user/:id
+    new User({
+      username: 'newuser',
+      password: 'newuser_password',
+      email: 'newuser@example.com'
+    }).save((err, user) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: users._id }, process.env.SECRET_KEY);
+      console.log('TEST USER ID', user._id);
+      request(app)
+        .get(`/api/v1/user/${user._id}`)
+        .set('x-access-token', token)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect((res) => {
+          console.log('THE RESPONSE BODY', res.body);
+        })
+        .end((err, res) => {
+          console.log('GET USER RESPONSE', res.body);
+          expect(typeof res.body).toEqual('object');
+        });
+    });
+  });
+
   it('should create a new user', (done) => {
     request(app)
       .post('/api/v1/user/signup')
@@ -85,27 +110,6 @@ describe('User', () => {
     });
   });
 
-  // it('should get a user', (done) => {
-  //   new User({
-  //     username: 'newuser',
-  //     password: 'newuser_password',
-  //     email: 'newuser@example.com',
-  //     name: 'doe'
-  //   }).save((err, user) => {
-  //     const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
-  //       id: users.id }, 'secrete_key');
-  //     request(app)
-  //       .get(`/api/v1/user/${user._id}`)
-  //       .set('x-access-token', token)
-  //       .expect(201)
-  //       .expect('Content-Type', 'application/json; charset=utf-8')
-  //       .end((err, res) => {
-  //         expect(typeof res.body).toEqual('object');
-  //         done();
-  //       });
-  //   });
-  // });
-
   it('should create a task', (done) => {
     const dateCreated = new Date().getDate();
     const dueDate = new Date().setDate(30);
@@ -142,7 +146,44 @@ describe('User', () => {
     });
   });
 
-  it('should edit his profile', (done) => {
+  it('should not edit his profile password with empty strings', (done) => {
+    request(app)
+      .post('/api/v1/user/signup')
+      .send({
+        username: 'newuser',
+        password: 'newuser_password',
+        email: 'newuser@example.com',
+        name: 'doe'
+      })
+      .end((err, res) => {
+        expect(typeof res.body).toEqual('object');
+        done();
+      });
+    // new User({
+    //   username: 'newuser',
+    //   password: 'newuser_password',
+    //   email: 'newuser@example.com'
+    // }).save((err, user) => {
+    //   const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+    //     id: users.id }, 'secrete_key');
+    //   request(app)
+    //     .post(`/api/v1/user/profile/${user._id}`)
+    //     .set('x-access-token', token)
+    //     .send({
+    //       password: '',
+    //       newPassword: ''
+    //     })
+    //     .expect(401)
+    //     .expect('Content-Type', 'application/json; charset=utf-8')
+    //     .end((err, res) => {
+    //       console.log('EDIT PROFILE', res.body)
+    //       expect(typeof res.body).toEqual('object');
+    //       done();
+    //     });
+    // });
+  });
+
+  it('should edit his profile username only', (done) => {
     new User({
       username: 'newuser',
       password: 'newuser_password',
@@ -155,12 +196,38 @@ describe('User', () => {
         .post(`/api/v1/user/profile/${user._id}`)
         .set('x-access-token', token)
         .send({
-          password: 'johns',
+          newPassword: '',
           username: 'johndoe'
         })
-        .expect(201)
+        .expect(401)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+  });
+
+  it('should edit his profile password only', (done) => {
+    new User({
+      username: 'newuser',
+      password: 'newuser_password',
+      email: 'newuser@example.com',
+      name: 'doe'
+    }).save((err, user) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: users.id }, 'secrete_key');
+      request(app)
+        .post(`/api/v1/user/profile/${user._id}`)
+        .set('x-access-token', token)
+        .send({
+          newPassword: 'john',
+          username: ''
+        })
+        .expect(401)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          console.log('EDIT PROFILE password', res.body);
           expect(typeof res.body).toEqual('object');
           done();
         });
@@ -212,9 +279,6 @@ describe('User', () => {
   it('should login with google', (done) => {
     request(app)
       .post('/api/v1/auth/google')
-      .send({
-        id_token: '170866267321-gsutr8128dndq2cbftoea7n4tdagftom.apps.googleusercontent.com'
-      })
       .expect(201)
       .expect('Content-Type', 'application/json; charset=utf-8')
       .end((err, res) => {

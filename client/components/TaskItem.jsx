@@ -100,7 +100,7 @@ class TaskItem extends React.Component {
     const hours = Math.ceil(moment.duration(diffBtwMoments).asHours());
     const days = Math.ceil(moment.duration(diffBtwMoments).asDays());
     return (
-      <div>
+      <div className='card'>
         <div
           className='collection-item white-text'
           id='taskCalendar'

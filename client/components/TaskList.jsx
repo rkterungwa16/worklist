@@ -79,7 +79,7 @@ class TaskList extends React.Component {
         {
           todo ?
             <div>
-              <div className='card col l6'>
+              <div className='col l6'>
                 <h4>{todo.todo}</h4>
               </div>
               <div className='row'>
@@ -91,10 +91,11 @@ class TaskList extends React.Component {
               <div>
                 <button
                   onClick={this.openModal}
-                  className='btn waves-effect waves-light red'
+                  className='btn-floating btn waves-effect waves-light red'
                 >
-                  Add Collaborator
+                  +
                 </button>
+                <span>Add Collaborator</span>
               </div>
               <Modal
                 isOpen={this.state.modalIsOpen}

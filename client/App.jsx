@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Header from './components/Header';
 import SignupPage from './pages/SignupPage';
 
 /**
@@ -12,7 +11,6 @@ import SignupPage from './pages/SignupPage';
 
 const App = () => (
   <div>
-    <Header />
     <SignupPage />
   </div>
 );

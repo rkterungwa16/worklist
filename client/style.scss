@@ -1,3 +1,15 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  /*background-image: url("background.jpg");*/
+  background-color: #1976d2;
+}
+
+#todo-page, #task-page {
+  height: 100%;
+  overflow: scroll;
+}
 
 .completed {
   text-decoration: line-through;
