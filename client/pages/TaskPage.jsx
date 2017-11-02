@@ -36,7 +36,10 @@ class TaskPage extends React.Component {
   */
   render() {
     return (
-      <div className='col s12 m8 l9 blue darken-1'>
+      <div
+        className='col s12 m8 l9'
+        id='task-page'
+      >
         <TaskList
           tasks={this.tasks}
           todo={this.todo}

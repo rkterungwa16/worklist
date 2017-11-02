@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   getCurrentUser,
-  setAuthState
+  setAuthState,
+  userLogout
 } from '../actions/actionCreators';
 
 /**
@@ -38,6 +39,7 @@ class Header extends React.Component {
     this.clear = '';
     localStorage.clear();
     this.props.setAuthState(false);
+    this.props.userLogout(true);
   }
 
   /**
@@ -99,6 +101,7 @@ class Header extends React.Component {
 Header.propTypes = {
   getCurrentUser: React.PropTypes.func.isRequired,
   setAuthState: React.PropTypes.func.isRequired,
+  userLogout: React.PropTypes.func.isRequired,
   user: React.PropTypes.shape({
     username: ''
   }).isRequired,
@@ -106,7 +109,8 @@ Header.propTypes = {
 
 const matchDispatchToProps = dispatch => bindActionCreators({
   getCurrentUser,
-  setAuthState
+  setAuthState,
+  userLogout
 }, dispatch);
 
 const mapStateToProps = state => ({

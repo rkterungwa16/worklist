@@ -14,6 +14,16 @@ export const profileChangeSuccess = value => ({
 });
 
 /**
+ * Ensure successfull user log out
+ * @param  {boolean} value true means the group has been created hence route redirected.
+ * @return {object} action type and data
+ */
+export const userLogout = value => ({
+  type: 'USER_LOGOUT',
+  value
+});
+
+/**
  * Ensure successfull google sign up
  * @param  {boolean} value true means the group has been created hence route redirected.
  * @return {object} action type and data
@@ -390,7 +400,6 @@ export const addCollaborator = email => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post('/api/v1/collaborator/', email, config)
     .then((response) => {
-      console.log('THIS IS THE COLLABORATOR', response.data);
       dispatch(collaboratorSuccess(response.data));
     })
     .catch((err) => {
