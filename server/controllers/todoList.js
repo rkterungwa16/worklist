@@ -222,7 +222,7 @@ export const addCollaborator = (req, res) => {
           to: email,
           from: 'kombol@Worklist.com',
           subject: 'Add you as a collaborator',
-          html: `<h3>You have been added as a collaborator to ${todo.todo}.\n\n
+          html: `<h3>You have been added as a collaborator to [${todo.todo}].\n\n
           You can now create tasks for this todo</h3>`
         };
         transport.sendMail(mailOptions);
