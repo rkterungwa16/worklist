@@ -7,6 +7,7 @@ import task from './taskReducer';
 import authenticated from './authReducer';
 import error from './errorReducer';
 import profile from './profileReducer';
+import collaborator from './collaboratorReducer';
 import user from './userReducer';
 
 const appReducer = combineReducers({
@@ -18,7 +19,8 @@ const appReducer = combineReducers({
   authenticated,
   error,
   profile,
-  user
+  user,
+  collaborator
 });
 
 export default appReducer;

@@ -1,7 +1,8 @@
 import React from 'react';
-import EditProfileForm from './EditProfileForm';
+import CollaboratorForm from './CollaboratorForm';
 
-const EditProfile = () => (
+
+const AddCollaborator = () => (
   <div>
     <div className='row center'>
       <div className='col s12 m5 l5 offset-s1 offset-m3 offset-l3'>
@@ -9,8 +10,8 @@ const EditProfile = () => (
           <div className='card-content black-text'>
             <div id='signup'>
               <div className='row center' id='RegisterCard'>
-                <h4 className='center-align'>Edith Profile</h4>
-                <EditProfileForm />
+                <h4 className='center-align'>Add Collaborator</h4>
+                <CollaboratorForm />
               </div>
             </div>
           </div>
@@ -20,4 +21,4 @@ const EditProfile = () => (
   </div>
 );
 
-export default EditProfile;
+export default AddCollaborator;

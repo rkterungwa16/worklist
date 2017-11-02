@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import editProfileFormValidation from '../helper/editProfileFormValidation';
+import collaboratorFormValidation from '../helper/collaboratorFormValidation';
 import {
-  editProfileError,
-  editProfile
+  collaboratorError,
+  addCollaborator
 } from '../actions/actionCreators';
 
 /**
 * Edit profile form for the application
 */
-class EditProfileForm extends Component {
+class CollaboratorForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      confirmPassword: '',
-      password: ''
+      email: '',
+      todoId: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,6 +33,7 @@ class EditProfileForm extends Component {
     event.preventDefault();
     const obj = {};
     obj[event.target.name] = event.target.value;
+    obj.todoId = this.props.todoId;
     this.setState(obj);
   }
 
@@ -44,10 +44,13 @@ class EditProfileForm extends Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    if (editProfileFormValidation(this.state) === true) {
-      this.props.editProfile(this.state);
+    if (collaboratorFormValidation(this.state) === true) {
+      this.props.addCollaborator(this.state);
+      this.setState({
+        email: ''
+      });
     } else {
-      this.props.editProfileError(editProfileFormValidation(this.state));
+      this.props.collaboratorError(collaboratorFormValidation(this.state));
     }
   }
 
@@ -57,13 +60,22 @@ class EditProfileForm extends Component {
   * @returns {object} returns an object representing an html form template
   */
   render() {
-    const { editProfileFormError } = this.props.error;
+    const { collaboratorFormError } = this.props.error;
+    const { success } = this.props.collaborator;
     return (
       <form onSubmit={this.handleSubmit}>
         {
-          editProfileFormError ?
+          collaboratorFormError ?
             <div className='red-text'>
-              {editProfileFormError}
+              {collaboratorFormError}
+            </div>
+            :
+            null
+        }
+        {
+          success ?
+            <div className='green-text'>
+              {success.status}
             </div>
             :
             null
@@ -71,33 +83,11 @@ class EditProfileForm extends Component {
         <div className='input-field'>
           <input
             className='validate'
-            name='username'
-            type='text'
-            id='username'
-            placeholder='Your new username'
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className='input-field'>
-          <input
-            className='validate'
-            name='password'
-            id='password'
-            type='password'
-            placeholder='Your new Password'
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className='input-field'>
-          <input
-            className='validate'
-            id='confirmPassword'
-            name='confirmPassword'
-            type='password'
-            placeholder='Confirm Your Password'
-            value={this.state.confirmPassword}
+            id='collaboratorEmail'
+            name='email'
+            type='email'
+            placeholder='Collaborator Email'
+            value={this.state.email}
             onChange={this.handleChange}
           />
         </div>
@@ -108,7 +98,7 @@ class EditProfileForm extends Component {
             id='signup-btn'
             type='submit'
           >
-            EditProfile
+            Add as Collaborator
           </button>
         </div>
       </form>
@@ -116,22 +106,26 @@ class EditProfileForm extends Component {
   }
 }
 
-EditProfileForm.propTypes = {
-  editProfile: React.PropTypes.func.isRequired,
-  editProfileError: React.PropTypes.func.isRequired,
+CollaboratorForm.propTypes = {
+  addCollaborator: React.PropTypes.func.isRequired,
+  collaboratorError: React.PropTypes.func.isRequired,
+  todoId: React.PropTypes.string.isRequired,
   error: React.PropTypes.shape({
-    editProfileFormError: '' }).isRequired,
+    collaboratorFormError: '' }).isRequired,
+  collaborator: React.PropTypes.shape({
+    success: {} }).isRequired,
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  editProfileError,
-  editProfile
+  collaboratorError,
+  addCollaborator
 }, dispatch);
 
 const mapStateToProps = state => ({
-  error: state.error
+  error: state.error,
+  collaborator: state.collaborator
 });
 
 export default connect(mapStateToProps,
-  matchDispatchToProps)(EditProfileForm);
+  matchDispatchToProps)(CollaboratorForm);
 

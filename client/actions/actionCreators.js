@@ -14,6 +14,16 @@ export const profileChangeSuccess = value => ({
 });
 
 /**
+ * Ensure successfull google sign up
+ * @param  {boolean} value true means the group has been created hence route redirected.
+ * @return {object} action type and data
+ */
+export const collaboratorSuccess = value => ({
+  type: 'ADDED_COLLABORATOR_SUCCESS',
+  value
+});
+
+/**
  * Set the signup  error
  * @param  {string} value a string representing the proper error type.
  * @return {object} action type and data
@@ -40,6 +50,16 @@ export const setLoginError = value => ({
  */
 export const editProfileError = value => ({
   type: 'SET_EDIT_PROFILE_ERROR',
+  value
+});
+
+/**
+ * Set collaborator form error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const collaboratorError = value => ({
+  type: 'COLLABORATOR_FORM_ERROR',
   value
 });
 
@@ -318,7 +338,6 @@ export const setTaskDueDate = task => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post('/api/v1/dueDate/', task, config)
     .then((response) => {
-      console.log('SET TASK DUE DATE', response.data);
       dispatch(taskDueDate(response.data));
     });
 };
@@ -357,5 +376,24 @@ export const editProfile = profile => (dispatch) => {
     })
     .catch((err) => {
       dispatch(editProfileError('No data was sent to update'));
+    });
+};
+
+/**
+ * Add a collaborator to a todo
+ * @param  {object} email The information about profile to be updated
+ * @return {object} server response
+ */
+
+export const addCollaborator = email => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  return axios.post('/api/v1/collaborator/', email, config)
+    .then((response) => {
+      console.log('THIS IS THE COLLABORATOR', response.data);
+      dispatch(collaboratorSuccess(response.data));
+    })
+    .catch((err) => {
+      dispatch(collaboratorError('No data was sent to update'));
     });
 };
