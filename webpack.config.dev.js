@@ -1,9 +1,11 @@
 import path from 'path';
+import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   devtool: 'inline-source-map',
   entry: [
-    path.resolve(__dirname, 'src/index')
+    path.resolve(__dirname, 'client/index')
   ],
   target: 'web',
   output: {
@@ -11,11 +13,53 @@ export default {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  plugins: [],
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin({ filename: './style.css', allChunks: true }),
+  ],
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader']},
-      {test: /\.css$/, loaders: ['style-loader', 'css-loader']}
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader'
+            }
+          ]
+        })
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader'
+            }
+          ]
+        })
+      },
+      {
+        test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|)$/,
+        exclude: ['*.woff2', '*.woff2'],
+        use: ['file-loader', 'url-loader?limit=100000']
+      },
     ]
   }
-}
+};

@@ -1,0 +1,15 @@
+{
+  "development": {
+    "mongoUrl": "mongodb://localhost/worklist-dev",
+    "port": 3000,
+    "GOOGLE_CLIENT_ID": "170866267321-gsutr8128dndq2cbftoea7n4tdagftom.apps.googleusercontent.com"
+  },
+  "test": {
+    "mongoUrl": "mongodb://localhost/worklist-test",
+    "port": 3000
+  },
+  "production": {
+    "mongoUrl": "mongodb://terungwa:terungwa@ds241395.mlab.com:41395/worklist",
+    "port": 3000
+  }
+}

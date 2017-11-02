@@ -1,24 +1,24 @@
 #======================================
 # Directories
 #--------------------------------------
-build/
-dist/
 coverage/
 node_modules/
 tmp/
-
+uploads/
+libTest/
 
 #======================================
 # Extensions
 #--------------------------------------
-*.css
 *.gz
 *.local
 *.log
 *.rar
 *.tar
 *.zip
-
+*.env
+*.woff
+*.woff2
 
 #======================================
 # IDE generated
