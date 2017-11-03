@@ -19,6 +19,7 @@ import EditProfile from './components/EditProfile';
 import Collaborator from './components/Collaborator';
 import RequireAuthRoute from './components/RequireAuthRoute';
 import AuthRoute from './components/AuthRoute';
+import NotFound from './components/NotFound';
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
@@ -32,6 +33,7 @@ render((
         <RequireAuthRoute exact path='/edit-profile' component={EditProfile} />
         <RequireAuthRoute exact path='/collaborator' component={Collaborator} />
         <RequireAuthRoute exact path='/dashboard' component={Dashboard} />
+        <Route exact path='*' component={NotFound} />
       </Switch>
     </HashRouter>
   </Provider>
