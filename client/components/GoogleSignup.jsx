@@ -22,6 +22,7 @@ class GoogleSignup extends React.Component {
    * @return {*} null
    */
   googleResponse(response) {
+    console.log('GOOGLE TOKEN OBJECT', response.tokenObj.id_token);
     this.props.googleSignup({ id_token: response.tokenObj.id_token });
   }
 

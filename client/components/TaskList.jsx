@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import TaskItem from './TaskItem';
 import TaskForm from '../components/TaskForm';
 import AddedTaskItem from '../components/AddedTaskItem';
@@ -80,7 +82,22 @@ class TaskList extends React.Component {
           todo ?
             <div>
               <div className='col l6'>
-                <h4>{todo.todo}</h4>
+                <h4>{todo.todo}
+                  <Tooltip
+                    placement='top'
+                    overlay='Add Collaborator'
+                    arrowContent={<div className='rc-tooltip-arrow-inner' />}
+                  >
+
+                    <button
+                      onClick={this.openModal}
+                      className='btn-floating btn waves-effect waves-light red'
+                    >
+                      <i className='material-icons'>add</i>
+                    </button>
+                  </Tooltip>
+                </h4>
+
               </div>
               <div className='row'>
                 <TaskForm
@@ -88,15 +105,6 @@ class TaskList extends React.Component {
                 />
               </div>
 
-              <div>
-                <button
-                  onClick={this.openModal}
-                  className='btn-floating btn waves-effect waves-light red'
-                >
-                  +
-                </button>
-                <span>Add Collaborator</span>
-              </div>
               <Modal
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}

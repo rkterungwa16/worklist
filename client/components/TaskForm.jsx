@@ -1,7 +1,9 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import Tooltip from 'rc-tooltip';
 import { bindActionCreators } from 'redux';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import taskFormValidation from '../helper/taskFormValidation';
 import {
   createTask,
@@ -46,11 +48,11 @@ class TaskForm extends React.Component {
     event.preventDefault();
     if (taskFormValidation(this.state) === true) {
       let priority;
-      if (document.getElementById('normalTask').checked) {
+      if (document.getElementById('normal').checked) {
         priority = 'normal';
-      } else if (document.getElementById('criticalTask').checked) {
+      } else if (document.getElementById('critical').checked) {
         priority = 'critical';
-      } else if (document.getElementById('urgentTask').checked) {
+      } else if (document.getElementById('urgent').checked) {
         priority = 'urgent';
       }
       this.props.createTask(this.state, this.props.todoId, priority);
@@ -58,7 +60,6 @@ class TaskForm extends React.Component {
     } else {
       this.props.setTaskFormError(taskFormValidation(this.state));
     }
-
 
     this.setState({
       task: '',
@@ -72,64 +73,115 @@ class TaskForm extends React.Component {
   render() {
     const { taskFormError } = this.props.error;
     return (
-      <form className='col s12' onSubmit={this.handleSubmit}>
-        {
-          this.state.task === '' && taskFormError ?
-            <div className='red-text'>
-              {taskFormError}
+
+      <div>
+        <form className='col s12' onSubmit={this.handleSubmit}>
+          {
+            this.state.task === '' && taskFormError ?
+              <div className='red-text'>
+                {taskFormError}
+              </div>
+              :
+              null
+          }
+          <div className='row col s12 m6 l6'>
+            <div className='input-field'>
+              <input
+                className='validate'
+                type='text'
+                id='todolist'
+                name='task'
+                maxLength='65'
+                placeholder='Your Tasks'
+                value={this.state.task}
+                onChange={this.handleChange}
+              />
             </div>
-            :
-            null
-        }
-        <div className='row col s12 m6 l6'>
-          <div className='input-field'>
-            <input
-              className='validate'
-              type='text'
-              id='todolist'
-              name='task'
-              placeholder='Your Tasks'
-              value={this.state.task}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            <input
-              name='priority'
-              type='radio'
-              id='normalTask'
-              value='normal'
-              checked
-            />
-            <label htmlFor='normalTask'>Normal</label>
 
-            <input
-              name='priority'
-              type='radio'
-              id='criticalTask'
-              value='critical'
-            />
-            <label htmlFor='criticalTask'>Critical</label>
+            <div className='custom-radios'>
 
-            <input
-              name='priority'
-              type='radio'
-              id='urgentTask'
-              value='urgent'
-            />
-            <label htmlFor='urgentTask'>Urgent</label>
-          </div>
-          <div className='input-field'>
-            <button
-              className='btn waves-effect waves-light red'
-              type='submit'
-              name='action'
-            >
+              <Tooltip
+                placement='top'
+                overlay='Normal Task'
+                arrowContent={<div className='rc-tooltip-arrow-inner' />}
+              >
+                <div>
+                  <input
+                    name='priority'
+                    type='radio'
+                    id='normal'
+                    value='normal'
+                  />
+                  <label className='radio-label' htmlFor='normal'>
+                    <span>
+                      <img
+                        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg'
+                        alt='Checked Icon'
+                      />
+                    </span>
+                  </label>
+                </div>
+              </Tooltip>
+
+              <Tooltip
+                placement='top'
+                overlay='Critical Task'
+                arrowContent={<div className='rc-tooltip-arrow-inner' />}
+              >
+                <div>
+                  <input
+                    name='priority'
+                    type='radio'
+                    id='critical'
+                    value='critical'
+                  />
+                  <label className='radio-label' htmlFor='critical'>
+                    <span>
+                      <img
+                        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg'
+                        alt='Checked Icon'
+                      />
+                    </span>
+                  </label>
+                </div>
+              </Tooltip>
+
+              <Tooltip
+                placement='top'
+                overlay='Urgent Task'
+                arrowContent={<div className='rc-tooltip-arrow-inner' />}
+              >
+                <div>
+                  <input
+                    name='priority'
+                    type='radio'
+                    id='urgent'
+                    value='urgent'
+                  />
+                  <label className='radio-label' htmlFor='urgent'>
+                    <span>
+                      <img
+                        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg'
+                        alt='Checked Icon'
+                      />
+                    </span>
+                  </label>
+                </div>
+              </Tooltip>
+
+            </div>
+            <div className='input-field'>
+              <button
+                className='btn waves-effect waves-light red'
+                type='submit'
+                name='action'
+              >
                 Add Task
-            </button>
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }

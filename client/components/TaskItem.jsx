@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   checkPriority,
@@ -29,28 +31,31 @@ class TaskItem extends React.Component {
       date: '',
       isOpen: false
     };
-    this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.toggleCalendar = this.toggleCalendar.bind(this);
   }
 
   /**
    * Update when check box is clicked for a task
-   * @param {*} event Html DOM object when task form is submitted
+   * @param {object} data
    * @return {*} null
    */
-  handleChange(event) {
-    event.preventDefault();
-    if (event.target.value === 'on') {
+  handleChange(data) {
+    if (data === false) {
       this.setState({
-        value: 'completed',
-        dueDate: '',
-        date: moment()
+        value: 'completed'
       });
       this.props.completeTask({
         id: this.props.tasks._id,
-        completed: true,
-        date: moment()
+        completed: true
+      });
+    } else if (data === true) {
+      this.setState({
+        value: '',
+      });
+      this.props.completeTask({
+        id: this.props.tasks._id,
+        completed: false
       });
     }
   }
@@ -86,12 +91,16 @@ class TaskItem extends React.Component {
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
-    const color = checkPriority(this.props.tasks.priority);
+    const color = `material-icons ${checkPriority(this.props.tasks.priority)}-text`;
+
     let completed;
+    let check;
     if (!this.props.tasks.completed && this.state.value) {
-      completed = this.state.value;
+      completed = `task-priority ${this.state.value}`;
+      check = '';
     } else {
-      completed = checkCompletion(this.props.tasks.completed);
+      completed = `task-priority ${checkCompletion(this.props.tasks.completed)}`;
+      check = 'check';
     }
 
     const selectedDueDate = checkStateDueDate(this.state.dueDate, this.props.tasks.dueDate);
@@ -100,35 +109,73 @@ class TaskItem extends React.Component {
     const hours = Math.ceil(moment.duration(diffBtwMoments).asHours());
     const days = Math.ceil(moment.duration(diffBtwMoments).asDays());
     return (
-      <div className='card'>
+      <div>
         <div
           className='collection-item white-text'
           id='taskCalendar'
         >
-          <span
-            className='waves-effect waves-light task-cat blue'
-          >Select Due date
-          </span>
-          <div>
+
+          <div
+            className='task-text black-text'
+          >
             <button
-              className='btn waves-effect waves-light blue'
-              onClick={this.toggleCalendar}
+              id={this.props.tasks._id}
+              className={`circle ${check}`}
+              onClick={() => this.handleChange(this.props.tasks.completed)}
+              role='menuitem'
+              tabIndex='0'
             >
-              {selectedDueDateFormat}
+              <i
+                className='material-icons small circle'
+                id={this.props.tasks._id}
+              >
+                done
+              </i>
             </button>
+            <i
+              className={color}
+            >brightness_1
+            </i>
+            <span
+              className={completed}
+            >
+              {this.props.tasks.task}
+            </span>
+            <Tooltip
+              placement='top'
+              overlay='Select Due date for task'
+              arrowContent={<div className='rc-tooltip-arrow-inner' />}
+            >
+              <button
+                className='btn waves-effect waves-light blue'
+                onClick={this.toggleCalendar}
+              >
+                {selectedDueDateFormat}
+              </button>
+            </Tooltip>
+            {
+              this.state.isOpen && (
+                <DatePicker
+                  selected={this.state.date}
+                  onChange={this.handleDateChange}
+                  withPortal
+                  inline
+                />
+              )
+            }
           </div>
           <div>
             {
               diffBtwMoments > 0 ?
                 <div>
                   <span
-                    className='color red'
+                    className='color red due-date-reminder'
                   >
                     {hours} hours left
                   </span>
                   <br />
                   <span
-                    className='color red'
+                    className='color red due-date-reminder'
                   >
                     {days} day(s) left
                   </span>
@@ -137,33 +184,7 @@ class TaskItem extends React.Component {
                 null
             }
           </div>
-          {
-            this.state.isOpen && (
-              <DatePicker
-                selected={this.state.date}
-                onChange={this.handleDateChange}
-                withPortal
-                inline
-              />
-            )
-          }
 
-          <input
-            className='toggle'
-            type='checkbox'
-            id={this.props.tasks._id}
-            onChange={this.handleChange}
-          />
-          <label htmlFor={this.props.tasks._id}>Done</label>
-          <div
-            className={color}
-          >
-            <span
-              className={completed}
-            >
-              {this.props.tasks.task}
-            </span>
-          </div>
         </div>
       </div>
     );

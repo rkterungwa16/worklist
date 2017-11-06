@@ -79,6 +79,7 @@ class TodoListForm extends React.Component {
               type='text'
               id='todo'
               name='todo'
+              maxLength='25'
               placeholder='Your Todos'
               value={this.state.todo}
               onChange={this.handleChange}
