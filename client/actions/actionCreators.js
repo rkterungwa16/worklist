@@ -215,7 +215,10 @@ export const registerUser = userInfo => (dispatch) => {
     .then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch(setAuthState(true));
-    });
+    })
+    .catch((err) => {
+      dispatch(setSignupError('This account is already registered, Please login'));
+    })
 };
 
 /**
@@ -247,6 +250,9 @@ export const loginUser = userData => (dispatch) => {
     .then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch(setAuthState(true));
+    })
+    .catch((err) => {
+      dispatch(setLoginError(err.response.data));
     });
 };
 
@@ -333,6 +339,7 @@ export const completeTask = task => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post('/api/v1/completeTask/', task, config)
     .then((response) => {
+      console.log('THE RESPONSE TO THE DATA COLLECTED', response.data);
       dispatch(taskCompleteUpdate(response.data));
     });
 };

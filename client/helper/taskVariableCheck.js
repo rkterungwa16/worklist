@@ -1,9 +1,9 @@
 
 export const checkPriority = (priority) => {
   if (priority === 'urgent') {
-    return 'task-cat red';
+    return 'task-cat yellow';
   } else if (priority === 'critical') {
-    return 'task-cat orange';
+    return 'task-cat red';
   }
   return 'task-cat green';
 };

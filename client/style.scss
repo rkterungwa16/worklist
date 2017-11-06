@@ -1,10 +1,23 @@
+// Colors
+$normal: #2ecc71;
+$urgent: #f1c40f;
+$critical: #e74c3c;
+
 body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   /*background-image: url("background.jpg");*/
-  background-color: #1976d2;
+  background-color: #eeeeee;
 }
+
+button.btn.waves-effect.waves-light.blue {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  margin-left: 700px;
+}
+
 
 #todo-page, #task-page {
   height: 100%;
@@ -33,3 +46,130 @@ body {
   color: #fff;
   background: transparent;
 }
+
+.radio-label {
+  padding-left: 0px !important;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.transparent {
+  background-color: #1976d2 !important;
+}
+
+.radio-label:after {
+  background-color: transparent !important;
+  border: 0px !important;
+}
+
+.radio-label:before {
+  border: 0px !important;
+}
+
+img.responsive-img.circle.right.profile-img {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+button.btn-floating.btn.waves-effect.waves-light.red {
+  margin-left: 20px;
+}
+
+.check {
+  background-color: limegreen;
+}
+
+.due-date-reminder {
+  font-size: smaller;
+}
+
+.card.blue.darken-1 {
+  margin-left: 50px;
+  margin-top: 100px;
+}
+
+a.white-text {
+  margin-right: 20px !important;
+}
+
+img.sigu-brand {
+  margin-top: 10px;
+}
+
+span.task-priority {
+  margin-left: 10px;
+  font-size: large;
+  font-family: fantasy;
+  vertical-align: bottom;
+}
+
+div#taskCalendar {
+  border-bottom: ridge;
+}
+
+.custom-radios {
+
+  div {
+    display: inline-block;
+  }
+
+  input[type="radio"] {
+
+    + label {
+      color: #333;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+
+      span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin: -1px 4px 0 0;
+        vertical-align: middle;
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid #FFFFFF;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+        line-height: 44px;
+
+        img {
+          opacity: 0;
+          transition: all .3s ease;
+        }
+      }
+    }
+
+    &#normal + label span {
+      background-color: $normal;
+    }
+
+    &#urgent + label span {
+      background-color: $urgent;
+    }
+
+    &#critical + label span {
+      background-color: $critical;
+    }
+
+    &:checked + label span img {
+      opacity: 1;
+    }
+  }
+}
+
+i.material-icons.tiny.black-text {
+  padding-top: 5px;
+}
+
+span.waves-effect.waves-light.task-cat.blue {
+  position: absolute;
+  font-size: large;
+  font-family: cursive;
+}
+
+
