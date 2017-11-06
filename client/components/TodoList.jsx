@@ -38,8 +38,6 @@ class TodoList extends React.Component {
   */
   render() {
     const addedTodo = this.props.currentState.todo.todoItem;
-    console.log('THIS IS THE VALUE OF ADDED TODO FOR TODOLIST', addedTodo);
-    console.log('THIS IS THE VALUE OF THE PROPS', this.props);
     const todoItems = this.state.todos.map((todoItem) => {
       return (
         <TodoItem

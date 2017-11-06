@@ -67,7 +67,6 @@ class TaskList extends React.Component {
     const tasks = this.props.tasks;
     const todo = this.props.todo;
     const task = this.props.task;
-    console.log('THIS IS THE VALUE OF TODO FOR TASKLIST', todo);
     const taskItems = tasks.map((taskItem) => {
       return (
         <TaskItem
