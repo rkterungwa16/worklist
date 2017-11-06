@@ -136,7 +136,7 @@ export const getTasksAction = value => ({
  * @param  {boolean} value user created todo lists
  * @return {object} action type and data
  */
-export const getTodoItem = value => ({
+export const getTodoItemAction = value => ({
   type: 'GET_TODO_ITEM_ID',
   value
 });
@@ -306,6 +306,21 @@ export const getCurrentUser = () => (dispatch) => {
 };
 
 /**
+ * Get a todo item
+ * @param {string} todoId the id of a todo
+ * @return {object} server response
+ */
+
+export const getTodoItem = todoId => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  return axios.get(`/api/v1/todo/${todoId}`, config)
+    .then((response) => {
+      dispatch(getTodoItemAction(response.data));
+    });
+};
+
+/**
  * Tells the app we want to create a task for a todo
  * @param  {object} task The task just created by the user
  * @param  {object} priority The priority level for each task
@@ -339,7 +354,6 @@ export const completeTask = task => (dispatch) => {
   const config = axiosConfig(token);
   return axios.post('/api/v1/completeTask/', task, config)
     .then((response) => {
-      console.log('THE RESPONSE TO THE DATA COLLECTED', response.data);
       dispatch(taskCompleteUpdate(response.data));
     });
 };

@@ -67,6 +67,7 @@ class TaskList extends React.Component {
     const tasks = this.props.tasks;
     const todo = this.props.todo;
     const task = this.props.task;
+    console.log('THIS IS THE VALUE OF TODO FOR TASKLIST', todo);
     const taskItems = tasks.map((taskItem) => {
       return (
         <TaskItem
@@ -79,7 +80,7 @@ class TaskList extends React.Component {
     return (
       <div>
         {
-          todo ?
+          todo.todo !== undefined ?
             <div>
               <div className='col l6'>
                 <h4>{todo.todo}
@@ -101,7 +102,7 @@ class TaskList extends React.Component {
               </div>
               <div className='row'>
                 <TaskForm
-                  todoId={todo.todoId}
+                  todoId={todo._id}
                 />
               </div>
 
@@ -111,7 +112,7 @@ class TaskList extends React.Component {
                 style={this.customStyles}
               >
                 <CollaboratorForm
-                  todoId={this.props.todo.todoId}
+                  todoId={this.props.todo._id}
                 />
               </Modal>
               <div className='collection'>
