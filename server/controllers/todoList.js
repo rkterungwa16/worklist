@@ -101,12 +101,29 @@ export const getTodoList = (req, res) => {
     ]
   };
 
-  // Get all todos for which I am the author
-  // Get all todos for which I am a collaborator
   TodoList.find(query, (err, todolist) => {
     res
       .status(200)
       .send(todolist);
+  });
+};
+
+/**
+* Get todo lists
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const getTodoItem = (req, res) => {
+  const id = req.params.todoId;
+  const query = {
+    _id: id
+  };
+
+  TodoList.findOne(query, (err, todo) => {
+    res
+      .status(200)
+      .send(todo);
   });
 };
 

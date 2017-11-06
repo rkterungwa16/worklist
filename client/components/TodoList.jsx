@@ -2,8 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  getTasks,
-  getTodoList
+  getTasks
 } from '../actions/actionCreators';
 import TodoItem from './TodoItem';
 import AddedTodoItem from './AddedTodoItem';
@@ -24,16 +23,6 @@ class TodoList extends React.Component {
 
   /**
    * A react lifecycle method
-   * Get all todos of a user when this component mounts
-   * @memberof TodoItem
-   * @return {*} null
-   */
-  componentWillMount() {
-    this.props.getTodoList();
-  }
-
-  /**
-   * A react lifecycle method
    * Recieve the current state of the application
    * @param {any} nextProps
    * @memberof TodoList
@@ -48,7 +37,7 @@ class TodoList extends React.Component {
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
-    const addedTodo = this.props.currentState.todo.todoItem;
+    const addedTodo = this.props.currentState.todo.todolists;
     const todoItems = this.state.todos.map((todoItem) => {
       return (
         <TodoItem
@@ -77,7 +66,6 @@ class TodoList extends React.Component {
 
 
 TodoList.propTypes = {
-  getTodoList: React.PropTypes.func.isRequired,
   currentState: React.PropTypes.shape({
     todo: {}
   }).isRequired
@@ -89,7 +77,6 @@ const mapStateToProps = state => ({
 
 const matchDispatchToProps = dispatch => bindActionCreators({
   getTasks,
-  getTodoList
 }, dispatch);
 
 export default connect(mapStateToProps,

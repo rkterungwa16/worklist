@@ -27,7 +27,7 @@ class TaskPage extends React.Component {
     this.tasks = nextProps.currentState.task.tasks;
     this.createdTask = nextProps.currentState.task.task;
     this.tasks = nextProps.currentState.task.tasks;
-    this.todo = nextProps.currentState.todo.todoId;
+    this.todo = nextProps.currentState.todo.todo;
   }
 
   /**
