@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   checkPriority,
@@ -141,13 +143,18 @@ class AddedTaskItem extends React.Component {
             >
               {this.props.tasks.task}
             </span>
-
-            <button
-              className='btn waves-effect waves-light blue'
-              onClick={this.toggleCalendar}
+            <Tooltip
+              placement='top'
+              overlay='Select Due date for task'
+              arrowContent={<div className='rc-tooltip-arrow-inner' />}
             >
-              {selectedDueDateFormat}
-            </button>
+              <button
+                className='btn waves-effect waves-light blue'
+                onClick={this.toggleCalendar}
+              >
+                {selectedDueDateFormat}
+              </button>
+            </Tooltip>
             {
               this.state.isOpen && (
                 <DatePicker
