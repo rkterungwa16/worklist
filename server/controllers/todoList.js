@@ -14,7 +14,8 @@ import Tasks from '../models/taskModel';
 export const createTodoList = (req, res) => {
   const id = req.params.id;
   const todo = req.body.todo;
-
+  User.find({}, (err, allUsers) => {
+  });
   User.findById(id, (err, user) => {
     const newTodo = {
       author: user._id,
@@ -41,8 +42,9 @@ export const createTasks = (req, res) => {
   const id = req.params.id;
   const task = req.body.task.task;
   const priority = req.body.priority;
-  const dateCreated = new Date().getDate();
-  const dueDate = new Date().getDate();
+  const dateCreated = new Date().getDate().now;
+  const dueDate = new Date().getDate().now;
+  const completed = '';
 
   const query = {
     _id: todoId,
@@ -57,15 +59,14 @@ export const createTasks = (req, res) => {
       }
     ]
   };
-
   TodoList.findOne(query, (err, todolist) => {
     const defaultTask = {
       task,
       dateCreated,
       dueDate,
-      priority
+      priority,
+      completed
     };
-
     new Tasks(defaultTask).save((err, newtask) => {
       todolist.tasks.push(newtask);
       todolist.save();
@@ -103,7 +104,6 @@ export const getTodoList = (req, res) => {
   // Get all todos for which I am the author
   // Get all todos for which I am a collaborator
   TodoList.find(query, (err, todolist) => {
-    console.log('THIS IS THE VALUE OF COLLAB TODO', todolist);
     res
       .status(200)
       .send(todolist);

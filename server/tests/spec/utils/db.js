@@ -36,7 +36,7 @@ export const populate = (callback) => {
     if (err) { return callback(err); }
     User.findOne({ username: 'johndoe' }, (err, user) => {
       if (err) { return callback(err); }
-
+      console.log('THE USER ID FOR CREATED USER', user._id);
       async.each(todoFixtures, (data, next) => {
         const todo = new Todo(data);
         todo.userId = user._id;

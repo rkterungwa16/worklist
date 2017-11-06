@@ -20,27 +20,26 @@ export const createUser = (req, res) => {
 
   User.findOne(query, (err, user) => {
     if (user) {
-      res.status(422).send({
+      return res.status(422).send({
         errors: 'user already exists'
       });
-    } else {
-      const userData = {
-        username,
-        password,
-        email,
-        salt,
-        image: ''
-      };
-      new User(userData).save((err, newUser) => {
-        const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-          id: newUser.id
-        }, process.env.SECRET_KEY);
-        res
-          .status(201)
-          .json({ token });
-      });
     }
+    const userData = {
+      username,
+      password,
+      email,
+      salt,
+      image: ''
+    };
+    new User(userData).save((err, newUser) => {
+      const token = jwt.sign({
+        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+        id: newUser.id
+      }, process.env.SECRET_KEY);
+      res
+        .status(201)
+        .json({ token });
+    });
   });
 };
 
@@ -59,20 +58,20 @@ export const loginUser = (req, res) => {
     email
   };
   User.findOne(query, (err, user) => {
-    const hashedPassword = bcrypt.hashSync(password, user.salt);
-    if (err || !user || user.password !== hashedPassword) {
-      res.status(422).send({
-        errors: 'user does not exist'
-      });
-    } else {
-      const token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
-        id: user.id
-      }, process.env.SECRET_KEY);
-      res
-        .status(201)
-        .json({ token });
+    if (err || user === null) {
+      return res.status(422).send('Please signup to login');
     }
+    const hashedPassword = bcrypt.hashSync(password, user.salt);
+    if (user.password !== hashedPassword) {
+      return res.status(422).send('Your password does not match');
+    }
+    const token = jwt.sign({
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+      id: user.id
+    }, process.env.SECRET_KEY);
+    res
+      .status(201)
+      .json({ token });
   });
 };
 
@@ -170,7 +169,6 @@ export const googleAuth = (req, res) => {
 */
 export const getUser = (req, res) => {
   const id = req.params.id;
-
   const query = {
     _id: id
   };
