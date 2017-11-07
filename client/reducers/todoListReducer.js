@@ -3,7 +3,7 @@ import { SENDING_REQUEST, CREATE_TODO, UPDATE_TODO,
   GET_TODOLISTS
 } from '../actions/actionTypes';
 
-const initialGroupState = {
+const initialTodoState = {
   currentlySending: false,
   todolists: [],
   todo: {},
@@ -11,7 +11,7 @@ const initialGroupState = {
 };
 
 // The create group reducer
-const createGroup = (state = initialGroupState, action) => {
+const createGroup = (state = initialTodoState, action) => {
   switch (action.type) {
     case SENDING_REQUEST:
       return { ...state, currentlySending: action.sending };

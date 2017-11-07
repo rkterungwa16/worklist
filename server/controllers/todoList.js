@@ -246,31 +246,7 @@ export const addCollaborator = (req, res) => {
       });
       return res.status(201).send({ status: 'An email has been sent to the collaborator' });
     }
-    const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60),
-      id: todoId }, process.env.SECRET_KEY);
-    const transport = nodemailer.createTransport(smtpTransport({
-      service: 'Gmail', // sets automatically host, port and connection security settings
-      auth: {
-        user: 'kombolpostitapp@gmail.com',
-        pass: 'kombolPostIt'
-      }
-    }));
-    const mailOptions = {
-      to: email,
-      from: 'kombol@Worklist.com',
-      subject: 'Add you as a collaborator',
-      html: `<h4>You are receiving this because you (or someone else) has added you as a collaborator.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:</h4>
-        <a
-          href='http://${req.headers.host}/#/collaborator/${token}'
-        >
-        Sign Up
-        </a>
-
-        <h4>If you did not request this, please ignore this email and your password will remain unchanged.</h4>`
-    };
-    transport.sendMail(mailOptions);
-    res.status(201).send({ status: 'An email has been sent to the collaborator' });
+    res.status(201).send({ status: 'This user is not registered' });
   });
 };
 

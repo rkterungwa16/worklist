@@ -91,7 +91,7 @@ class TaskList extends React.Component {
 
                     <button
                       onClick={this.openModal}
-                      className='btn-floating btn waves-effect waves-light red'
+                      className='btn-floating btn-large collab waves-effect waves-light red'
                     >
                       <i className='material-icons'>add</i>
                     </button>

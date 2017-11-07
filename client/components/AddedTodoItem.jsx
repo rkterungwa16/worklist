@@ -29,7 +29,7 @@ class AddedTodoItem extends React.Component {
   handleClick(event) {
     event.preventDefault();
     this.props.getTasks(this.id);
-    this.props.getTodoItem(this.todo);
+    this.props.getTodoItem(this.id);
   }
 
   /**

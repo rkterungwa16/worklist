@@ -27,7 +27,7 @@ class TodoListPage extends React.Component {
    * @memberof TodoListPage
    * @return {*} null
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getTodoList();
   }
 

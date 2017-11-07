@@ -169,15 +169,15 @@ class TaskForm extends React.Component {
                 </div>
               </Tooltip>
 
-            </div>
-            <div className='input-field'>
-              <button
-                className='btn waves-effect waves-light red'
-                type='submit'
-                name='action'
-              >
-                Add Task
-              </button>
+              <div className='input-field add-task'>
+                <button
+                  className='btn waves-effect waves-light red'
+                  type='submit'
+                  name='action'
+                >
+                  Add Task
+                </button>
+              </div>
             </div>
           </div>
         </form>

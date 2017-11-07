@@ -172,4 +172,46 @@ span.waves-effect.waves-light.task-cat.blue {
   font-family: cursive;
 }
 
+div#todo-page {
+  margin-top: 0px;
+}
+
+nav .nav-wrapper {
+  position: relative;
+  height: 100%;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+  z-index: 10001;
+}
+
+// Nav bar
+img.sigu-brand {
+  margin-top: 5px;
+}
+
+a#dropProfile {
+  margin-right: 25px;
+}
+
+// TaskList
+.collab {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 100;
+}
+
+// Task form
+.add-task {
+  position: relative;
+  margin-top: 1rem;
+  margin-left: 20px;
+}
+
+// Dashboard logo
+img.sigu-brand.logo {
+  margin: auto;
+}
+
+
 

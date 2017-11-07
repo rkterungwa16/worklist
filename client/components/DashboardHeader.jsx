@@ -55,9 +55,9 @@ class Header extends React.Component {
             <div className='nav-wrapper'>
               <a className='brand-logo black-text left'>
                 <img
-                  className='sigu-brand'
+                  className='sigu-brand logo'
                   width='120'
-                  src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509116080/Logomakr_6OM41h_nisjmo.png'
+                  src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982163/Logomakr_2UJado_sxko6h.png'
                   alt=''
                 />
               </a>
