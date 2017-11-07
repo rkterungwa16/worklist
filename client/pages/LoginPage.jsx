@@ -40,13 +40,13 @@ class Login extends React.Component {
             :
             <div className='row center'>
               <div className='col s12 m5 l5 offset-s1 offset-m2 offset-l3'>
-                <div className='card blue darken-1'>
+                <div className='card white'>
                   <div className='card-content black-text'>
                     <a className='brand-logo black-text center'>
                       <img
                         className='sigu-brand'
                         width='120'
-                        src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509116700/Logomakr_0onU3q_h99hgv.png'
+                        src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
                         alt=''
                       />
                     </a>
@@ -73,7 +73,7 @@ class Login extends React.Component {
                       <div className='input-field col s6 m6 l6'>
                         <p className='margin right-align medium-small'>
                           <Link
-                            className='white-text'
+                            className='black-text forgot-password'
                             to={'/forgotPassword'}
                           >
                             Forgot password?

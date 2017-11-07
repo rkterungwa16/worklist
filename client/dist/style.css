@@ -9440,12 +9440,12 @@ button.btn-floating.btn.waves-effect.waves-light.red {
 .due-date-reminder {
   font-size: smaller; }
 
-.card.blue.darken-1 {
+.card.white {
   margin-left: 50px;
   margin-top: 100px; }
 
-a.white-text {
-  margin-right: 20px !important; }
+a.black-text.forgot-password {
+  margin: auto !important; }
 
 img.sigu-brand {
   margin-top: 10px; }

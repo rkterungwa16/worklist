@@ -41,13 +41,13 @@ class Register extends React.Component {
             :
             <div className='row center'>
               <div className='col s12 m5 l5 offset-s1 offset-m3 offset-l3'>
-                <div className='card blue darken-1'>
+                <div className='card white'>
                   <div className='card-content black-text'>
                     <a className='brand-logo black-text center'>
                       <img
                         className='sigu-brand'
                         width='120'
-                        src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509116700/Logomakr_0onU3q_h99hgv.png'
+                        src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
                         alt=''
                       />
                     </a>
@@ -60,7 +60,7 @@ class Register extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className='card-action white-text'>
+                  <div className='card-action black-text'>
                     <p
                       className='margin center medium-small sign-up'
                     >
