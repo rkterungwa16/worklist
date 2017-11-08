@@ -87,12 +87,12 @@ class TaskForm extends React.Component {
           <div className='row col s12 m6 l6'>
             <div className='input-field'>
               <input
-                className='validate'
+                className='validate black-text'
                 type='text'
                 id='todolist'
                 name='task'
                 maxLength='65'
-                placeholder='Your Tasks'
+                placeholder='Create Your Tasks'
                 value={this.state.task}
                 onChange={this.handleChange}
               />
@@ -171,7 +171,7 @@ class TaskForm extends React.Component {
 
               <div className='input-field add-task'>
                 <button
-                  className='btn waves-effect waves-light red'
+                  className='btn waves-effect waves-light app-btn'
                   type='submit'
                   name='action'
                 >

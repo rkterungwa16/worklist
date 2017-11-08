@@ -4,7 +4,7 @@ import { SENDING_REQUEST, CREATE_TASK,
   TASK_CREATION_AND_DUE_DATE
 } from '../actions/actionTypes';
 
-const initialGroupState = {
+const initialTaskState = {
   currentlySending: false,
   tasks: [],
   task: {},
@@ -13,7 +13,7 @@ const initialGroupState = {
 };
 
 // The create group reducer
-const createGroup = (state = initialGroupState, action) => {
+const createGroup = (state = initialTaskState, action) => {
   switch (action.type) {
     case SENDING_REQUEST:
       return { ...state, currentlySending: action.sending };

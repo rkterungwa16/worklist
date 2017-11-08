@@ -39,47 +39,45 @@ class Login extends React.Component {
             <Redirect to='/dashboard' />
             :
             <div className='row center'>
-              <div className='col s12 m5 l5 offset-s1 offset-m2 offset-l3'>
-                <div className='card white'>
-                  <div className='card-content black-text'>
-                    <a className='brand-logo black-text center'>
-                      <img
-                        className='sigu-brand'
-                        width='120'
-                        src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
-                        alt=''
-                      />
-                    </a>
-                    <div className='row' id='RegisterCard'>
-                      <h4 className='center-align'>Login</h4>
-                      <LoginForm
-                        onSubmit={this.login}
-                      />
-                    </div>
+              <div className='col s12 m6 l4 offset-s1 offset-m3 offset-l4 card white'>
+                <div className='card-content black-text'>
+                  <a className='brand-logo black-text center'>
+                    <img
+                      className='sigu-brand'
+                      width='120'
+                      src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
+                      alt=''
+                    />
+                  </a>
+                  <div className='row' id='RegisterCard'>
+                    <h4 className='center-align'>Login</h4>
+                    <LoginForm
+                      onSubmit={this.login}
+                    />
                   </div>
-                  <div className='card-action'>
-                    <div className='row'>
-                      <div className='input-field col s6 m6 l6'>
-                        <p className='margin medium-small'>
+                </div>
+                <div className='card-action'>
+                  <div className='row'>
+                    <div className='input-field col s6 m6 l6'>
+                      <p className='margin medium-small'>
 
-                          <Link
-                            to={'/'}
-                            className='red-text'
-                          >
-                            Register Now!
-                          </Link>
-                        </p>
-                      </div>
-                      <div className='input-field col s6 m6 l6'>
-                        <p className='margin right-align medium-small'>
-                          <Link
-                            className='black-text forgot-password'
-                            to={'/forgotPassword'}
-                          >
-                            Forgot password?
-                          </Link>
-                        </p>
-                      </div>
+                        <Link
+                          to={'/'}
+                          className='red-text'
+                        >
+                          Register Now!
+                        </Link>
+                      </p>
+                    </div>
+                    <div className='input-field col s6 m6 l6'>
+                      <p className='margin right-align medium-small'>
+                        <Link
+                          className='black-text forgot-password'
+                          to={'/forgotPassword'}
+                        >
+                          Forgot password?
+                        </Link>
+                      </p>
                     </div>
                   </div>
                 </div>

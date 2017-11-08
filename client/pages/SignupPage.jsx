@@ -40,45 +40,41 @@ class Register extends React.Component {
             <Redirect to='/dashboard' />
             :
             <div className='row center'>
-              <div className='col s12 m5 l5 offset-s1 offset-m3 offset-l3'>
-                <div className='card white'>
-                  <div className='card-content black-text'>
-                    <a className='brand-logo black-text center'>
-                      <img
-                        className='sigu-brand'
-                        width='120'
-                        src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
-                        alt=''
-                      />
-                    </a>
-                    <div id='signup'>
-                      <div className='row center' id='RegisterCard'>
-                        <h4 className='center-align'>Signup</h4>
-                        <SignupForm
-                          onSubmit={this.register}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className='card-action black-text'>
-                    <p
-                      className='margin center medium-small sign-up'
+              <div className='col s12 m6 l4 offset-s1 offset-m3 offset-l4 card white'>
+                <div className='card-content black-text'>
+                  <a className='brand-logo black-text center'>
+                    <img
+                      className='sigu-brand'
+                      width='120'
+                      src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
+                      alt=''
+                    />
+                  </a>
+
+                  <h4 className='center-align'>Signup</h4>
+                  <SignupForm
+                    onSubmit={this.register}
+                  />
+                </div>
+                <div className='card-action black-text'>
+                  <p
+                    className='margin center medium-small sign-up'
+                  >
+                Already have an account?
+                    <Link
+                      to='/login'
+                      className='red-text'
                     >
-                  Already have an account?
-                      <Link
-                        to='/login'
-                        className='red-text'
-                      >
-                  Login
-                      </Link>
-                    </p>
-                  </div>
-                  <div className='card-action center'>
-                    <GoogleSignup />
-                  </div>
+                Login
+                    </Link>
+                  </p>
+                </div>
+                <div className='card-action center'>
+                  <GoogleSignup />
                 </div>
               </div>
             </div>
+
         }
       </div>
     );

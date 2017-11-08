@@ -1,11 +1,7 @@
-import { CHANGE_LOGIN_FORM, LOGIN_REQUEST, SET_LOGIN_AUTH, SET_LOGIN_ERROR,
+import { LOGIN_REQUEST, SET_LOGIN_AUTH, SET_LOGIN_ERROR,
   SENDING_REQUEST } from '../actions/actionTypes';
 
 const initialLoginState = {
-  formState: {
-    username: '',
-    password: ''
-  },
   error: '',
   sending: false,
   loggedIn: false,
@@ -16,8 +12,6 @@ const login = (state = initialLoginState, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return { ...state, currentlySending: action.sending };
-    case CHANGE_LOGIN_FORM:
-      return { ...state, formState: action.newFormState };
     case SET_LOGIN_AUTH:
       return { ...state, loggedIn: action.newAuthState };
     case SET_LOGIN_ERROR:

@@ -75,18 +75,18 @@ class TodoListForm extends React.Component {
         <div className='row'>
           <div className='input-field'>
             <input
-              className='validate'
+              className='validate black-text'
               type='text'
               id='todo'
               name='todo'
               maxLength='25'
-              placeholder='Your Todos'
+              placeholder='Create Your Todos'
               value={this.state.todo}
               onChange={this.handleChange}
             />
           </div>
           <button
-            className='btn waves-effect waves-light red'
+            className='btn waves-effect waves-light app-btn'
             type='submit'
             name='action'
           >

@@ -26,10 +26,19 @@ class TaskList extends React.Component {
     this.closeModal = this.closeModal.bind(this);
 
     this.customStyles = {
+      overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.75)'
+      },
       content: {
-        top: '20%',
-        left: '60%',
+        top: '30%',
+        left: '52%',
         right: 'auto',
+        // background: '#bbb',
         bottom: 'auto',
         marginRight: '0%',
         transform: 'translate(-50%, -50%)'
@@ -67,14 +76,12 @@ class TaskList extends React.Component {
     const tasks = this.props.tasks;
     const todo = this.props.todo;
     const task = this.props.task;
-    const taskItems = tasks.map((taskItem) => {
-      return (
+    const taskItems = tasks.map((taskItem) => (
         <TaskItem
           key={taskItem._id}
           tasks={taskItem}
         />
-      );
-    });
+      ));
 
     return (
       <div>

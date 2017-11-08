@@ -9,6 +9,15 @@ body {
   flex-direction: column;
   /*background-image: url("background.jpg");*/
   background-color: #eeeeee;
+  font-style: normal;
+  font-variant-ligatures: normal;
+  font-variant-caps: normal;
+  font-variant-numeric: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  font-size: 12px;
+  line-height: 18px;
+  font-family: sans-serif;
 }
 
 button.btn.waves-effect.waves-light.blue {
@@ -214,5 +223,43 @@ img.sigu-brand.logo {
   margin: auto;
 }
 
+// App margin bottom
+.row {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+}
+
+// Nav bar
+a.profile-nav {
+  display: -webkit-inline-box;
+}
+li.nav-img {
+  margin-right: 20px;
+}
+
+.dropdown-content {
+  background-color: #FFFFFF;
+  margin: 0;
+  display: none;
+  min-width: 150px; /* Changed this to accomodate content width */
+  max-height: auto;
+	margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
+  overflow: hidden; /* Changed this from overflow-y:auto; to overflow:hidden; */
+  opacity: 0;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 1;
+  will-change: width, height;
+}
+
+// Application button
+.app-btn {
+  background-color: #1976d2 !important;
+}
+
+.btn.waves-effect {
+  z-index: 0 !important;
+}
 
 

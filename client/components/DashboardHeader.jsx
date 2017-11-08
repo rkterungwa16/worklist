@@ -1,5 +1,6 @@
 import React from 'react';
 import localStorage from 'localStorage';
+import $ from 'jquery';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,7 +29,20 @@ class Header extends React.Component {
    * @return {*} null
    */
   componentDidMount() {
-    this.props.getCurrentUser();
+    this.props.getCurrentUser()
+      .then(() => {
+        $('.dropdown-button').dropdown({
+          inDuration: 300,
+          outDuration: 225,
+          constrainWidth: false, // Does not change width of dropdown to that of the activator
+          hover: true, // Activate on hover
+          gutter: 0, // Spacing from edge
+          belowOrigin: false, // Displays dropdown below the button
+          alignment: 'left', // Displays dropdown with edge aligned to the left of button
+          stopPropagation: false // Stops event propagation
+        }
+        );
+      });
   }
 
   /**
@@ -62,9 +76,11 @@ class Header extends React.Component {
                 />
               </a>
               <ul className='right nav-profile'>
-                <li>
-                  <Link
-                    to={'/edit-profile'}
+                <li className='nav-img'>
+                  <a
+                    data-activates='dropdown'
+                    className='profile-nav dropdown-button'
+                    data-beloworigin='true'
                   >
                     <span className='black-text'>
                       {username}
@@ -75,23 +91,45 @@ class Header extends React.Component {
                       width='40'
                       alt=''
                     />
-                  </Link>
-                </li>
-
-                <li>
-                  <a
-                    id='dropProfile'
-                    className='responsive'
-                    onClick={this.logoutUser}
-                    role='button'
-                    tabIndex='0'
-                  >
-                    <span className='black-text'>logout</span>
+                    <i
+                      className='material-icons'
+                    >
+                      arrow_drop_down
+                    </i>
                   </a>
                 </li>
               </ul>
             </div>
           </nav>
+          <ul
+            id='dropdown'
+            className='dropdown-content collection'
+          >
+            <li
+              className='collection-item'
+            >
+              <a
+                id='dropProfile'
+                className='responsive'
+                onClick={this.logoutUser}
+                role='button'
+                tabIndex='0'
+              >
+                <span className='black-text'>logout</span>
+              </a>
+            </li>
+
+            <li
+              className='collection-item'
+            >
+              <Link
+                to={'/edit-profile'}
+                className='black-text'
+              >
+                Edit profile
+              </Link>
+            </li>
+          </ul>
         </header>
       </div>
     );

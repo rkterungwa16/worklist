@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import $ from 'jquery';
 import history from 'react-history/BrowserHistory';
 import 'materialize-css/dist/css/materialize.css';
+import 'materialize-css/dist/js/materialize';
 import reducer from './reducers';
 import './style.scss';
 
