@@ -113,6 +113,11 @@ class TaskItem extends React.Component {
           <div
             className='task-text black-text'
           >
+          <Tooltip
+              placement='top'
+              overlay={this.state.completed ? 'completed' : 'mark as complete'}
+              arrowContent={<div className='rc-tooltip-arrow-inner' />}
+            >
             <button
               id={this.props.tasks._id}
               className={'complete-input'}
@@ -132,6 +137,7 @@ class TaskItem extends React.Component {
                 }
               </i>
             </button>
+          </Tooltip>
             <i
               className={color}
             >brightness_1

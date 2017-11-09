@@ -49,6 +49,7 @@
     "redux-mock-store": "^1.2.3"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "async": "^2.5.0",
     "axios": "^0.16.2",
     "babel-cli": "^6.24.1",

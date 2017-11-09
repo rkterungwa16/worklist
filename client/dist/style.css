@@ -9615,7 +9615,8 @@ span.color.grey-text.due-date-reminder-days {
   margin-left: 20px; }
 
 ul#dropdown {
-  right: 20px !important; }
+  right: 20px !important;
+  left: inherit !important; }
 .rc-tooltip.rc-tooltip-zoom-enter,
 .rc-tooltip.rc-tooltip-zoom-leave {
   display: block;

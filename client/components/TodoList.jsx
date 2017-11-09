@@ -23,23 +23,13 @@ class TodoList extends React.Component {
   }
 
   /**
-   * A react lifecycle method
-   * Recieve the current state of the application
-   * @param {any} nextProps
-   * @memberof TodoList
-   * @return {*} null
-  */
-  componentWillReceiveProps(nextProps) {
-    this.setState({ todos: nextProps.todo.todolists });
-  }
-
-  /**
   * Create a template of all tasks for a todo list
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
     const addedTodo = this.props.todo.todoItem;
-    const todoItems = this.state.todos.map((todoItem) => {
+    const todos = this.props.todo.todolists;
+    const todoItems = todos.map((todoItem) => {
       return (
         <TodoItem
           key={todoItem._id}
