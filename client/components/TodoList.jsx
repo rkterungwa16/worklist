@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -66,9 +67,13 @@ class TodoList extends React.Component {
 
 
 TodoList.propTypes = {
-  currentState: React.PropTypes.shape({
+  currentState: PropTypes.Object
+};
+
+TodoList.defaultProps = {
+  currentState: {
     todo: {}
-  }).isRequired
+  }
 };
 
 const mapStateToProps = state => ({

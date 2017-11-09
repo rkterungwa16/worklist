@@ -9560,7 +9560,7 @@ li.nav-img {
   background-color: #FFFFFF;
   margin: 0;
   display: none;
-  min-width: 150px;
+  min-width: 170px;
   /* Changed this to accomodate content width */
   max-height: auto;
   margin-left: -1px;
@@ -9578,6 +9578,29 @@ li.nav-img {
 
 .btn.waves-effect {
   z-index: 0 !important; }
+
+input#todolist {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
+input#todo {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
+#edit-back-btn {
+  margin-top: 20px; }
+
+.collection.task {
+  margin-left: 20px; }
+
+span.color.grey-text.due-date-reminder-days {
+  margin-left: 20px; }
 .rc-tooltip.rc-tooltip-zoom-enter,
 .rc-tooltip.rc-tooltip-zoom-leave {
   display: block;

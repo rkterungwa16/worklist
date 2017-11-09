@@ -108,6 +108,17 @@ class Header extends React.Component {
             <li
               className='collection-item'
             >
+              <Link
+                to={'/edit-profile'}
+                className='black-text'
+              >
+                Edit profile
+              </Link>
+            </li>
+
+            <li
+              className='collection-item'
+            >
               <a
                 id='dropProfile'
                 className='responsive'
@@ -115,19 +126,8 @@ class Header extends React.Component {
                 role='button'
                 tabIndex='0'
               >
-                <span className='black-text'>logout</span>
+                <span className='black-text'>Logout</span>
               </a>
-            </li>
-
-            <li
-              className='collection-item'
-            >
-              <Link
-                to={'/edit-profile'}
-                className='black-text'
-              >
-                Edit profile
-              </Link>
             </li>
           </ul>
         </header>

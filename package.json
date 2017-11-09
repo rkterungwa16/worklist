@@ -131,6 +131,11 @@
     "list",
     "tasks"
   ],
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css)$": "<rootDir>/node_modules/jest-css-modules"
+    }
+  },
   "author": "Richard Terungwa Kombol",
   "license": "MIT",
   "bugs": {

@@ -406,7 +406,7 @@ export const editProfile = profile => (dispatch) => {
       dispatch(profileChangeSuccess(true));
     })
     .catch((err) => {
-      dispatch(editProfileError('No data was sent to update'));
+      dispatch(editProfileError(err.response.data));
     });
 };
 

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tooltip from 'rc-tooltip';
 import { bindActionCreators } from 'redux';
@@ -191,8 +192,13 @@ TaskForm.propTypes = {
   getTasks: React.PropTypes.func.isRequired,
   todoId: React.PropTypes.string.isRequired,
   setTaskFormError: React.PropTypes.func.isRequired,
-  error: React.PropTypes.shape({
-    taskFormError: '' }).isRequired,
+  error: PropTypes.Object,
+};
+
+TaskForm.defaultProps = {
+  error: {
+    taskFormError: ''
+  }
 };
 
 const mapStateToProps = state => ({

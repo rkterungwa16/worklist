@@ -78,6 +78,7 @@ export const loginUser = (req, res) => {
 export const editProfile = (req, res) => {
   const id = req.params.id;
   const username = req.body.username;
+  const currentPassword = req.body.currentPassword;
   const newPassword = req.body.password;
   const salt = bcrypt.genSaltSync(10);
   let password;
@@ -108,6 +109,10 @@ export const editProfile = (req, res) => {
   }
   const options = { new: true };
   User.findOneAndUpdate(query, update, options, (err, user) => {
+    const hashedPassword = bcrypt.hashSync(currentPassword, user.salt);
+    if (user.password !== hashedPassword) {
+      return res.status(422).send('Your password does not match');
+    }
     res
       .status(200)
       .json({ user });

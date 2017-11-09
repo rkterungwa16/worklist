@@ -244,6 +244,7 @@ describe('User', () => {
       .send({
         username: 'newuser',
         password: 'newuser_password',
+        currentPassword: 'johns',
         email: 'newuser@example.com',
         name: 'doe'
       })
@@ -261,6 +262,7 @@ describe('User', () => {
       .set('x-access-token', token)
       .send({
         newPassword: '',
+        currentPassword: 'johns',
         username: 'johndoe'
       })
       .expect(401)

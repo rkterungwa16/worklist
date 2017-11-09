@@ -76,12 +76,12 @@ class TaskList extends React.Component {
     const tasks = this.props.tasks;
     const todo = this.props.todo;
     const task = this.props.task;
-    const taskItems = tasks.map((taskItem) => (
-        <TaskItem
-          key={taskItem._id}
-          tasks={taskItem}
-        />
-      ));
+    const taskItems = tasks.map(taskItem => (
+      <TaskItem
+        key={taskItem._id}
+        tasks={taskItem}
+      />
+    ));
 
     return (
       <div>
@@ -121,7 +121,7 @@ class TaskList extends React.Component {
                   todoId={this.props.todo._id}
                 />
               </Modal>
-              <div className='collection'>
+              <div className='collection task'>
                 {taskItems}
                 {
                   task.task !== undefined ?

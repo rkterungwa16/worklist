@@ -109,7 +109,7 @@ class TaskItem extends React.Component {
     const hours = Math.ceil(moment.duration(diffBtwMoments).asHours());
     const days = Math.ceil(moment.duration(diffBtwMoments).asDays());
     return (
-      <div>
+      <div className='task-item'>
         <div
           className='collection-item white-text'
           id='taskCalendar'
@@ -169,13 +169,12 @@ class TaskItem extends React.Component {
               diffBtwMoments > 0 ?
                 <div>
                   <span
-                    className='color red due-date-reminder'
+                    className='color grey-text due-date-reminder-hours'
                   >
                     {hours} hours left
                   </span>
-                  <br />
                   <span
-                    className='color red due-date-reminder'
+                    className='color grey-text due-date-reminder-days'
                   >
                     {days} day(s) left
                   </span>

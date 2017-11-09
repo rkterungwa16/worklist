@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import editProfileFormValidation from '../helper/editProfileFormValidation';
 import {
@@ -20,7 +21,8 @@ class EditProfileForm extends Component {
     this.state = {
       username: '',
       confirmPassword: '',
-      password: ''
+      password: '',
+      currentPassword: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -89,6 +91,17 @@ class EditProfileForm extends Component {
               <div className='input-field'>
                 <input
                   className='validate'
+                  name='currentPassword'
+                  id='currentPassword'
+                  type='password'
+                  placeholder='Your Current Password'
+                  value={this.state.currentPassword}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className='input-field'>
+                <input
+                  className='validate'
                   name='password'
                   id='password'
                   type='password'
@@ -112,11 +125,21 @@ class EditProfileForm extends Component {
               <div className='center'>
                 <button
                   className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-                  id='signup-btn'
                   type='submit'
                 >
                   EditProfile
                 </button>
+              </div>
+
+              <div className='center'>
+                <Link
+                  to={'/dashboard'}
+                  className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
+                  id='edit-back-btn'
+                  type='submit'
+                >
+                  Back
+                </Link>
               </div>
             </form>
         }
@@ -128,10 +151,17 @@ class EditProfileForm extends Component {
 EditProfileForm.propTypes = {
   editProfile: React.PropTypes.func.isRequired,
   editProfileError: React.PropTypes.func.isRequired,
-  error: React.PropTypes.shape({
-    editProfileFormError: '' }).isRequired,
-  profile: React.PropTypes.shape({
-    success: false }).isRequired,
+  error: PropTypes.Object,
+  profile: PropTypes.Object,
+};
+
+EditProfileForm.defaultProps = {
+  error: {
+    todoFormError: ''
+  },
+  profile: {
+    success: false
+  }
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
