@@ -39,11 +39,11 @@ class AddedTaskItem extends React.Component {
 
   /**
    * Update when check box is clicked for a task
-   * @param {object} data
+   * @param {object} completeStatus
    * @return {*} null
    */
-  handleChange(data) {
-    if (data === false) {
+  handleChange(completeStatus) {
+    if (completeStatus === false) {
       this.setState({
         value: 'completed'
       });
@@ -51,7 +51,7 @@ class AddedTaskItem extends React.Component {
         id: this.props.tasks._id,
         completed: true
       });
-    } else if (data === true) {
+    } else if (completeStatus === true) {
       this.setState({
         value: '',
       });
@@ -122,7 +122,7 @@ class AddedTaskItem extends React.Component {
           >
             <button
               id={this.props.tasks._id}
-              className={`circle ${check}`}
+              className={`circle complete-input ${check}`}
               onClick={() => this.handleChange(this.props.tasks.completed)}
               role='menuitem'
               tabIndex='0'
@@ -171,13 +171,12 @@ class AddedTaskItem extends React.Component {
               diffBtwMoments > 0 ?
                 <div>
                   <span
-                    className='color red due-date-reminder'
+                    className='color grey-text due-date-reminder-hours'
                   >
                     {hours} hours left
                   </span>
-                  <br />
                   <span
-                    className='color red due-date-reminder'
+                    className='color grey-text due-date-reminder-days'
                   >
                     {days} day(s) left
                   </span>

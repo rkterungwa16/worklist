@@ -30,7 +30,7 @@ class TodoList extends React.Component {
    * @return {*} null
   */
   componentWillReceiveProps(nextProps) {
-    this.setState({ todos: nextProps.currentState.todo.todolists });
+    this.setState({ todos: nextProps.todo.todolists });
   }
 
   /**
@@ -38,7 +38,7 @@ class TodoList extends React.Component {
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
-    const addedTodo = this.props.currentState.todo.todoItem;
+    const addedTodo = this.props.todo.todoItem;
     const todoItems = this.state.todos.map((todoItem) => {
       return (
         <TodoItem
@@ -67,17 +67,17 @@ class TodoList extends React.Component {
 
 
 TodoList.propTypes = {
-  currentState: PropTypes.Object
+  todo: PropTypes.Object
 };
 
 TodoList.defaultProps = {
-  currentState: {
-    todo: {}
+  todo: {
+    todoItem: {}
   }
 };
 
 const mapStateToProps = state => ({
-  currentState: state
+  todo: state.todo
 });
 
 const matchDispatchToProps = dispatch => bindActionCreators({

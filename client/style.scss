@@ -25,6 +25,7 @@ button.btn.waves-effect.waves-light.blue {
   display: inline-block;
   overflow: visible;
   margin-left: 700px;
+  margin-top: 20px;
 }
 
 
@@ -82,6 +83,11 @@ img.responsive-img.circle.right.profile-img {
 
 button.btn-floating.btn.waves-effect.waves-light.red {
   margin-left: 20px;
+}
+
+.complete-input {
+  position: absolute;
+  margin-left: 750px;
 }
 
 .check {
@@ -183,7 +189,8 @@ span.waves-effect.waves-light.task-cat.blue {
 }
 
 div#todo-page {
-  margin-top: 0px;
+  margin-top: 0;
+  margin-bottom:0;
 }
 
 nav .nav-wrapper {
@@ -293,4 +300,9 @@ input#todo {
 // Task due date
 span.color.grey-text.due-date-reminder-days {
   margin-left: 20px;
+}
+
+// Application dropdown
+ul#dropdown {
+  right: 20px !important;
 }

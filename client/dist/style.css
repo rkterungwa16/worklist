@@ -9395,7 +9395,8 @@ button.btn.waves-effect.waves-light.blue {
   position: relative;
   display: inline-block;
   overflow: visible;
-  margin-left: 700px; }
+  margin-left: 700px;
+  margin-top: 20px; }
 
 #todo-page, #task-page {
   height: 100%;
@@ -9442,6 +9443,10 @@ img.responsive-img.circle.right.profile-img {
 
 button.btn-floating.btn.waves-effect.waves-light.red {
   margin-left: 20px; }
+
+.complete-input {
+  position: absolute;
+  margin-left: 750px; }
 
 .check {
   background-color: limegreen; }
@@ -9516,7 +9521,8 @@ span.waves-effect.waves-light.task-cat.blue {
   font-family: cursive; }
 
 div#todo-page {
-  margin-top: 0px; }
+  margin-top: 0;
+  margin-bottom: 0; }
 
 nav .nav-wrapper {
   position: relative;
@@ -9601,6 +9607,9 @@ input#todo {
 
 span.color.grey-text.due-date-reminder-days {
   margin-left: 20px; }
+
+ul#dropdown {
+  right: 20px !important; }
 .rc-tooltip.rc-tooltip-zoom-enter,
 .rc-tooltip.rc-tooltip-zoom-leave {
   display: block;

@@ -37,11 +37,11 @@ class TaskItem extends React.Component {
 
   /**
    * Update when check box is clicked for a task
-   * @param {object} data
+   * @param {object} completeStatus
    * @return {*} null
    */
-  handleChange(data) {
-    if (data === false) {
+  handleChange(completeStatus) {
+    if (completeStatus === false) {
       this.setState({
         value: 'completed'
       });
@@ -49,7 +49,7 @@ class TaskItem extends React.Component {
         id: this.props.tasks._id,
         completed: true
       });
-    } else if (data === true) {
+    } else if (completeStatus === true) {
       this.setState({
         value: '',
       });
@@ -120,7 +120,7 @@ class TaskItem extends React.Component {
           >
             <button
               id={this.props.tasks._id}
-              className={`circle ${check}`}
+              className={`circle complete-input ${check}`}
               onClick={() => this.handleChange(this.props.tasks.completed)}
               role='menuitem'
               tabIndex='0'
@@ -164,7 +164,7 @@ class TaskItem extends React.Component {
               )
             }
           </div>
-          <div>
+          <div className='due-date'>
             {
               diffBtwMoments > 0 ?
                 <div>
