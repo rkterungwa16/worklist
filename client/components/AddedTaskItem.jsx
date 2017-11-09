@@ -30,7 +30,8 @@ class AddedTaskItem extends React.Component {
       value: '',
       dueDate: '',
       date: '',
-      isOpen: false
+      isOpen: false,
+      completed: this.props.tasks.completed
     };
     this.handleDateChange = this.handleDateChange.bind(this);
     this.toggleCalendar = this.toggleCalendar.bind(this);
@@ -45,7 +46,8 @@ class AddedTaskItem extends React.Component {
   handleChange(completeStatus) {
     if (completeStatus === false) {
       this.setState({
-        value: 'completed'
+        value: 'completed',
+        completed: true
       });
       this.props.completeTask({
         id: this.props.tasks._id,
@@ -54,6 +56,7 @@ class AddedTaskItem extends React.Component {
     } else if (completeStatus === true) {
       this.setState({
         value: '',
+        completed: false
       });
       this.props.completeTask({
         id: this.props.tasks._id,
@@ -61,6 +64,7 @@ class AddedTaskItem extends React.Component {
       });
     }
   }
+
 
   /**
    * Select the due date for task
@@ -95,15 +99,7 @@ class AddedTaskItem extends React.Component {
   render() {
     const color = `material-icons ${checkPriority(this.props.tasks.priority)}-text`;
 
-    let completed;
-    let check;
-    if (!this.props.tasks.completed && this.state.value) {
-      completed = `task-priority ${this.state.value}`;
-      check = '';
-    } else {
-      completed = `task-priority ${checkCompletion(this.props.tasks.completed)}`;
-      check = 'check';
-    }
+    const completed = `task-priority ${checkCompletion(this.state.completed)}`;
 
     const selectedDueDate = checkStateDueDate(this.state.dueDate, this.props.tasks.dueDate);
     const selectedDueDateFormat = moment(selectedDueDate).format('DD-MM-YYYY');
@@ -122,8 +118,8 @@ class AddedTaskItem extends React.Component {
           >
             <button
               id={this.props.tasks._id}
-              className={`circle complete-input ${check}`}
-              onClick={() => this.handleChange(this.props.tasks.completed)}
+              className={'circle complete-input'}
+              onClick={() => this.handleChange(this.state.completed)}
               role='menuitem'
               tabIndex='0'
             >
@@ -131,7 +127,12 @@ class AddedTaskItem extends React.Component {
                 className='material-icons small circle'
                 id={this.props.tasks._id}
               >
-                    done
+                {
+                  this.state.completed ?
+                    'done'
+                    :
+                    'clear'
+                }
               </i>
             </button>
             <i
@@ -166,7 +167,7 @@ class AddedTaskItem extends React.Component {
               )
             }
           </div>
-          <div>
+          <div className='due-date'>
             {
               diffBtwMoments > 0 ?
                 <div>

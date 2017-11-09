@@ -8,7 +8,7 @@ const initialTaskState = {
   currentlySending: false,
   tasks: [],
   task: {},
-  completed: false,
+  completed: {},
   taskDate: {}
 };
 

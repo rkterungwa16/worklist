@@ -38,7 +38,6 @@ class TodoListItem extends React.Component {
   * @returns {object} returns an object representing an html form template
   */
   render() {
-    console.log('THIS IS THE PROPS FOR THE TODO', this.props);
     this.id = this.props.todoItem._id;
     this.todo.todo = this.props.todoItem.todo;
     this.todo.todoId = this.props.todoItem._id;

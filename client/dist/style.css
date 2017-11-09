@@ -9446,10 +9446,16 @@ button.btn-floating.btn.waves-effect.waves-light.red {
 
 .complete-input {
   position: absolute;
-  margin-left: 750px; }
-
-.check {
-  background-color: limegreen; }
+  margin-left: 750px;
+  background-color: cadetblue !important;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  border-radius: 50%; }
 
 .due-date-reminder {
   font-size: smaller; }
