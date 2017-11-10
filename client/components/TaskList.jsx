@@ -76,6 +76,7 @@ class TaskList extends React.Component {
     const tasks = this.props.tasks;
     const todo = this.props.todo;
     const task = this.props.task;
+    console.log('THIS IS THE TASK', task);
     const taskItems = tasks.map(taskItem => (
       <TaskItem
         key={taskItem._id}
@@ -127,6 +128,7 @@ class TaskList extends React.Component {
                   task.task !== undefined ?
                     <AddedTaskItem
                       tasks={task.task}
+                      key={task.task._id}
                     />
                     :
                     null

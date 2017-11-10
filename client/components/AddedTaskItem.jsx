@@ -116,25 +116,31 @@ class AddedTaskItem extends React.Component {
           <div
             className='task-text black-text'
           >
-            <button
-              id={this.props.tasks._id}
-              className={'circle complete-input'}
-              onClick={() => this.handleChange(this.state.completed)}
-              role='menuitem'
-              tabIndex='0'
+            <Tooltip
+              placement='top'
+              overlay={this.state.completed ? 'completed' : 'mark as complete'}
+              arrowContent={<div className='rc-tooltip-arrow-inner' />}
             >
-              <i
-                className='material-icons small circle'
+              <button
                 id={this.props.tasks._id}
+                className={'complete-input'}
+                onClick={() => this.handleChange(this.state.completed)}
+                role='menuitem'
+                tabIndex='0'
               >
-                {
-                  this.state.completed ?
-                    'done'
-                    :
-                    'clear'
-                }
-              </i>
-            </button>
+                <i
+                  className='material-icons small circle'
+                  id={this.props.tasks._id}
+                >
+                  {
+                    this.state.completed ?
+                      'done'
+                      :
+                      'clear'
+                  }
+                </i>
+              </button>
+            </Tooltip>
             <i
               className={color}
             >brightness_1
