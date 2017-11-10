@@ -9,7 +9,7 @@
     "open:src": "babel-node buildScripts/srcServer.js",
     "start": "babel-node buildScripts/server.js",
     "build": "webpack --config ./webpack.config.prod.js",
-    "test": "NODE_ENV=test babel-node server/tests/spec/run.js istanbul cover ",
+    "test": "NODE_ENV=test gulp test",
     "jest": "jest",
     "test:watch": "npm run test -- --watch",
     "report-coverage": "cat ./coverage/lcov.info | coveralls"
