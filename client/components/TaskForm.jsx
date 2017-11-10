@@ -58,6 +58,7 @@ class TaskForm extends React.Component {
       }
       this.props.createTask(this.state, this.props.todoId, priority);
       this.props.getTasks(this.props.todoId);
+      this.props.setTaskFormError('');
     } else {
       this.props.setTaskFormError(taskFormValidation(this.state));
     }
