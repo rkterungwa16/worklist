@@ -258,20 +258,25 @@ export const loginUser = userData => (dispatch) => {
 
 /**
  * Todo just created by a user
- * @param  {object} todo an object of the created todo
+ * @param  {object} userTodo an object of the created todo
  * @return {object} server response
  */
 
-export const createTodo = todo => (dispatch) => {
+export const createTodo = userTodo => (dispatch) => {
   const token = localStorage.getItem('token') || null;
   const decodeToken = decodeJwt(token);
   const id = decodeToken.id;
   const config = axiosConfig(token);
-  return axios.post(`/api/v1/todolist/${id}`, todo, config)
+  const todoInfo = {
+    id,
+    todo: userTodo.todo
+  };
+  return axios.post('/api/v1/todos/', todoInfo, config)
     .then((response) => {
       dispatch(todoCreated(response.data));
     });
 };
+
 
 /**
  * Get a users todo list
@@ -333,11 +338,13 @@ export const createTask = (task, todoId, priority) => (dispatch) => {
   const decodeToken = decodeJwt(token);
   const id = decodeToken.id;
   const taskInfo = {
-    task,
+    id,
+    todoId,
+    task: task.task,
     priority
   };
   const config = axiosConfig(token);
-  return axios.post(`/api/v1/tasks/${id}/${todoId}`, taskInfo, config)
+  return axios.post('/api/v1/tasks/', taskInfo, config)
     .then((response) => {
       dispatch(taskCreated(response.data));
     });
