@@ -172,7 +172,7 @@ class TaskItem extends React.Component {
           </div>
           <div className='due-date'>
             {
-              diffBtwMoments > 0 ?
+              diffBtwMoments > 0 && !this.state.completed ?
                 <div>
                   <span
                     className='color grey-text due-date-reminder-hours'
