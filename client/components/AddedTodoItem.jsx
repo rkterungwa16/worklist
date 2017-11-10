@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -29,7 +30,7 @@ class AddedTodoItem extends React.Component {
   handleClick(event) {
     event.preventDefault();
     this.props.getTasks(this.id);
-    this.props.getTodoItem(this.todo);
+    this.props.getTodoItem(this.id);
   }
 
   /**
@@ -57,15 +58,17 @@ class AddedTodoItem extends React.Component {
 }
 
 AddedTodoItem.propTypes = {
-  todoItem: React.PropTypes.shape({
-    todo: '',
-    tasks: []
-  }).isRequired,
+  todoItem: PropTypes.Object,
   getTasks: React.PropTypes.func.isRequired,
   getTodoItem: React.PropTypes.func.isRequired
 };
 
-
+AddedTodoItem.defaultProps = {
+  todoItem: {
+    todo: '',
+    tasks: []
+  }
+};
 const matchDispatchToProps = dispatch => bindActionCreators({
   getTasks,
   getTodoItem

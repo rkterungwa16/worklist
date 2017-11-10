@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import $ from 'jquery';
 import history from 'react-history/BrowserHistory';
 import 'materialize-css/dist/css/materialize.css';
+import 'materialize-css/dist/js/materialize';
 import reducer from './reducers';
 import './style.scss';
 
@@ -16,7 +17,6 @@ import Signup from './pages/SignupPage';
 import Login from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import EditProfile from './components/EditProfile';
-import Collaborator from './components/Collaborator';
 import RequireAuthRoute from './components/RequireAuthRoute';
 import AuthRoute from './components/AuthRoute';
 import NotFound from './components/NotFound';
@@ -31,7 +31,6 @@ render((
         <AuthRoute exact path='/signup' component={Signup} />
         <AuthRoute exact path='/login' component={Login} />
         <RequireAuthRoute exact path='/edit-profile' component={EditProfile} />
-        <RequireAuthRoute exact path='/collaborator' component={Collaborator} />
         <RequireAuthRoute exact path='/dashboard' component={Dashboard} />
         <Route exact path='*' component={NotFound} />
       </Switch>

@@ -9,7 +9,7 @@ import {
 /**
 * Registration form for the application
 */
-class RegisterForm extends Component {
+class SignupForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -101,21 +101,19 @@ class RegisterForm extends Component {
           />
         </div>
 
-        <div className='center'>
-          <button
-            className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-            id='signup-btn'
-            type='submit'
-          >
-            Signup
-          </button>
-        </div>
+        <button
+          className='col s6 offset-s3  btn blue'
+          id='signup-btn'
+          type='submit'
+        >
+          Signup
+        </button>
       </form>
     );
   }
 }
 
-RegisterForm.propTypes = {
+SignupForm.propTypes = {
   onSubmit: React.PropTypes.func.isRequired,
   setSignupError: React.PropTypes.func.isRequired,
   error: React.PropTypes.shape({
@@ -131,5 +129,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps,
-  matchDispatchToProps)(RegisterForm);
+  matchDispatchToProps)(SignupForm);
 

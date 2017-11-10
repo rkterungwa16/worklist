@@ -7,7 +7,7 @@ const NotFound = () => (
       <div className='row'>
         <div id='site-layout-example-top' className='col s12'>
           <p
-            className='flat-text-logo center white-text caption-uppercase'
+            className='flat-text-logo center black-text caption-uppercase'
           >Sorry but we couldn’t find this page :(
           </p>
         </div>
@@ -16,7 +16,7 @@ const NotFound = () => (
             <h1 className='text-long-shadow col s12 homeText'>404</h1>
           </div>
           <div className='row center'>
-            <p className='center white-text col s12'>It seems that this page doesn’t exist.</p>
+            <p className='center black-text col s12'>It seems that this page doesn’t exist.</p>
             <p
               className='center s12'
             >

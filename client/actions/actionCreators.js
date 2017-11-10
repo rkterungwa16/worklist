@@ -136,7 +136,7 @@ export const getTasksAction = value => ({
  * @param  {boolean} value user created todo lists
  * @return {object} action type and data
  */
-export const getTodoItem = value => ({
+export const getTodoItemAction = value => ({
   type: 'GET_TODO_ITEM_ID',
   value
 });
@@ -215,7 +215,10 @@ export const registerUser = userInfo => (dispatch) => {
     .then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch(setAuthState(true));
-    });
+    })
+    .catch((err) => {
+      dispatch(setSignupError('This account is already registered, Please login'));
+    })
 };
 
 /**
@@ -247,6 +250,9 @@ export const loginUser = userData => (dispatch) => {
     .then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch(setAuthState(true));
+    })
+    .catch((err) => {
+      dispatch(setLoginError(err.response.data));
     });
 };
 
@@ -296,6 +302,21 @@ export const getCurrentUser = () => (dispatch) => {
   return axios.get(`/api/v1/user/${id}`, config)
     .then((response) => {
       dispatch(getUser(response.data));
+    });
+};
+
+/**
+ * Get a todo item
+ * @param {string} todoId the id of a todo
+ * @return {object} server response
+ */
+
+export const getTodoItem = todoId => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  return axios.get(`/api/v1/todo/${todoId}`, config)
+    .then((response) => {
+      dispatch(getTodoItemAction(response.data));
     });
 };
 
@@ -385,7 +406,7 @@ export const editProfile = profile => (dispatch) => {
       dispatch(profileChangeSuccess(true));
     })
     .catch((err) => {
-      dispatch(editProfileError('No data was sent to update'));
+      dispatch(editProfileError(err.response.data));
     });
 };
 

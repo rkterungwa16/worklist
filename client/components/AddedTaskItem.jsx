@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   checkPriority,
@@ -28,9 +30,9 @@ class AddedTaskItem extends React.Component {
       value: '',
       dueDate: '',
       date: '',
-      isOpen: false
+      isOpen: false,
+      completed: this.props.tasks.completed
     };
-    this.handleChange = this.handleChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.toggleCalendar = this.toggleCalendar.bind(this);
   }
@@ -38,24 +40,31 @@ class AddedTaskItem extends React.Component {
 
   /**
    * Update when check box is clicked for a task
-   * @param {*} event Html DOM object when task form is submitted
+   * @param {object} completeStatus
    * @return {*} null
    */
-  handleChange(event) {
-    event.preventDefault();
-    if (event.target.value === 'on') {
+  handleChange(completeStatus) {
+    if (completeStatus === false) {
       this.setState({
         value: 'completed',
-        dueDate: '',
-        date: moment()
+        completed: true
       });
       this.props.completeTask({
         id: this.props.tasks._id,
-        completed: true,
-        date: moment()
+        completed: true
+      });
+    } else if (completeStatus === true) {
+      this.setState({
+        value: '',
+        completed: false
+      });
+      this.props.completeTask({
+        id: this.props.tasks._id,
+        completed: false
       });
     }
   }
+
 
   /**
    * Select the due date for task
@@ -88,13 +97,9 @@ class AddedTaskItem extends React.Component {
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
-    const color = checkPriority(this.props.tasks.priority);
-    let completed;
-    if (!this.props.tasks.completed && this.state.value) {
-      completed = this.state.value;
-    } else {
-      completed = checkCompletion(this.props.tasks.completed);
-    }
+    const color = `material-icons ${checkPriority(this.props.tasks.priority)}-text`;
+
+    const completed = `task-priority ${checkCompletion(this.state.completed)}`;
 
     const selectedDueDate = checkStateDueDate(this.state.dueDate, this.props.tasks.dueDate);
     const selectedDueDateFormat = moment(selectedDueDate).format('DD-MM-YYYY');
@@ -102,35 +107,83 @@ class AddedTaskItem extends React.Component {
     const hours = Math.ceil(moment.duration(diffBtwMoments).asHours());
     const days = Math.ceil(moment.duration(diffBtwMoments).asDays());
     return (
-      <div className='card'>
+      <div className='task-item'>
         <div
           className='collection-item white-text'
           id='taskCalendar'
         >
-          <span
-            className='waves-effect waves-light task-cat blue'
-          >Select Due date
-          </span>
-          <div>
-            <button
-              className='btn waves-effect waves-light blue'
-              onClick={this.toggleCalendar}
+
+          <div
+            className='task-text black-text'
+          >
+            <Tooltip
+              placement='top'
+              overlay={this.state.completed ? 'completed' : 'mark as complete'}
+              arrowContent={<div className='rc-tooltip-arrow-inner' />}
             >
-              {selectedDueDateFormat}
-            </button>
-          </div>
-          <div>
+              <button
+                id={this.props.tasks._id}
+                className={'complete-input'}
+                onClick={() => this.handleChange(this.state.completed)}
+                role='menuitem'
+                tabIndex='0'
+              >
+                <i
+                  className='material-icons small circle'
+                  id={this.props.tasks._id}
+                >
+                  {
+                    this.state.completed ?
+                      'done'
+                      :
+                      'clear'
+                  }
+                </i>
+              </button>
+            </Tooltip>
+            <i
+              className={color}
+            >brightness_1
+            </i>
+            <span
+              className={completed}
+            >
+              {this.props.tasks.task}
+            </span>
+            <Tooltip
+              placement='top'
+              overlay='Select Due date for task'
+              arrowContent={<div className='rc-tooltip-arrow-inner' />}
+            >
+              <button
+                className='btn waves-effect waves-light blue'
+                onClick={this.toggleCalendar}
+              >
+                {selectedDueDateFormat}
+              </button>
+            </Tooltip>
             {
-              diffBtwMoments > 0 ?
+              this.state.isOpen && (
+                <DatePicker
+                  selected={this.state.date}
+                  onChange={this.handleDateChange}
+                  withPortal
+                  inline
+                />
+              )
+            }
+          </div>
+          <div className='due-date'>
+            {
+              diffBtwMoments > 0 && !this.state.completed ?
                 <div>
                   <span
-                    className='color red'
+                    className='color grey-text due-date-reminder-hours'
                   >
                     {hours} hours left
                   </span>
-                  <br />
                   <span
-                    className='color red'
+                    className='color grey-text due-date-reminder-days'
                   >
                     {days} day(s) left
                   </span>
@@ -138,33 +191,6 @@ class AddedTaskItem extends React.Component {
                 :
                 null
             }
-          </div>
-          {
-            this.state.isOpen && (
-              <DatePicker
-                selected={this.state.date}
-                onChange={this.handleDateChange}
-                withPortal
-                inline
-              />
-            )
-          }
-
-          <input
-            className='toggle'
-            type='checkbox'
-            id={this.props.tasks._id}
-            onChange={this.handleChange}
-          />
-          <label htmlFor={this.props.tasks._id}>Done</label>
-          <div
-            className={color}
-          >
-            <span
-              className={completed}
-            >
-              {this.props.tasks.task}
-            </span>
           </div>
         </div>
       </div>
