@@ -107,6 +107,12 @@ export const setTaskFormError = value => ({
  */
 export const setAuthState = newAuthState => ({ type: 'SET_AUTH', newAuthState });
 
+/**
+ * Confirms that a task is deleted
+ * @param  {boolean} value True means a task is deleted
+ * @return {object} action type and data
+ */
+export const deletedTask = value => ({ type: 'TASK_IS_DELETED', value });
 
 /**
  * Updates the form state when registering a user
@@ -225,7 +231,7 @@ export const registerUser = userInfo => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setSignupError('This account is already registered, Please login'));
-    })
+    });
 };
 
 /**
@@ -354,6 +360,22 @@ export const createTask = (task, todoId, priority) => (dispatch) => {
   return axios.post('/api/v1/tasks/', taskInfo, config)
     .then((response) => {
       dispatch(taskCreated(response.data));
+    });
+};
+
+/**
+ * Tells the app we want to create a task for a todo
+ * @param  {object} taskInfo Task info required to delete task
+ * @return {object} server response
+ */
+
+export const deleteTask = taskInfo => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  return axios.delete(`/api/v1/deleteTask/${taskInfo.todoId}/${taskInfo.taskId}`, config)
+    .then((response) => {
+      console.log('THIS IS THE RESPONSE TO THE DATA', response);
+      dispatch(deletedTask(true));
     });
 };
 

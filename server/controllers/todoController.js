@@ -85,6 +85,34 @@ export const createTasks = (req, res) => {
 };
 
 /**
+  * Delete a task for a todo
+  * @param {object} req for first parameter
+  * @param {object} res for second parameter
+  * @returns {object} a response object
+  */
+export const deleteTask = (req, res) => {
+  const taskId = req.params.taskId;
+  const todoId = req.params.todoId;
+  const query = {
+    _id: todoId
+  };
+
+  TodoList.findOne(query, (err, todo) => {
+    if (!todo) {
+      return res.status(422).send('Todo does not exist');
+    }
+    todo.tasks.remove(taskId);
+    todo.save();
+    const response = {
+      message: 'Task successfully deleted',
+      todo
+    };
+    res.status(200).send(response);
+  });
+};
+
+
+/**
 * Get todo lists
 * @param {object} req for first parameter
 * @param {object} res for second parameter

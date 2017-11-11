@@ -14,7 +14,8 @@ import {
   completeTask,
   taskDueDate,
   addCollaborator,
-  getTodoItem
+  getTodoItem,
+  deleteTask
 } from './controllers/todoController';
 import tokenSession from './middleware/tokenSession';
 
@@ -33,5 +34,6 @@ const router = (app) => {
   app.post('/api/v1/tasks/', tokenSession, createTasks);
   app.post('/api/v1/collaborator/', tokenSession, addCollaborator);
   app.post('/api/v1/auth/google', googleAuth);
+  app.delete('/api/v1/deleteTask/:todoId/:taskId', deleteTask);
 };
 export default router;

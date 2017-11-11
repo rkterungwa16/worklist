@@ -80,6 +80,7 @@ class TaskList extends React.Component {
       <TaskItem
         key={taskItem._id}
         tasks={taskItem}
+        todoId={todo._id}
       />
     ));
 
@@ -127,6 +128,7 @@ class TaskList extends React.Component {
                   task.task !== undefined ?
                     <AddedTaskItem
                       tasks={task.task}
+                      todoId={todo._id}
                       key={task.task._id}
                     />
                     :
