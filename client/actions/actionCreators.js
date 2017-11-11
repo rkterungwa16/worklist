@@ -14,6 +14,13 @@ export const profileChangeSuccess = value => ({
 });
 
 /**
+ * Sets the `currentlySending` state, which displays a loading indicator during requests
+ * @param  {boolean} value True means we're sending a request, false means we're not
+ * @return {object} action type and data
+ */
+export const sendingRequest = value => ({ type: 'SENDING_REQUEST', value });
+
+/**
  * Ensure successfull user log out
  * @param  {boolean} value true means the group has been created hence route redirected.
  * @return {object} action type and data
@@ -409,6 +416,29 @@ export const editProfile = profile => (dispatch) => {
   const id = decodeToken.id;
   const config = axiosConfig(token);
   return axios.post(`/api/v1/user/profile/${id}`, profile, config)
+    .then((response) => {
+      dispatch(profileChangeSuccess(true));
+    })
+    .catch((err) => {
+      dispatch(editProfileError(err.response.data));
+    });
+};
+
+/**
+ * Edit the profile of a user
+ * @param  {object} imageUrl The information about profile to be updated
+ * @return {object} server response
+ */
+
+export const profilePicture = imageUrl => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const decodeToken = decodeJwt(token);
+  const id = decodeToken.id;
+  const config = axiosConfig(token);
+  const picture = {
+    imageUrl
+  };
+  return axios.post(`/api/v1/user/profilePicture/${id}`, picture, config)
     .then((response) => {
       dispatch(profileChangeSuccess(true));
     })

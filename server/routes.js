@@ -3,7 +3,8 @@ import {
   loginUser,
   editProfile,
   googleAuth,
-  getUser
+  getUser,
+  editProfilePicture
 } from './controllers/users';
 import {
   createTodo,
@@ -27,6 +28,7 @@ const router = (app) => {
   app.post('/api/v1/completeTask', tokenSession, completeTask);
   app.post('/api/v1/dueDate', tokenSession, taskDueDate);
   app.post('/api/v1/user/profile/:id', tokenSession, editProfile);
+  app.post('/api/v1/user/profilePicture/:userId', tokenSession, editProfilePicture);
   app.post('/api/v1/todos/', tokenSession, createTodo);
   app.post('/api/v1/tasks/', tokenSession, createTasks);
   app.post('/api/v1/collaborator/', tokenSession, addCollaborator);

@@ -17,6 +17,7 @@ import Signup from './pages/SignupPage';
 import Login from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import EditProfile from './components/EditProfile';
+import ChangeProfilePicture from './components/ChangeProfilePicture';
 import RequireAuthRoute from './components/RequireAuthRoute';
 import AuthRoute from './components/AuthRoute';
 import NotFound from './components/NotFound';
@@ -31,6 +32,7 @@ render((
         <AuthRoute exact path='/signup' component={Signup} />
         <AuthRoute exact path='/login' component={Login} />
         <RequireAuthRoute exact path='/edit-profile' component={EditProfile} />
+        <RequireAuthRoute exact path='/change-profile-picture' component={ChangeProfilePicture} />
         <RequireAuthRoute exact path='/dashboard' component={Dashboard} />
         <Route exact path='*' component={NotFound} />
       </Switch>

@@ -29,7 +29,7 @@ export const createUser = (req, res) => {
       password,
       email,
       salt,
-      image: ''
+      image: 'https://res.cloudinary.com/doy0uyv63/image/upload/v1503650055/avatar_us3xoy.png'
     };
     new User(userData).save((err, newUser) => {
       const token = jwt.sign({
@@ -119,6 +119,28 @@ export const editProfile = (req, res) => {
   });
 };
 
+export const editProfilePicture = (req, res) => {
+  const id = req.params.userId;
+  const image = req.body.imageUrl;
+  const query = {
+    _id: id
+  };
+
+  const update = {
+    image
+  };
+  const options = { new: true };
+  User.findOneAndUpdate(query, update, options, (err, user) => {
+    if (!user) {
+      return res.status(422).send('Your password does not match');
+    }
+    res
+      .status(200)
+      .json({ user });
+  });
+};
+
+
 export const googleAuth = (req, res) => {
   const auth = new GoogleAuth();
   const client = new auth.OAuth2(process.env.GOOGLE_CLIENT_ID, '', '');
@@ -179,8 +201,12 @@ export const getUser = (req, res) => {
   };
   User.find(query, (err, user) => {
     const username = user[0].username;
+    const image = user[0].image;
     res
       .status(200)
-      .json({ username });
+      .json({
+        username,
+        image
+      });
   });
 };
