@@ -38,7 +38,7 @@ class ChangeProfilePicture extends Component {
     const apiKey = '811718711578253';
     const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
-    const uploaders = files.map((file) => {
+    files.map((file) => {
       // Initial FormData
       const formData = new FormData();
       formData.append('file', file);

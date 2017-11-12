@@ -85,6 +85,7 @@ button.btn-floating.btn.waves-effect.waves-light.red {
   margin-left: 20px;
 }
 
+// Tasks buttons
 .complete-input {
   position: absolute;
   margin-left: 750px;
@@ -112,6 +113,22 @@ button.btn-floating.btn.waves-effect.waves-light.red {
   font-size: 6px;
   border-radius: 50%;
 }
+
+.edit-btn {
+  position: absolute;
+  margin-left: 700px;
+  background-color: cadetblue !important;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  border-radius: 50%;
+}
+
+
 
 .due-date-reminder {
   font-size: smaller;
@@ -338,4 +355,38 @@ ul#dropdown {
   margin: auto;
   top: 40%;
   left: 45%;
+}
+
+
+// Edit task
+
+button#clear-edit-btn {
+  position: absolute;
+  margin-left: 166px;
+  background-color: cadetblue !important;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  border-radius: 50%;
+}
+
+.input-field.edit-task-div {
+  margin-left: 20px;
+}
+
+#clear-edit-input {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px;
+  width: 450px !important;
+}
+
+form#clear-edit-form {
+  display: -webkit-inline-box;
 }

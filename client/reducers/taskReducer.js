@@ -2,7 +2,8 @@ import { SENDING_REQUEST, CREATE_TASK,
   COMPLETE_TASK_UPDATE,
   GET_TASKS,
   TASK_CREATION_AND_DUE_DATE,
-  TASK_IS_DELETED
+  TASK_IS_DELETED,
+  EDITING_TASK
 } from '../actions/actionTypes';
 
 const initialTaskState = {
@@ -11,7 +12,8 @@ const initialTaskState = {
   task: {},
   completed: {},
   taskDate: {},
-  deleted: false
+  deleted: false,
+  editing: false
 };
 
 // The create group reducer
@@ -29,6 +31,8 @@ const createGroup = (state = initialTaskState, action) => {
       return { ...state, completed: action.value };
     case TASK_IS_DELETED:
       return { ...state, deleted: action.value };
+    case EDITING_TASK:
+      return { ...state, editing: action.value };
     default:
       return state;
   }

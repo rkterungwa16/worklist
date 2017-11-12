@@ -235,6 +235,33 @@ export const completeTask = (req, res) => {
 };
 
 /**
+* Update tasks that are completed
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const editTask = (req, res) => {
+  const id = req.body.id;
+  const task = req.body.task;
+  const query = {
+    _id: id
+  };
+  const update = {
+    task
+  };
+  const options = { new: true };
+  Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    if (!task) {
+      return res.status(422)
+        .send('Task does not exist');
+    }
+    res
+      .status(200)
+      .send(task);
+  });
+};
+
+/**
 * Sets the date a task is due
 * @param {object} req for first parameter
 * @param {object} res for second parameter

@@ -115,6 +115,13 @@ export const setAuthState = newAuthState => ({ type: 'SET_AUTH', newAuthState })
 export const deletedTask = value => ({ type: 'TASK_IS_DELETED', value });
 
 /**
+ * Confirms that a task is being edited
+ * @param  {boolean} value True means a task is being edited
+ * @return {object} action type and data
+ */
+export const editingTask = value => ({ type: 'EDITI_TASK', value });
+
+/**
  * Updates the form state when registering a user
  * @param  {boolean} newFormState means a user is registered, false means no user is logged in
  * @return {object} action type and data
@@ -374,7 +381,6 @@ export const deleteTask = taskInfo => (dispatch) => {
   const config = axiosConfig(token);
   return axios.delete(`/api/v1/deleteTask/${taskInfo.todoId}/${taskInfo.taskId}`, config)
     .then((response) => {
-      console.log('THIS IS THE RESPONSE TO THE DATA', response);
       dispatch(deletedTask(true));
     });
 };
@@ -391,6 +397,27 @@ export const completeTask = task => (dispatch) => {
   return axios.post('/api/v1/completeTask/', task, config)
     .then((response) => {
       dispatch(taskCompleteUpdate(response.data));
+    });
+};
+
+/**
+ * Perform the editing of a task
+ * @param  {object} task The information about task to be edited
+ * @return {object} server response
+ */
+
+export const editTask = (editedTask, taskId) => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  console.log('THIS IS THE INFORMATION I AM SENDING TO THE BACK END');
+  const taskInfo = {
+    task: editedTask,
+    id: taskId
+  };
+  return axios.put('/api/v1/edit/', taskInfo, config)
+    .then((response) => {
+      console.log('THIS IS WHAT I AM RECEIVING FROM BACKEND', response.data);
+      dispatch(editingTask(false));
     });
 };
 
