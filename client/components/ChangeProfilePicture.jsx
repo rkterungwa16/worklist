@@ -62,7 +62,6 @@ class ChangeProfilePicture extends Component {
   * @returns {object} returns an object representing an html form template
   */
   render() {
-    // console.log('THIS IS THE PROPS', this.props.profilePicture('files'));
     const { profilePicture, sendingRequest } = this.props;
     const { success, sending } = this.props.profile;
     return (

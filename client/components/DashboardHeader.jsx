@@ -62,7 +62,6 @@ class Header extends React.Component {
   */
   render() {
     const { username, image } = this.props.user;
-    console.log('THIS IS THE USER DASHBOARD PROPS', this.props);
     return (
       <div>
         <header id='header' className='page-topbar'>

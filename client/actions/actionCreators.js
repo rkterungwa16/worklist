@@ -409,14 +409,12 @@ export const completeTask = task => (dispatch) => {
 export const editTask = (editedTask, taskId) => (dispatch) => {
   const token = localStorage.getItem('token') || null;
   const config = axiosConfig(token);
-  console.log('THIS IS THE INFORMATION I AM SENDING TO THE BACK END');
   const taskInfo = {
     task: editedTask,
     id: taskId
   };
   return axios.put('/api/v1/edit/', taskInfo, config)
     .then((response) => {
-      console.log('THIS IS WHAT I AM RECEIVING FROM BACKEND', response.data);
       dispatch(editingTask(false));
     });
 };

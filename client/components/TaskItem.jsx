@@ -342,6 +342,7 @@ class TaskItem extends React.Component {
                       <DatePicker
                         selected={this.state.date}
                         onChange={this.handleDateChange}
+                        minDate={moment()}
                         withPortal
                         inline
                       />
