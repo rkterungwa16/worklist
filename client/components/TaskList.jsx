@@ -5,7 +5,6 @@ import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 import TaskItem from './TaskItem';
 import TaskForm from '../components/TaskForm';
-import AddedTaskItem from '../components/AddedTaskItem';
 import CollaboratorForm from '../components/CollaboratorForm';
 
 /**
@@ -124,16 +123,6 @@ class TaskList extends React.Component {
               </Modal>
               <div className='collection task'>
                 {taskItems}
-                {
-                  task.task !== undefined ?
-                    <AddedTaskItem
-                      tasks={task.task}
-                      todoId={todo._id}
-                      key={task.task._id}
-                    />
-                    :
-                    null
-                }
               </div>
             </div>
             :

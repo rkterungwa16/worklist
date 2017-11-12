@@ -24,7 +24,7 @@ const createGroup = (state = initialTaskState, action) => {
     case GET_TASKS:
       return { ...state, tasks: action.value };
     case CREATE_TASK:
-      return { ...state, task: action.value };
+      return { ...state, tasks: [...state.tasks, action.value.task] };
     case TASK_CREATION_AND_DUE_DATE:
       return { ...state, taskDate: action.value };
     case COMPLETE_TASK_UPDATE:

@@ -47,7 +47,6 @@ class TodoForm extends React.Component {
     event.preventDefault();
     if (todoFormValidation(this.state) === true) {
       this.props.createTodo(this.state);
-      this.props.getTodoList();
       this.props.setTodoFormError('');
     } else {
       this.props.setTodoFormError(todoFormValidation(this.state));
