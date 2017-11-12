@@ -34,7 +34,7 @@ class AddedTaskItem extends React.Component {
       dueDate: '',
       date: '',
       task: this.props.tasks.task,
-      editedTask: '',
+      editedTask: this.props.tasks.task,
       isOpen: false,
       deleted: this.props.deleted,
       editing: this.props.editing,
@@ -159,13 +159,12 @@ class AddedTaskItem extends React.Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.editedTask !== null) {
+    if (this.state.editedTask !== '') {
       this.props.editTask(this.state.editedTask, this.props.tasks._id);
       this.setState({
         task: this.state.editedTask,
       });
     }
-
     this.setState({
       editedTask: ''
     });
@@ -344,6 +343,7 @@ class AddedTaskItem extends React.Component {
                       <DatePicker
                         selected={this.state.date}
                         onChange={this.handleDateChange}
+                        minDate={moment()}
                         withPortal
                         inline
                       />
