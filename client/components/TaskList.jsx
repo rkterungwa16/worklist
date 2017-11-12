@@ -116,7 +116,9 @@ class TaskList extends React.Component {
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}
                 style={this.customStyles}
+                contentLabel='Add Collaborator'
               >
+                <h5>Enter a registered email to add as collaborator</h5>
                 <CollaboratorForm
                   todoId={this.props.todo._id}
                 />
