@@ -432,7 +432,7 @@ export const editTask = (editedTask, taskId) => (dispatch) => {
   const config = axiosConfig(token);
   const taskInfo = {
     task: editedTask,
-    id: taskId
+    taskId
   };
   return axios.put('/api/v1/edit/', taskInfo, config)
     .then((response) => {

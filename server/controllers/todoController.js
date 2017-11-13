@@ -241,7 +241,7 @@ export const completeTask = (req, res) => {
 * @returns {object} a response object
 */
 export const editTask = (req, res) => {
-  const id = req.body.id;
+  const id = req.body.taskId;
   const task = req.body.task;
   const query = {
     _id: id
