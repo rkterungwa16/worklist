@@ -4,7 +4,9 @@ import {
   editProfile,
   googleAuth,
   getUser,
-  editProfilePicture
+  editProfilePicture,
+  sendEmail,
+  changePassword
 } from './controllers/users';
 import {
   createTodo,
@@ -34,6 +36,7 @@ const router = (app) => {
   app.post('/api/v1/todos/', tokenSession, createTodo);
   app.post('/api/v1/tasks/', tokenSession, createTasks);
   app.post('/api/v1/collaborator/', tokenSession, addCollaborator);
+  app.post('/api/v1/changePassword', changePassword);
   app.post('/api/v1/auth/google', googleAuth);
   app.delete('/api/v1/deleteTask/:todoId/:taskId', deleteTask);
   app.put('/api/v1/edit', tokenSession, editTask);

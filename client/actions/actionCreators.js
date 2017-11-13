@@ -31,14 +31,35 @@ export const userLogout = value => ({
 });
 
 /**
- * Ensure successfull google sign up
- * @param  {boolean} value true means the group has been created hence route redirected.
+ * Ensure successfull adding of collaborator
+ * @param  {boolean} value true means collaborator was successfully added.
  * @return {object} action type and data
  */
 export const collaboratorSuccess = value => ({
   type: 'ADDED_COLLABORATOR_SUCCESS',
   value
 });
+
+/**
+ * Set reset password form error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const passwordResetError = value => ({
+  type: 'PASSWORD_RESET_FORM_ERROR',
+  value
+});
+
+/**
+ * Ensure successfull email sent
+ * @param  {boolean} value true means the email was successfully sent
+ * @return {object} action type and data
+ */
+export const passwordResetSuccess = value => ({
+  type: 'PASSWORD_RESET_SUCCESS',
+  value
+});
+
 
 /**
  * Set the signup  error
@@ -509,5 +530,22 @@ export const addCollaborator = email => (dispatch) => {
     })
     .catch((err) => {
       dispatch(collaboratorError('No data was sent to update'));
+    });
+};
+
+/**
+ * Change a registered user password
+ * @param  {object} userData The data we're sending to change user password
+ * @param  {string} userData.password The new password
+ * @return {object} action type and data
+ */
+
+export const changePassword = userData => (dispatch) => {
+  return axios.post('/api/v1/changePassword', userData)
+    .then((response) => {
+      dispatch(passwordResetSuccess(response.data));
+    })
+    .catch((error) => {
+      dispatch(passwordResetError(error.response.data));
     });
 };

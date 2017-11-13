@@ -113,7 +113,7 @@ CollaboratorForm.propTypes = {
   error: React.PropTypes.shape({
     collaboratorFormError: '' }).isRequired,
   collaborator: React.PropTypes.shape({
-    success: {} }).isRequired,
+    success: false }).isRequired,
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({

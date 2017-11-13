@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import smtpTransport from 'nodemailer-smtp-transport';
 import GoogleAuth from 'google-auth-library';
 import User from '../models/userModel';
 
@@ -207,6 +209,32 @@ export const getUser = (req, res) => {
       .json({
         username,
         image
+      });
+  });
+};
+
+export const changePassword = (req, res) => {
+  const email = req.body.email;
+  const salt = bcrypt.genSaltSync(10);
+  const password = bcrypt.hashSync(req.body.password, salt);
+
+  const query = {
+    email
+  };
+
+  const update = {
+    password,
+    salt
+  };
+  const options = { new: true };
+  User.findOneAndUpdate(query, update, options, (err, user) => {
+    if (!user) {
+      return res.status(422).send('This user is not registered');
+    }
+    res
+      .status(200)
+      .send({
+        status: 'Password change success, you can now login'
       });
   });
 };

@@ -9,6 +9,7 @@ import error from './errorReducer';
 import profile from './profileReducer';
 import collaborator from './collaboratorReducer';
 import user from './userReducer';
+import resetPassword from './resetPasswordReducer';
 
 const appReducer = combineReducers({
   GoogleSignup,
@@ -20,7 +21,8 @@ const appReducer = combineReducers({
   error,
   profile,
   user,
-  collaborator
+  collaborator,
+  resetPassword
 });
 
 const rootReducer = (state, action) => {
