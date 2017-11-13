@@ -36,7 +36,10 @@ describe('Edit profile', () => {
       };
       const wrapper = shallow(<EditProfileForm store={store} />);
       wrapper.dive().find('form').simulate('submit', event);
-      expect(store.getActions()).toEqual([]);
+      expect(store.getActions()).toEqual([{
+        type: 'SET_EDIT_PROFILE_ERROR',
+        value: 'Please enter your current password'
+      }]);
     });
   });
 });

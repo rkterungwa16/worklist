@@ -6,7 +6,6 @@ import { shallow, mount } from 'enzyme';
 import createTestComponent from './utils/createTestComponent';
 import TodoForm from '../components/TodoForm';
 import TodoItem from '../components/TodoItem';
-import AddedTodoItem from '../components/AddedTodoItem';
 import TodoList from '../components/TodoList';
 
 const initialTodoState = {
@@ -73,33 +72,6 @@ describe('Todo', () => {
       const wrapper = shallow(<TodoItem store={store} />);
       wrapper.dive().find('a').simulate('click', event);
       console.log(store.getActions());
-      expect(store.getActions()).toEqual([
-        {
-          type: 'SET_TODO_FORM_ERROR',
-          value: 'Please enter your todo'
-        }
-      ]);
-    });
-  });
-
-  describe('Dynamically added item', () => {
-    it('should render the right number of divs in the todo item (1)', () => {
-      const wrapper = mount(<AddedTodoItem store={store} />);
-      expect(wrapper.find('div').length).toEqual(1);
-    });
-
-    it('should dispatch an error action creator when no input in form', () => {
-      const preventDefault = jest.fn();
-      const event = {
-        target: {
-          value: 'value',
-          name: 'username',
-
-        },
-        preventDefault
-      };
-      const wrapper = shallow(<AddedTodoItem store={store} />);
-      wrapper.dive().find('a').simulate('click', event);
       expect(store.getActions()).toEqual([
         {
           type: 'SET_TODO_FORM_ERROR',

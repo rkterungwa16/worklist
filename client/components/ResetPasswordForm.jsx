@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import resetPasswordFormValidation from '../helper/resetPasswordFormValidation';
 import {

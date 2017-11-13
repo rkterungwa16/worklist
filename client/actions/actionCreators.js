@@ -140,7 +140,7 @@ export const deletedTask = value => ({ type: 'TASK_IS_DELETED', value });
  * @param  {boolean} value True means a task is being edited
  * @return {object} action type and data
  */
-export const editingTask = value => ({ type: 'EDITI_TASK', value });
+export const editingTask = value => ({ type: 'EDITING_TASK', value });
 
 /**
  * Updates the form state when registering a user
