@@ -7,6 +7,7 @@ import profile from './profileReducer';
 import collaborator from './collaboratorReducer';
 import user from './userReducer';
 import resetPassword from './resetPasswordReducer';
+import forgotPassword from './forgotPasswordReducer';
 
 const appReducer = combineReducers({
   todo,
@@ -16,7 +17,8 @@ const appReducer = combineReducers({
   profile,
   user,
   collaborator,
-  resetPassword
+  resetPassword,
+  forgotPassword
 });
 
 const rootReducer = (state, action) => {

@@ -51,12 +51,32 @@ export const passwordResetError = value => ({
 });
 
 /**
+ * Set reset password form error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const forgotPasswordError = value => ({
+  type: 'FORGOT_PASSWORD_FORM_ERROR',
+  value
+});
+
+/**
  * Ensure successfull email sent
  * @param  {boolean} value true means the email was successfully sent
  * @return {object} action type and data
  */
 export const passwordResetSuccess = value => ({
   type: 'PASSWORD_RESET_SUCCESS',
+  value
+});
+
+/**
+ * Ensure successfull email sent
+ * @param  {boolean} value true means the email was successfully sent
+ * @return {object} action type and data
+ */
+export const emailSuccess = value => ({
+  type: 'EMAIL_SUCCESS',
   value
 });
 
@@ -530,6 +550,22 @@ export const addCollaborator = email => (dispatch) => {
     })
     .catch((err) => {
       dispatch(collaboratorError('No data was sent to update'));
+    });
+};
+
+/**
+ * Change a registered user password
+ * @param  {object} email The data we're sending to change user password
+ * @return {object} action type and data
+ */
+
+export const sendEmailForReset = email => (dispatch) => {
+  return axios.post('/api/v1/resetEmail', email)
+    .then((response) => {
+      dispatch(emailSuccess(response.data));
+    })
+    .catch((error) => {
+      dispatch(forgotPasswordError(error.response.data));
     });
 };
 

@@ -3,7 +3,8 @@ import { SET_SIGNUP_ERROR, SET_LOGIN_ERROR,
   SET_TASK_FORM_ERROR,
   SET_EDIT_PROFILE_ERROR,
   COLLABORATOR_FORM_ERROR,
-  PASSWORD_RESET_FORM_ERROR
+  PASSWORD_RESET_FORM_ERROR,
+  FORGOT_PASSWORD_FORM_ERROR
 } from '../actions/actionTypes';
 
 const initialErrorState = {
@@ -13,7 +14,8 @@ const initialErrorState = {
   taskFormError: '',
   editProfileFormError: '',
   collaboratorFormError: '',
-  resetPasswordFormError: ''
+  resetPasswordFormError: '',
+  forgotPasswordFormError: ''
 };
 
 const error = (state = initialErrorState, action) => {
@@ -32,6 +34,8 @@ const error = (state = initialErrorState, action) => {
       return { ...state, collaboratorFormError: action.value };
     case PASSWORD_RESET_FORM_ERROR:
       return { ...state, resetPasswordFormError: action.value };
+    case FORGOT_PASSWORD_FORM_ERROR:
+      return { ...state, forgotPasswordFormError: action.value };
     default:
       return state;
   }

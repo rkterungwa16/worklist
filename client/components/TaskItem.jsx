@@ -254,7 +254,7 @@ class TaskItem extends React.Component {
                         >
                           <button
                             id={this.props.tasks._id}
-                            className={'edit-btn'}
+                            className='edit-btn'
                             role='menuitem'
                             tabIndex='0'
                             onClick={this.editOnClick}
@@ -274,7 +274,7 @@ class TaskItem extends React.Component {
                         >
                           <button
                             id={this.props.tasks._id}
-                            className={'complete-input'}
+                            className='complete-input'
                             onClick={() => this.handleChange(this.state.completed)}
                             role='menuitem'
                             tabIndex='0'
@@ -299,7 +299,7 @@ class TaskItem extends React.Component {
                         >
                           <button
                             id={this.props.tasks._id}
-                            className={'delete-btn'}
+                            className='delete-btn'
                             role='menuitem'
                             tabIndex='0'
                             onClick={this.deleteOnClick}

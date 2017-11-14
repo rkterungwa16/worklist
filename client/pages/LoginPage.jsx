@@ -73,7 +73,7 @@ class Login extends React.Component {
                       <p className='margin right-align medium-small'>
                         <Link
                           className='black-text forgot-password'
-                          to={'/reset-password'}
+                          to={'/forgot-password'}
                         >
                           Forgot password?
                         </Link>

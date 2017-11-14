@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import collaboratorFormValidation from '../helper/collaboratorFormValidation';
+import forgotPasswordFormValidation from '../helper/forgotPasswordFormValidation';
 import {
-  collaboratorError,
-  addCollaborator
+  forgotPasswordError,
+  sendEmailForReset
 } from '../actions/actionCreators';
 
 /**
 * Edit profile form for the application
 */
-class CollaboratorForm extends Component {
+class ForgotPasswordForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      todoId: ''
+      email: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,13 +43,13 @@ class CollaboratorForm extends Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    if (collaboratorFormValidation(this.state) === true) {
-      this.props.addCollaborator(this.state);
+    if (forgotPasswordFormValidation(this.state) === true) {
+      this.props.sendEmailForReset(this.state);
       this.setState({
         email: ''
       });
     } else {
-      this.props.collaboratorError(collaboratorFormValidation(this.state));
+      this.props.forgotPasswordError(forgotPasswordFormValidation(this.state));
     }
   }
 
@@ -61,14 +59,14 @@ class CollaboratorForm extends Component {
   * @returns {object} returns an object representing an html form template
   */
   render() {
-    const { collaboratorFormError } = this.props.error;
-    const { success } = this.props.collaborator;
+    const { forgotPasswordFormError } = this.props.error;
+    const { success } = this.props.forgotPassword;
     return (
       <form onSubmit={this.handleSubmit}>
         {
-          collaboratorFormError ?
+          forgotPasswordFormError ?
             <div className='red-text'>
-              {collaboratorFormError}
+              {forgotPasswordFormError}
             </div>
             :
             null
@@ -84,10 +82,10 @@ class CollaboratorForm extends Component {
         <div className='input-field'>
           <input
             className='validate'
-            id='collaboratorEmail'
+            id='forgot-password'
             name='email'
             type='email'
-            placeholder='Collaborator Email'
+            placeholder='Enter Your Email'
             value={this.state.email}
             onChange={this.handleChange}
           />
@@ -99,7 +97,7 @@ class CollaboratorForm extends Component {
             id='signup-btn'
             type='submit'
           >
-            Add as Collaborator
+            Send Email
           </button>
         </div>
       </form>
@@ -107,34 +105,26 @@ class CollaboratorForm extends Component {
   }
 }
 
-CollaboratorForm.propTypes = {
-  addCollaborator: React.PropTypes.func.isRequired,
-  collaboratorError: React.PropTypes.func.isRequired,
+ForgotPasswordForm.propTypes = {
+  sendEmailForReset: React.PropTypes.func.isRequired,
+  forgotPasswordError: React.PropTypes.func.isRequired,
   todoId: React.PropTypes.string.isRequired,
-  error: PropTypes.Object,
-  collaborator: PropTypes.Object
-};
-
-
-CollaboratorForm.defaultProps = {
-  error: {
-    collaboratorFormError: ''
-  },
-  collaborator: {
-    success: {}
-  }
+  error: React.PropTypes.shape({
+    forgotPasswordFormError: '' }).isRequired,
+  forgotPassword: React.PropTypes.shape({
+    success: {} }).isRequired,
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  collaboratorError,
-  addCollaborator
+  forgotPasswordError,
+  sendEmailForReset
 }, dispatch);
 
 const mapStateToProps = state => ({
   error: state.error,
-  collaborator: state.collaborator
+  forgotPassword: state.forgotPassword
 });
 
 export default connect(mapStateToProps,
-  matchDispatchToProps)(CollaboratorForm);
+  matchDispatchToProps)(ForgotPasswordForm);
 
