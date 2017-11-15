@@ -112,12 +112,14 @@ export const editProfile = (req, res) => {
   const options = { new: true };
   User.findOneAndUpdate(query, update, options, (err, user) => {
     const hashedPassword = bcrypt.hashSync(currentPassword, user.salt);
+
     if (user.password !== hashedPassword) {
-      return res.status(422).send('Your password does not match');
+      res.status(422).send('Your password does not match');
+    } else {
+      res
+        .status(200)
+        .json({ user });
     }
-    res
-      .status(200)
-      .json({ user });
   });
 };
 

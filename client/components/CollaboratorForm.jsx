@@ -96,7 +96,7 @@ export class CollaboratorForm extends Component {
         <div className='center'>
           <button
             className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-            id='collab-btn'
+            id='collab-form-btn'
             type='submit'
           >
             Add as Collaborator

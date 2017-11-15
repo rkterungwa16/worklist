@@ -42,7 +42,7 @@ describe('PostIt App', () => {
       const button = browser.findElement(by.id('todo-btn'));
       todo.sendKeys('Another todo');
       button.click();
-      const todoLink = browser.findElement(by.id('todo-link-btn5a0b3379756f4f6d096b46d3'));
+      const todoLink = browser.findElement(by.id('todo-link-btn5a0c4787e4f564cc0ec53b3e'));
       todoLink.click();
       // expect(todoText.getText()).toEqual('Another todo');
       browser.sleep(10000).then(() => {
@@ -60,14 +60,26 @@ describe('PostIt App', () => {
           const goBack = browser.findElement(by.id('edit-back-btn'));
           goBack.click();
           browser.get('http://localhost:3000/#/dashboard');
-          const nav = browser.findElement(by.id('profile-dropdown'));
-          nav.click();
-          const profilePic = browser.findElement(by.id('change-profile-pic-link'));
-          profilePic.click();
+          const todoLink = browser.findElement(by.id('todo-link-btn5a0c4787e4f564cc0ec53b3e'));
+          todoLink.click();
+          const collaborator = browser.findElement(by.id('collab-btn'));
+          collaborator.click();
+          const email = browser.findElement(by.id('collaboratorEmail'));
+          const button = browser.findElement(by.id('collab-form-btn'));
+          email.sendKeys('django@gmail.com');
+          button.click();
           browser.sleep(2000).then(() => {
-            browser.get('http://localhost:3000/#/change-profile-picture');
-            const profilePic = browser.findElement(by.id('dropzone-click'));
+            browser.get('http://localhost:3000/#/dashboard');
+            const todoLink = browser.findElement(by.id('todo-link-btn5a0c4787e4f564cc0ec53b3e'));
+            todoLink.click();
+            const nav = browser.findElement(by.id('profile-dropdown'));
+            nav.click();
+            const profilePic = browser.findElement(by.id('change-profile-pic-link'));
             profilePic.click();
+            browser.sleep(2000).then(() => {
+              browser.get('http://localhost:3000/#/change-profile-picture');
+              browser.get('http://localhost:3000/#/dashboard');
+            });
           });
         });
       });
@@ -75,18 +87,3 @@ describe('PostIt App', () => {
   });
 });
 
-// describe('Protractor Demo App', () => {
-
-//   it('should locate button to create user account', () => {
-//     browser.get('http://localhost:3000/#/login');
-//     const email = browser.findElement(by.id('login-email'));
-//     const password = browser.findElement(by.id('login-password'));
-//     const button = browser.findElement(by.id('login-btn'));
-//     email.sendKeys('django@gmail.com');
-//     password.sendKeys('django');
-//     button.click();
-//     browser.get('http://localhost:3000/#/dashboard');
-//     const createUser = browser.findElement(by.id('todo-btn'));
-//     expect(createUser.getText()).toEqual('CREATE TODO LIST');
-//   });
-// });

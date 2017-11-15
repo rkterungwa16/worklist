@@ -7,6 +7,8 @@ const validateInput = (data) => {
     return 'Please enter your username';
   } else if (!data.email && (data.username || data.password)) {
     return 'Please enter your email';
+  } else if (/\s/.test(data.username) || /\s/.test(data.password)) {
+    return 'Use cannot use spaces';
   } else if (!data.password && (data.username || data.email)) {
     return 'Please enter your password';
   } else if (data.password && !Validator.isEmail(data.email)) {

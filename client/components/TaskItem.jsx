@@ -253,7 +253,7 @@ export class TaskItem extends React.Component {
                           arrowContent={<div className='rc-tooltip-arrow-inner' />}
                         >
                           <button
-                            id={this.props.tasks._id}
+                            id={`edit-btn${this.props.tasks._id}`}
                             className='edit-btn'
                             role='menuitem'
                             tabIndex='0'
