@@ -4,6 +4,7 @@ import loginFormValidation from '../helper/loginFormValidation';
 import signupFormValidation from '../helper/signupFormValidation';
 import taskFormValidation from '../helper/taskFormValidation';
 import todoFormValidation from '../helper/todoFormValidation';
+import resetPasswordFormValidation from '../helper/resetPasswordFormValidation';
 import axiosConfig from '../helper/axiosConfig';
 import {
   checkPriority,
@@ -33,10 +34,19 @@ describe('Edit profile form', () => {
     expect(value).toEqual('Your password and confirm password does not match');
   });
 
-  it('should return true for matching passwords', () => {
+  it('should return "Please enter your current password" for no current password', () => {
     const value = editProfileFormValidation({
       password: 'john',
       confirmPassword: 'john'
+    });
+    expect(value).toEqual('Please enter your current password');
+  });
+
+  it('should return true for matching passwords', () => {
+    const value = editProfileFormValidation({
+      password: 'john',
+      confirmPassword: 'john',
+      currentPassword: 'john'
     });
     expect(value).toEqual(true);
   });
@@ -212,5 +222,62 @@ describe('Axios token configuration', () => {
   it('should return null for a null token', () => {
     const value = axiosConfig('');
     expect(value).toEqual(null);
+  });
+});
+
+describe('Reset Password form', () => {
+
+  it('should return "Please enter your details" for empty form fields', () => {
+    const value = resetPasswordFormValidation({
+      email: '',
+      password: ''
+    });
+    expect(value).toEqual('Please enter your details');
+  });
+
+  it('should return "Please enter your email" when there is no email input', () => {
+    const value = resetPasswordFormValidation({
+      email: '',
+      password: 'john',
+      confirmPassword: ''
+    });
+    expect(value).toEqual('Please enter your email');
+  });
+
+  it('should return "Please enter your password" when there is no password input', () => {
+    const value = resetPasswordFormValidation({
+      email: 'john@gmail.com',
+      password: '',
+      confirmPassword: ''
+
+    });
+    expect(value).toEqual('Please enter your password');
+  });
+
+  it('should return "Email is invalid" when email is invalid', () => {
+    const value = resetPasswordFormValidation({
+      email: 'john',
+      password: 'john',
+      confirmPassword: 'john'
+    });
+    expect(value).toEqual('Email is invalid');
+  });
+
+  it('should return "Your entry does not match" password not equal confirm password', () => {
+    const value = resetPasswordFormValidation({
+      email: 'john@gmail.com',
+      password: 'john2',
+      confirmPassword: 'john'
+    });
+    expect(value).toEqual('Your entry does not match');
+  });
+
+  it('should return true when all data provided is valid', () => {
+    const value = resetPasswordFormValidation({
+      email: 'john@gmail.com',
+      password: 'john',
+      confirmPassword: 'john'
+    });
+    expect(value).toEqual(true);
   });
 });

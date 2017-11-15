@@ -78,6 +78,7 @@ class Header extends React.Component {
               <ul className='right nav-profile'>
                 <li className='nav-img'>
                   <a
+                    id='profile-dropdown'
                     data-activates='dropdown'
                     className='profile-nav dropdown-button'
                     data-beloworigin='true'
@@ -109,6 +110,7 @@ class Header extends React.Component {
               className='collection-item'
             >
               <Link
+                id='edit-profile-link'
                 to={'/edit-profile'}
                 className='black-text'
               >
@@ -120,6 +122,7 @@ class Header extends React.Component {
               className='collection-item'
             >
               <Link
+                id='change-profile-pic-link'
                 to={'/change-profile-picture'}
                 className='black-text'
               >
@@ -131,7 +134,7 @@ class Header extends React.Component {
               className='collection-item'
             >
               <a
-                id='dropProfile'
+                id='logout-link'
                 className='responsive'
                 onClick={this.logoutUser}
                 role='button'

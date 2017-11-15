@@ -1,3 +1,4 @@
+import Validator from 'validator';
 
 const validateInput = (data) => {
   if (!data.password && !data.email) {
@@ -8,6 +9,8 @@ const validateInput = (data) => {
     return 'Please enter your email';
   } else if (data.password !== data.confirmPassword) {
     return 'Your entry does not match';
+  } else if (!Validator.isEmail(data.email)) {
+    return 'Email is invalid';
   }
   return true;
 };

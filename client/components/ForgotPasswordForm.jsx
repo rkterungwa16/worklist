@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import loginFormValidation from '../helper/loginFormValidation';
+import { bindActionCreators } from 'redux';
+import forgotPasswordFormValidation from '../helper/forgotPasswordFormValidation';
 import {
-  setLoginError
+  forgotPasswordError,
+  sendEmailForReset
 } from '../actions/actionCreators';
 
-
 /**
-* Login form form for the application
+* Edit profile form for the application
 */
-export class LoginForm extends Component {
+class ForgotPasswordForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: ''
+      email: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,6 +32,7 @@ export class LoginForm extends Component {
     event.preventDefault();
     const obj = {};
     obj[event.target.name] = event.target.value;
+    obj.todoId = this.props.todoId;
     this.setState(obj);
   }
 
@@ -44,15 +43,14 @@ export class LoginForm extends Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    if (loginFormValidation(this.state) === true) {
-      this.props.onSubmit(this.state);
+    if (forgotPasswordFormValidation(this.state) === true) {
+      this.props.sendEmailForReset(this.state);
+      this.setState({
+        email: ''
+      });
     } else {
-      this.props.setLoginError(loginFormValidation(this.state));
+      this.props.forgotPasswordError(forgotPasswordFormValidation(this.state));
     }
-    this.setState({
-      email: '',
-      password: ''
-    });
   }
 
 
@@ -61,13 +59,22 @@ export class LoginForm extends Component {
   * @returns {object} returns an object representing an html form template
   */
   render() {
-    const { loginError } = this.props.error;
+    const { forgotPasswordFormError } = this.props.error;
+    const { success } = this.props.forgotPassword;
     return (
       <form onSubmit={this.handleSubmit}>
         {
-          loginError ?
+          forgotPasswordFormError ?
             <div className='red-text'>
-              {loginError}
+              {forgotPasswordFormError}
+            </div>
+            :
+            null
+        }
+        {
+          success ?
+            <div className='green-text'>
+              {success.status}
             </div>
             :
             null
@@ -75,22 +82,11 @@ export class LoginForm extends Component {
         <div className='input-field'>
           <input
             className='validate'
-            id='login-email'
+            id='forgot-password'
             name='email'
             type='email'
-            placeholder='Your email'
+            placeholder='Enter Your Email'
             value={this.state.email}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className='input-field'>
-          <input
-            className='validate'
-            id='login-password'
-            name='password'
-            type='password'
-            placeholder='Your Password'
-            value={this.state.password}
             onChange={this.handleChange}
           />
         </div>
@@ -98,10 +94,10 @@ export class LoginForm extends Component {
         <div className='center'>
           <button
             className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-            id='login-btn'
+            id='signup-btn'
             type='submit'
           >
-            Login
+            Send Email
           </button>
         </div>
       </form>
@@ -109,27 +105,26 @@ export class LoginForm extends Component {
   }
 }
 
-LoginForm.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired,
-  setLoginError: React.PropTypes.func.isRequired,
-  error: PropTypes.Object
-};
-
-LoginForm.defaultProps = {
-  error: {
-    collaboratorFormError: ''
-  },
-  loginError: ''
+ForgotPasswordForm.propTypes = {
+  sendEmailForReset: React.PropTypes.func.isRequired,
+  forgotPasswordError: React.PropTypes.func.isRequired,
+  todoId: React.PropTypes.string.isRequired,
+  error: React.PropTypes.shape({
+    forgotPasswordFormError: '' }).isRequired,
+  forgotPassword: React.PropTypes.shape({
+    success: {} }).isRequired,
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({
-  setLoginError
+  forgotPasswordError,
+  sendEmailForReset
 }, dispatch);
 
 const mapStateToProps = state => ({
-  error: state.error
+  error: state.error,
+  forgotPassword: state.forgotPassword
 });
 
 export default connect(mapStateToProps,
-  matchDispatchToProps)(LoginForm);
+  matchDispatchToProps)(ForgotPasswordForm);
 

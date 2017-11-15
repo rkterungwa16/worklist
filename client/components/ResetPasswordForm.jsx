@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import resetPasswordFormValidation from '../helper/resetPasswordFormValidation';
 import {
@@ -12,7 +12,7 @@ import {
 /**
 * Reset Password form for the application
 */
-class ResetPasswordForm extends Component {
+export class ResetPasswordForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */

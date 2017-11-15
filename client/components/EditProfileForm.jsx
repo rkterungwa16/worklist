@@ -12,7 +12,7 @@ import {
 /**
 * Edit profile form for the application
 */
-class EditProfileForm extends Component {
+export class EditProfileForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */

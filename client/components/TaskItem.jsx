@@ -22,7 +22,7 @@ import {
 /**
 * Task Item component
 */
-class TaskItem extends React.Component {
+export class TaskItem extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -253,8 +253,8 @@ class TaskItem extends React.Component {
                           arrowContent={<div className='rc-tooltip-arrow-inner' />}
                         >
                           <button
-                            id={this.props.tasks._id}
-                            className={'edit-btn'}
+                            id={`edit-btn${this.props.tasks._id}`}
+                            className='edit-btn'
                             role='menuitem'
                             tabIndex='0'
                             onClick={this.editOnClick}
@@ -274,7 +274,7 @@ class TaskItem extends React.Component {
                         >
                           <button
                             id={this.props.tasks._id}
-                            className={'complete-input'}
+                            className='complete-input'
                             onClick={() => this.handleChange(this.state.completed)}
                             role='menuitem'
                             tabIndex='0'
@@ -299,7 +299,7 @@ class TaskItem extends React.Component {
                         >
                           <button
                             id={this.props.tasks._id}
-                            className={'delete-btn'}
+                            className='delete-btn'
                             role='menuitem'
                             tabIndex='0'
                             onClick={this.deleteOnClick}

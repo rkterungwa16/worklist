@@ -241,7 +241,7 @@ export const completeTask = (req, res) => {
 * @returns {object} a response object
 */
 export const editTask = (req, res) => {
-  const id = req.body.id;
+  const id = req.body.taskId;
   const task = req.body.task;
   const query = {
     _id: id
@@ -305,6 +305,12 @@ export const addCollaborator = (req, res) => {
   User.findOne(query, (err, user) => {
     if (user) {
       TodoList.findOne({ _id: todoId }, (err, todo) => {
+        const collaborator = todo.collaborators.indexOf(user._id);
+        if (user._id.equals(todo.author) || collaborator > -1) {
+          return res
+            .status(400)
+            .send('This user already has access to this todo');
+        }
         todo.collaborators.push(user);
         todo.save();
         const transport = nodemailer.createTransport(smtpTransport({
@@ -322,9 +328,10 @@ export const addCollaborator = (req, res) => {
           You can now create tasks for this todo</h3>`
         };
         transport.sendMail(mailOptions);
+        return res.status(201).send({ status: 'An email has been sent to the collaborator' });
       });
-      return res.status(201).send({ status: 'An email has been sent to the collaborator' });
+    } else {
+      res.status(201).send({ status: 'This user is not registered' });
     }
-    res.status(201).send({ status: 'This user is not registered' });
   });
 };

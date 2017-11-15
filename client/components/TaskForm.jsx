@@ -8,14 +8,13 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 import taskFormValidation from '../helper/taskFormValidation';
 import {
   createTask,
-  getTasks,
   setTaskFormError
 } from '../actions/actionCreators';
 
 /**
 * Form to create todo lists
 */
-class TaskForm extends React.Component {
+export class TaskForm extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -90,7 +89,7 @@ class TaskForm extends React.Component {
               <input
                 className='validate black-text'
                 type='text'
-                id='todolist'
+                id='task-input-form'
                 name='task'
                 maxLength='65'
                 placeholder='Create Your Tasks'
@@ -172,6 +171,7 @@ class TaskForm extends React.Component {
 
               <div className='input-field add-task'>
                 <button
+                  id='task-btn'
                   className='btn waves-effect waves-light app-btn'
                   type='submit'
                   name='action'
@@ -189,7 +189,6 @@ class TaskForm extends React.Component {
 
 TaskForm.propTypes = {
   createTask: React.PropTypes.func.isRequired,
-  getTasks: React.PropTypes.func.isRequired,
   todoId: React.PropTypes.string.isRequired,
   setTaskFormError: React.PropTypes.func.isRequired,
   error: PropTypes.Object,
@@ -207,7 +206,6 @@ const mapStateToProps = state => ({
 
 const matchDispatchToProps = dispatch => bindActionCreators({
   createTask,
-  getTasks,
   setTaskFormError
 }, dispatch);
 

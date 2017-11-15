@@ -15,7 +15,12 @@ import { registerUser, loginUser,
   setTaskDueDate,
   getTasks,
   editProfile,
-  addCollaborator
+  profilePicture,
+  changePassword,
+  editTask,
+  addCollaborator,
+  deleteTask,
+  sendEmailForReset
 } from '../actions/actionCreators';
 
 const instance = axios.create({
@@ -66,10 +71,20 @@ const initialTaskState = {
 };
 
 const initialProfileState = {
-  success: false
+  success: false,
+  sending: false
 };
 
+
 const initialCollaboratorState = {
+  success: {}
+};
+
+const initialresetPasswordState = {
+  success: {}
+};
+
+const initialforgotPasswordState = {
   success: {}
 };
 
@@ -302,7 +317,7 @@ describe('Action creator services: ', () => {
             tasks: []
           } }];
       const store = mockStore({});
-      return store.dispatch(createTask()).then(() => {
+      return store.dispatch(createTask({ task: 'new task' }, 1, 'normal')).then(() => {
         const dispatchedActions = store.getActions();
         expect(dispatchedActions).toEqual(expectedActions);
       }
@@ -407,6 +422,136 @@ describe('Action creator services: ', () => {
           } }];
       const store = mockStore({});
       return store.dispatch(addCollaborator()).then(() => {
+        const dispatchedActions = store.getActions();
+        expect(dispatchedActions).toEqual(expectedActions);
+      }
+      );
+    });
+  });
+
+  describe('Edit task', () => {
+    it('should dispatch EDITING_TASK on successfully editing a task', () => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: initialTaskState,
+        });
+      });
+      const expectedActions = [
+        { type: 'EDITING_TASK',
+          value: false }];
+      const store = mockStore({});
+      return store.dispatch(editTask()).then(() => {
+        const dispatchedActions = store.getActions();
+        expect(dispatchedActions).toEqual(expectedActions);
+      }
+      );
+    });
+  });
+
+  describe('Profile Picture', () => {
+    it('should dispatch CHANGE_PROFILE_SUCCESS on successfully changing a profile pic', () => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: initialProfileState,
+        });
+      });
+      const expectedActions = [
+        { type: 'CHANGE_PROFILE_SUCCESS',
+          value: true }];
+      const store = mockStore({});
+      return store.dispatch(profilePicture({ imageUrl: '/image' })).then(() => {
+        const dispatchedActions = store.getActions();
+        expect(dispatchedActions).toEqual(expectedActions);
+      }
+      );
+    });
+  });
+
+  describe('Change Password', () => {
+    it('should dispatch PASSWORD_RESET_SUCCESS on successfully reseting password', () => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: initialresetPasswordState,
+        });
+      });
+      const expectedActions = [
+        { type: 'PASSWORD_RESET_SUCCESS',
+          value: {
+            success: {}
+          } }];
+      const store = mockStore({});
+      return store.dispatch(changePassword({ imageUrl: '/image' })).then(() => {
+        const dispatchedActions = store.getActions();
+        expect(dispatchedActions).toEqual(expectedActions);
+      }
+      );
+    });
+  });
+
+  describe('Edit profile', () => {
+    it('should dispatch PASSWORD_RESET_SUCCESS on successfully reseting password', () => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: initialProfileState,
+        });
+      });
+      const expectedActions = [
+        { type: 'CHANGE_PROFILE_SUCCESS',
+          value: true }];
+      const store = mockStore({});
+      return store.dispatch(editProfile()).then(() => {
+        const dispatchedActions = store.getActions();
+        expect(dispatchedActions).toEqual(expectedActions);
+      }
+      );
+    });
+  });
+
+  describe('Delete task', () => {
+    it('should dispatch TASK_IS_DELETED on successfully deleting a task', () => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: initialTaskState,
+        });
+      });
+      const expectedActions = [
+        { type: 'TASK_IS_DELETED',
+          value: true }];
+      const store = mockStore({});
+      return store.dispatch(deleteTask({ todoId: '12345', taskInfo: '43435' })).then(() => {
+        const dispatchedActions = store.getActions();
+        expect(dispatchedActions).toEqual(expectedActions);
+      }
+      );
+    });
+  });
+
+  describe('Delete task', () => {
+    it('should dispatch TASK_IS_DELETED on successfully deleting a task', () => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: initialforgotPasswordState,
+        });
+      });
+      const expectedActions = [
+        { type: 'EMAIL_SUCCESS',
+          value: {
+            success: {}
+          } }];
+      const store = mockStore({});
+      return store.dispatch(sendEmailForReset()).then(() => {
         const dispatchedActions = store.getActions();
         expect(dispatchedActions).toEqual(expectedActions);
       }

@@ -90,6 +90,7 @@ class ChangeProfilePicture extends Component {
                             <h4 className='center-align'>Change Profile Picture</h4>
                             <div className='profile-picture'>
                               <Dropzone
+                                id='dropzone-btn'
                                 onDrop={this.fileUpload}
                                 profilePicture={profilePicture}
                                 sendingRequest={sendingRequest}
