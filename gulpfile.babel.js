@@ -17,7 +17,7 @@ gulp.task('test', () => {
         .pipe(injectModules())
         .pipe(jasmineNode())
         .pipe(istanbul.writeReports())
-        .pipe(istanbul.enforceThresholds({ thresholds: { global: 80 } }))
+        .pipe(istanbul.enforceThresholds({ thresholds: { global: 70 } }))
         .on('end', () => {
           gulp.src('coverage/lcov.info')
             .pipe(coveralls());

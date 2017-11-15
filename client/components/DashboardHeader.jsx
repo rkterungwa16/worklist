@@ -61,7 +61,7 @@ class Header extends React.Component {
   * @returns {object} a template of a navigation bar.
   */
   render() {
-    const { username } = this.props.user;
+    const { username, image } = this.props.user;
     return (
       <div>
         <header id='header' className='page-topbar'>
@@ -71,7 +71,7 @@ class Header extends React.Component {
                 <img
                   className='sigu-brand logo'
                   width='120'
-                  src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982163/Logomakr_2UJado_sxko6h.png'
+                  src='https://res.cloudinary.com/doy0uyv63/image/upload/v1510395854/Logomakr_2UJado_bdgm4v.png'
                   alt=''
                 />
               </a>
@@ -86,7 +86,7 @@ class Header extends React.Component {
                       {username}
                     </span>
                     <img
-                      src='https://res.cloudinary.com/doy0uyv63/image/upload/v1503650055/avatar_us3xoy.png'
+                      src={image}
                       className='responsive-img circle right profile-img'
                       width='40'
                       alt=''
@@ -119,6 +119,17 @@ class Header extends React.Component {
             <li
               className='collection-item'
             >
+              <Link
+                to={'/change-profile-picture'}
+                className='black-text'
+              >
+                Change profile Picture
+              </Link>
+            </li>
+
+            <li
+              className='collection-item'
+            >
               <a
                 id='dropProfile'
                 className='responsive'
@@ -141,7 +152,8 @@ Header.propTypes = {
   setAuthState: React.PropTypes.func.isRequired,
   userLogout: React.PropTypes.func.isRequired,
   user: React.PropTypes.shape({
-    username: ''
+    username: '',
+    image: ''
   }).isRequired,
 };
 

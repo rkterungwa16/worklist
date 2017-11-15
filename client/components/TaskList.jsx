@@ -5,7 +5,6 @@ import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 import TaskItem from './TaskItem';
 import TaskForm from '../components/TaskForm';
-import AddedTaskItem from '../components/AddedTaskItem';
 import CollaboratorForm from '../components/CollaboratorForm';
 
 /**
@@ -76,11 +75,11 @@ class TaskList extends React.Component {
     const tasks = this.props.tasks;
     const todo = this.props.todo;
     const task = this.props.task;
-    console.log('THIS IS THE TASK', task);
     const taskItems = tasks.map(taskItem => (
       <TaskItem
         key={taskItem._id}
         tasks={taskItem}
+        todoId={todo._id}
       />
     ));
 
@@ -101,7 +100,7 @@ class TaskList extends React.Component {
                       onClick={this.openModal}
                       className='btn-floating btn-large collab waves-effect waves-light red'
                     >
-                      <i className='material-icons'>add</i>
+                      <i className='material-icons'>group_add</i>
                     </button>
                   </Tooltip>
                 </h4>
@@ -117,22 +116,15 @@ class TaskList extends React.Component {
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}
                 style={this.customStyles}
+                contentLabel='Add Collaborator'
               >
+                <h5>Enter a registered email to add as collaborator</h5>
                 <CollaboratorForm
                   todoId={this.props.todo._id}
                 />
               </Modal>
               <div className='collection task'>
                 {taskItems}
-                {
-                  task.task !== undefined ?
-                    <AddedTaskItem
-                      tasks={task.task}
-                      key={task.task._id}
-                    />
-                    :
-                    null
-                }
               </div>
             </div>
             :

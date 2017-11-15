@@ -17,6 +17,8 @@
         *  Click on a task that is completed
         *  Set reminders for tasks
         *  Collaborate with other users for a todo
+        *  Users can edit a task
+        *  Users can delete a task
 
 ## Key Features
 Based on project requirement, Worklist has the following features:
@@ -37,17 +39,18 @@ Based on project requirement, Worklist has the following features:
 - Reminders can be set on each task
 - Tasks have priority with color codes for each priority
 - Tasks can be marked as completed
+- Tasks can be edited
+- Tasks can be deleted
 
 ## Technologies
 *  **[Node.js](https://nodejs.org/en/)**
-*  **[Express Js](https://expressjs.com/)** 
-*  **[sequelize](https://www.npmjs.com/package/sequelize)**
+*  **[Express Js](https://expressjs.com/)**
 *  **[MongoDB](https://www.mongodb.com/)**
 *  **[React.js](https://reactjs.org/)**
 *  **[Redux.js](http://redux.js.org/)**
 
 ## Documentation
-For more in depth documentation see:
+For more in depth documentation see: **[here](https://kombolworklist.docs.apiary.io/#)**
 
 
 ## Installation and setup
@@ -80,15 +83,13 @@ Contributions are welcome and appreciated. To contribute
 * Make your contributions to your local copy of the project
 * Run `git add` and `git commit` to commit your contributions to the project
 * Run `git push` to push your changes to your copy of the repository
-* If you feel you've made a contribution that will improve the project, raise a Pull Request against the develop branch.
+* If you feel you've made a contribution that will improve the project, raise a Pull Request against the `develop` branch.
 * Be descriptive enough about your contributions so other contributors will understand what you've done
 * I look forward to your Pull Requests!
 
 ## Limitations
   kombol-worklist's current limitations (aka features in development) include:
-  - User cannot edit a task
   - User cannot archive tasks
-  - User cannot delet a task
 
 ## License
   This project is available for use and modification under the MIT License. See the LICENSE file for more details.

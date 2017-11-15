@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer';
-import jwt from 'jsonwebtoken';
 import smtpTransport from 'nodemailer-smtp-transport';
 import User from '../models/userModel';
 import TodoList from '../models/todoListModel';
@@ -11,12 +10,13 @@ import Tasks from '../models/taskModel';
 * @param {object} res for second parameter
 * @returns {object} a response object
 */
-export const createTodoList = (req, res) => {
-  const id = req.params.id;
+export const createTodo = (req, res) => {
+  const id = req.body.id;
   const todo = req.body.todo;
-  User.find({}, (err, allUsers) => {
-  });
   User.findById(id, (err, user) => {
+    if (!user) {
+      return res.status(422).send('User does not exist');
+    }
     const newTodo = {
       author: user._id,
       todo
@@ -38,9 +38,9 @@ export const createTodoList = (req, res) => {
   * @returns {object} a response object
   */
 export const createTasks = (req, res) => {
-  const todoId = req.params.todoid;
-  const id = req.params.id;
-  const task = req.body.task.task;
+  const todoId = req.body.todoId;
+  const id = req.body.id;
+  const task = req.body.task;
   const priority = req.body.priority;
   const dateCreated = new Date().getDate().now;
   const dueDate = new Date().getDate().now;
@@ -59,26 +59,58 @@ export const createTasks = (req, res) => {
       }
     ]
   };
-  TodoList.findOne(query, (err, todolist) => {
-    const defaultTask = {
+
+  TodoList.findOne(query, (err, todos) => {
+    if (!todos) {
+      return res.status(422).send('Todo does not exist');
+    }
+    const currentTask = {
       task,
       dateCreated,
       dueDate,
       priority,
       completed
     };
-    new Tasks(defaultTask).save((err, newtask) => {
-      todolist.tasks.push(newtask);
-      todolist.save();
+    new Tasks(currentTask).save((err, newtask) => {
+      todos.tasks.push(newtask);
+      todos.save();
       res
         .status(201)
         .json({
           task: newtask,
-          todolist
+          todos
         });
     });
   });
 };
+
+/**
+  * Delete a task for a todo
+  * @param {object} req for first parameter
+  * @param {object} res for second parameter
+  * @returns {object} a response object
+  */
+export const deleteTask = (req, res) => {
+  const taskId = req.params.taskId;
+  const todoId = req.params.todoId;
+  const query = {
+    _id: todoId
+  };
+
+  TodoList.findOne(query, (err, todo) => {
+    if (!todo) {
+      return res.status(422).send('Todo does not exist');
+    }
+    todo.tasks.remove(taskId);
+    todo.save();
+    const response = {
+      message: 'Task successfully deleted',
+      todo
+    };
+    res.status(200).send(response);
+  });
+};
+
 
 /**
 * Get todo lists
@@ -102,6 +134,10 @@ export const getTodoList = (req, res) => {
   };
 
   TodoList.find(query, (err, todolist) => {
+    if (!todolist) {
+      return res.status(400)
+        .send('This user does not have a todolist');
+    }
     res
       .status(200)
       .send(todolist);
@@ -121,6 +157,10 @@ export const getTodoItem = (req, res) => {
   };
 
   TodoList.findOne(query, (err, todo) => {
+    if (!todo) {
+      return res.status(400)
+        .send('This todo does not exist');
+    }
     res
       .status(200)
       .send(todo);
@@ -154,6 +194,10 @@ export const getTasks = (req, res) => {
     .find(query)
     .populate('tasks')
     .exec((err, todo) => {
+      if (!todo) {
+        return res.status(422)
+          .send('Todo does not exist');
+      }
       res
         .status(200)
         .send(todo[0].tasks);
@@ -180,6 +224,37 @@ export const completeTask = (req, res) => {
   };
   const options = { new: true };
   Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    if (!task) {
+      return res.status(422)
+        .send('Task does not exist');
+    }
+    res
+      .status(200)
+      .send(task);
+  });
+};
+
+/**
+* Update tasks that are completed
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const editTask = (req, res) => {
+  const id = req.body.id;
+  const task = req.body.task;
+  const query = {
+    _id: id
+  };
+  const update = {
+    task
+  };
+  const options = { new: true };
+  Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    if (!task) {
+      return res.status(422)
+        .send('Task does not exist');
+    }
     res
       .status(200)
       .send(task);
@@ -204,6 +279,10 @@ export const taskDueDate = (req, res) => {
   };
   const options = { new: true };
   Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    if (!task) {
+      return res.status(422)
+        .send('Task does not exist');
+    }
     res
       .status(200)
       .send(task);
@@ -249,4 +328,3 @@ export const addCollaborator = (req, res) => {
     res.status(201).send({ status: 'This user is not registered' });
   });
 };
-

@@ -138,7 +138,7 @@ class EditProfileForm extends Component {
                   id='edit-back-btn'
                   type='submit'
                 >
-                  Back
+                  Go Back
                 </Link>
               </div>
             </form>

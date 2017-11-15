@@ -6,7 +6,6 @@ import {
   getTasks
 } from '../actions/actionCreators';
 import TodoItem from './TodoItem';
-import AddedTodoItem from './AddedTodoItem';
 
 
 /**
@@ -27,7 +26,6 @@ class TodoList extends React.Component {
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
-    const addedTodo = this.props.todo.todoItem;
     const todos = this.props.todo.todolists;
     const todoItems = todos.map((todoItem) => {
       return (
@@ -41,15 +39,6 @@ class TodoList extends React.Component {
     return (
       <div className='collection'>
         {todoItems}
-        {
-          addedTodo.createdTodo !== undefined ?
-            <AddedTodoItem
-              todoItem={addedTodo.createdTodo}
-              getTasks={getTasks}
-            />
-            :
-            null
-        }
       </div>
     );
   }

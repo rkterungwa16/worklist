@@ -14,6 +14,13 @@ export const profileChangeSuccess = value => ({
 });
 
 /**
+ * Sets the `currentlySending` state, which displays a loading indicator during requests
+ * @param  {boolean} value True means we're sending a request, false means we're not
+ * @return {object} action type and data
+ */
+export const sendingRequest = value => ({ type: 'SENDING_REQUEST', value });
+
+/**
  * Ensure successfull user log out
  * @param  {boolean} value true means the group has been created hence route redirected.
  * @return {object} action type and data
@@ -24,14 +31,35 @@ export const userLogout = value => ({
 });
 
 /**
- * Ensure successfull google sign up
- * @param  {boolean} value true means the group has been created hence route redirected.
+ * Ensure successfull adding of collaborator
+ * @param  {boolean} value true means collaborator was successfully added.
  * @return {object} action type and data
  */
 export const collaboratorSuccess = value => ({
   type: 'ADDED_COLLABORATOR_SUCCESS',
   value
 });
+
+/**
+ * Set reset password form error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const passwordResetError = value => ({
+  type: 'PASSWORD_RESET_FORM_ERROR',
+  value
+});
+
+/**
+ * Ensure successfull email sent
+ * @param  {boolean} value true means the email was successfully sent
+ * @return {object} action type and data
+ */
+export const passwordResetSuccess = value => ({
+  type: 'PASSWORD_RESET_SUCCESS',
+  value
+});
+
 
 /**
  * Set the signup  error
@@ -100,6 +128,19 @@ export const setTaskFormError = value => ({
  */
 export const setAuthState = newAuthState => ({ type: 'SET_AUTH', newAuthState });
 
+/**
+ * Confirms that a task is deleted
+ * @param  {boolean} value True means a task is deleted
+ * @return {object} action type and data
+ */
+export const deletedTask = value => ({ type: 'TASK_IS_DELETED', value });
+
+/**
+ * Confirms that a task is being edited
+ * @param  {boolean} value True means a task is being edited
+ * @return {object} action type and data
+ */
+export const editingTask = value => ({ type: 'EDITI_TASK', value });
 
 /**
  * Updates the form state when registering a user
@@ -218,7 +259,7 @@ export const registerUser = userInfo => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setSignupError('This account is already registered, Please login'));
-    })
+    });
 };
 
 /**
@@ -258,20 +299,25 @@ export const loginUser = userData => (dispatch) => {
 
 /**
  * Todo just created by a user
- * @param  {object} todo an object of the created todo
+ * @param  {object} userTodo an object of the created todo
  * @return {object} server response
  */
 
-export const createTodo = todo => (dispatch) => {
+export const createTodo = userTodo => (dispatch) => {
   const token = localStorage.getItem('token') || null;
   const decodeToken = decodeJwt(token);
   const id = decodeToken.id;
   const config = axiosConfig(token);
-  return axios.post(`/api/v1/todolist/${id}`, todo, config)
+  const todoInfo = {
+    id,
+    todo: userTodo.todo
+  };
+  return axios.post('/api/v1/todos/', todoInfo, config)
     .then((response) => {
       dispatch(todoCreated(response.data));
     });
 };
+
 
 /**
  * Get a users todo list
@@ -333,13 +379,30 @@ export const createTask = (task, todoId, priority) => (dispatch) => {
   const decodeToken = decodeJwt(token);
   const id = decodeToken.id;
   const taskInfo = {
-    task,
+    id,
+    todoId,
+    task: task.task,
     priority
   };
   const config = axiosConfig(token);
-  return axios.post(`/api/v1/tasks/${id}/${todoId}`, taskInfo, config)
+  return axios.post('/api/v1/tasks/', taskInfo, config)
     .then((response) => {
       dispatch(taskCreated(response.data));
+    });
+};
+
+/**
+ * Tells the app we want to create a task for a todo
+ * @param  {object} taskInfo Task info required to delete task
+ * @return {object} server response
+ */
+
+export const deleteTask = taskInfo => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  return axios.delete(`/api/v1/deleteTask/${taskInfo.todoId}/${taskInfo.taskId}`, config)
+    .then((response) => {
+      dispatch(deletedTask(true));
     });
 };
 
@@ -355,6 +418,25 @@ export const completeTask = task => (dispatch) => {
   return axios.post('/api/v1/completeTask/', task, config)
     .then((response) => {
       dispatch(taskCompleteUpdate(response.data));
+    });
+};
+
+/**
+ * Perform the editing of a task
+ * @param  {object} task The information about task to be edited
+ * @return {object} server response
+ */
+
+export const editTask = (editedTask, taskId) => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const config = axiosConfig(token);
+  const taskInfo = {
+    task: editedTask,
+    id: taskId
+  };
+  return axios.put('/api/v1/edit/', taskInfo, config)
+    .then((response) => {
+      dispatch(editingTask(false));
     });
 };
 
@@ -411,6 +493,29 @@ export const editProfile = profile => (dispatch) => {
 };
 
 /**
+ * Edit the profile of a user
+ * @param  {object} imageUrl The information about profile to be updated
+ * @return {object} server response
+ */
+
+export const profilePicture = imageUrl => (dispatch) => {
+  const token = localStorage.getItem('token') || null;
+  const decodeToken = decodeJwt(token);
+  const id = decodeToken.id;
+  const config = axiosConfig(token);
+  const picture = {
+    imageUrl
+  };
+  return axios.post(`/api/v1/user/profilePicture/${id}`, picture, config)
+    .then((response) => {
+      dispatch(profileChangeSuccess(true));
+    })
+    .catch((err) => {
+      dispatch(editProfileError(err.response.data));
+    });
+};
+
+/**
  * Add a collaborator to a todo
  * @param  {object} email The information about profile to be updated
  * @return {object} server response
@@ -425,5 +530,22 @@ export const addCollaborator = email => (dispatch) => {
     })
     .catch((err) => {
       dispatch(collaboratorError('No data was sent to update'));
+    });
+};
+
+/**
+ * Change a registered user password
+ * @param  {object} userData The data we're sending to change user password
+ * @param  {string} userData.password The new password
+ * @return {object} action type and data
+ */
+
+export const changePassword = userData => (dispatch) => {
+  return axios.post('/api/v1/changePassword', userData)
+    .then((response) => {
+      dispatch(passwordResetSuccess(response.data));
+    })
+    .catch((error) => {
+      dispatch(passwordResetError(error.response.data));
     });
 };

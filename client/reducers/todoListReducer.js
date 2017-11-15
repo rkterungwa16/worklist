@@ -22,7 +22,7 @@ const createGroup = (state = initialTodoState, action) => {
     case GET_TODO_ITEM_ID:
       return { ...state, todo: action.value };
     case CREATE_TODO:
-      return { ...state, todoItem: action.value };
+      return { ...state, todolists: [...state.todolists, action.value.createdTodo] };
     default:
       return state;
   }
