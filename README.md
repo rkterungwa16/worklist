@@ -50,7 +50,7 @@ Based on project requirement, Worklist has the following features:
 *  **[Redux.js](http://redux.js.org/)**
 
 ## Documentation
-For more in depth documentation see: **[here](https://kombolworklist.docs.apiary.io/#)**
+For more in depth documentation see: **[here](https://kombolworklist.docs.apiary.io/)**
 
 
 ## Installation and setup

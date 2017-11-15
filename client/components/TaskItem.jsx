@@ -22,7 +22,7 @@ import {
 /**
 * Task Item component
 */
-class TaskItem extends React.Component {
+export class TaskItem extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */

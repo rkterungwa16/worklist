@@ -628,9 +628,33 @@ describe('User', () => {
         done();
       });
   });
+
+  it('should send an email to reset password', (done) => {
+    request(app)
+      .post('/api/v1/resetEmail')
+      .send({
+        email: 'johndoe@example.com'
+      })
+      .expect(201)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((err, res) => {
+        expect(typeof res.body).toEqual('object');
+        done();
+      });
+  });
+
+  it('should not send an email to reset password for wrong password', (done) => {
+    request(app)
+      .post('/api/v1/resetEmail')
+      .send({
+        email: 'doe@example.com'
+      })
+      .expect(201)
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .end((err, res) => {
+        expect(typeof res.body).toEqual('object');
+        done();
+      });
+  });
 });
 
-// app.post('/api/v1/user/profilePicture/:userId', tokenSession, editProfilePicture);
-// app.post('/api/v1/changePassword', changePassword);
-// app.delete('/api/v1/deleteTask/:todoId/:taskId', deleteTask);
-// app.put('/api/v1/edit', tokenSession, editTask);

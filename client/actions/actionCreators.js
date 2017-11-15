@@ -549,7 +549,7 @@ export const addCollaborator = email => (dispatch) => {
       dispatch(collaboratorSuccess(response.data));
     })
     .catch((err) => {
-      dispatch(collaboratorError('No data was sent to update'));
+      dispatch(collaboratorError(err.response.data));
     });
 };
 

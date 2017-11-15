@@ -11,7 +11,7 @@ import {
 /**
 * Edit profile form for the application
 */
-class CollaboratorForm extends Component {
+export class CollaboratorForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -96,7 +96,7 @@ class CollaboratorForm extends Component {
         <div className='center'>
           <button
             className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-            id='signup-btn'
+            id='collab-btn'
             type='submit'
           >
             Add as Collaborator

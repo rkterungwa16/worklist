@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import loginFormValidation from '../helper/loginFormValidation';
@@ -10,7 +11,7 @@ import {
 /**
 * Login form form for the application
 */
-class LoginForm extends Component {
+export class LoginForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -74,7 +75,7 @@ class LoginForm extends Component {
         <div className='input-field'>
           <input
             className='validate'
-            id='email'
+            id='login-email'
             name='email'
             type='email'
             placeholder='Your email'
@@ -85,7 +86,7 @@ class LoginForm extends Component {
         <div className='input-field'>
           <input
             className='validate'
-            id='password'
+            id='login-password'
             name='password'
             type='password'
             placeholder='Your Password'
@@ -97,7 +98,7 @@ class LoginForm extends Component {
         <div className='center'>
           <button
             className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-            id='signup-btn'
+            id='login-btn'
             type='submit'
           >
             Login
@@ -111,8 +112,14 @@ class LoginForm extends Component {
 LoginForm.propTypes = {
   onSubmit: React.PropTypes.func.isRequired,
   setLoginError: React.PropTypes.func.isRequired,
-  error: React.PropTypes.shape({
-    loginError: '' }).isRequired,
+  error: PropTypes.Object
+};
+
+LoginForm.defaultProps = {
+  error: {
+    collaboratorFormError: ''
+  },
+  loginError: ''
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({

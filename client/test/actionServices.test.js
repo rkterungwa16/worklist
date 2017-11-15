@@ -19,7 +19,8 @@ import { registerUser, loginUser,
   changePassword,
   editTask,
   addCollaborator,
-  deleteTask
+  deleteTask,
+  sendEmailForReset
 } from '../actions/actionCreators';
 
 const instance = axios.create({
@@ -80,6 +81,10 @@ const initialCollaboratorState = {
 };
 
 const initialresetPasswordState = {
+  success: {}
+};
+
+const initialforgotPasswordState = {
   success: {}
 };
 
@@ -524,6 +529,29 @@ describe('Action creator services: ', () => {
           value: true }];
       const store = mockStore({});
       return store.dispatch(deleteTask({ todoId: '12345', taskInfo: '43435' })).then(() => {
+        const dispatchedActions = store.getActions();
+        expect(dispatchedActions).toEqual(expectedActions);
+      }
+      );
+    });
+  });
+
+  describe('Delete task', () => {
+    it('should dispatch TASK_IS_DELETED on successfully deleting a task', () => {
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 200,
+          response: initialforgotPasswordState,
+        });
+      });
+      const expectedActions = [
+        { type: 'EMAIL_SUCCESS',
+          value: {
+            success: {}
+          } }];
+      const store = mockStore({});
+      return store.dispatch(sendEmailForReset()).then(() => {
         const dispatchedActions = store.getActions();
         expect(dispatchedActions).toEqual(expectedActions);
       }

@@ -78,7 +78,7 @@ class TodoForm extends React.Component {
             <input
               className='validate black-text'
               type='text'
-              id='todo'
+              id='todo-input-form'
               name='todo'
               maxLength='25'
               placeholder='Create Your Todos'
@@ -90,6 +90,7 @@ class TodoForm extends React.Component {
             className='btn waves-effect waves-light app-btn'
             type='submit'
             name='action'
+            id='todo-btn'
           >
             Create Todo List
           </button>

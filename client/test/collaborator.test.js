@@ -1,26 +1,24 @@
 import React from 'react';
 import configureStore from 'redux-mock-store';
+import sinon from 'sinon';
 import thunk from 'redux-thunk';
-import { mount } from 'enzyme';
-import { LoginForm } from '../components/LoginForm';
+import { shallow, mount } from 'enzyme';
+import { CollaboratorForm } from '../components/CollaboratorForm';
 
-
-const initialLoginState = {
-  error: '',
-  sending: false,
-  loggedIn: false,
-  currentlySending: false
-};
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
+const initialCollaboratorState = {
+  success: {}
+};
 
-describe('Login', () => {
-  const store = mockStore(initialLoginState);
+
+describe('Task', () => {
+  const store = mockStore(initialCollaboratorState);
   describe('form:', () => {
     it('should dispatch an error action creator when no input in form', () => {
       const preventDefault = jest.fn();
-      const setLoginError = jest.fn();
+      const collaboratorError = jest.fn();
       const event = {
         target: {
           value: 'value',
@@ -29,17 +27,17 @@ describe('Login', () => {
         },
         preventDefault
       };
-      const wrapper = mount(<LoginForm
+      const wrapper = mount(<CollaboratorForm
         store={store}
-        setLoginError={setLoginError}
+        collaboratorError={collaboratorError}
       />);
       wrapper.find('form').simulate('submit', event);
-      expect(setLoginError).toHaveBeenCalled();
+      expect(collaboratorError).toHaveBeenCalled();
     });
 
-    it('should login a registered user', () => {
-      const onSubmit = jest.fn();
-      const setLoginError = jest.fn();
+    it('should add given email as collaborator', () => {
+      const addCollaborator = jest.fn();
+      const collaboratorError = jest.fn();
       const preventDefault = jest.fn();
       const event = {
         target: {
@@ -50,23 +48,22 @@ describe('Login', () => {
         preventDefault
       };
 
-      const wrapper = mount(<LoginForm
+      const wrapper = mount(<CollaboratorForm
         store={store}
-        setLoginError={setLoginError}
-        onSubmit={onSubmit}
+        collaboratorError={collaboratorError}
+        addCollaborator={addCollaborator}
       />);
 
       wrapper.setState({
-        email: 'john@gmail.com',
-        password: 'john'
+        email: 'john@gmail.com'
       });
       wrapper.instance().handleSubmit(event);
-      expect(onSubmit).toHaveBeenCalled();
+      expect(addCollaborator).toHaveBeenCalled();
     });
 
     it('should change state on change event', () => {
       const preventDefault = jest.fn();
-      const setLoginError = jest.fn();
+      const collaboratorError = jest.fn();
       const event = {
         target: {
           value: 'boss@gmail.com',
@@ -75,14 +72,13 @@ describe('Login', () => {
         },
         preventDefault
       };
-      const wrapper = mount(<LoginForm
+      const wrapper = mount(<CollaboratorForm
         store={store}
-        collaboratorError={setLoginError}
+        collaboratorError={collaboratorError}
       />);
       wrapper.instance().handleChange(event);
       expect(wrapper.state()).toEqual({
-        email: 'boss@gmail.com',
-        password: ''
+        email: 'boss@gmail.com'
       });
     });
   });

@@ -58,7 +58,7 @@ class SignupForm extends Component {
   render() {
     const { signupError } = this.props.error;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form id='form-id' onSubmit={this.handleSubmit}>
         {
           signupError ?
             <div className='red-text'>
@@ -72,7 +72,7 @@ class SignupForm extends Component {
             className='validate'
             name='username'
             type='text'
-            id='username'
+            id='signup-username'
             placeholder='Your username'
             value={this.state.username}
             onChange={this.handleChange}
@@ -81,7 +81,7 @@ class SignupForm extends Component {
         <div className='input-field'>
           <input
             className='validate'
-            id='email'
+            id='signup-email'
             name='email'
             type='email'
             placeholder='Your email'
@@ -93,7 +93,7 @@ class SignupForm extends Component {
           <input
             className='validate'
             name='password'
-            id='password'
+            id='signup-password'
             type='password'
             placeholder='Your Password'
             value={this.state.password}

@@ -12,7 +12,7 @@ import {
 /**
 * Reset Password form for the application
 */
-class ResetPasswordForm extends Component {
+export class ResetPasswordForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */

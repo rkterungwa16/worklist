@@ -45,12 +45,17 @@ class TodoListItem extends React.Component {
     return (
       <div>
         <a
+          id={`todo-link-btn${this.todo.todoId}`}
           className='collection-item'
           onClick={this.handleClick}
           role='menuitem'
           tabIndex='0'
         >
-          <span className='badge'>{this.props.todoItem.tasks.length}</span>
+          <span
+            id={`todo-text${this.todo.todoId}`}
+            className='badge'
+          >{this.props.todoItem.tasks.length}
+          </span>
           {this.props.todoItem.todo}
         </a>
       </div>
