@@ -109,13 +109,16 @@ export const editProfile = (req, res) => {
       salt
     };
   }
-  const options = { new: true };
-  User.findOneAndUpdate(query, update, options, (err, user) => {
+  // const options = { new: true };
+  User.findOne(query, (err, user) => {
     const hashedPassword = bcrypt.hashSync(currentPassword, user.salt);
 
     if (user.password !== hashedPassword) {
       res.status(422).send('Your password does not match');
     } else {
+      user.password = update.password || user.password;
+      user.salt = update.salt || user.salt;
+      user.username = update.username || user.username;
       res
         .status(200)
         .json({ user });
