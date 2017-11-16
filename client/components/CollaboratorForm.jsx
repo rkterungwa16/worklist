@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import collaboratorFormValidation from '../helper/collaboratorFormValidation';
 import {
-  collaboratorError,
-  addCollaborator
+  collaboratorFormValidation
+} from '../helper/formValidation';
+import {
+  collaboratorError
 } from '../actions/actionCreators';
+
+import {
+  addCollaborator
+} from '../actions/todoActionServices';
 
 /**
 * Edit profile form for the application
 */
-class CollaboratorForm extends Component {
+export class CollaboratorForm extends Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -95,7 +101,7 @@ class CollaboratorForm extends Component {
         <div className='center'>
           <button
             className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
-            id='signup-btn'
+            id='collab-form-btn'
             type='submit'
           >
             Add as Collaborator
@@ -110,10 +116,18 @@ CollaboratorForm.propTypes = {
   addCollaborator: React.PropTypes.func.isRequired,
   collaboratorError: React.PropTypes.func.isRequired,
   todoId: React.PropTypes.string.isRequired,
-  error: React.PropTypes.shape({
-    collaboratorFormError: '' }).isRequired,
-  collaborator: React.PropTypes.shape({
-    success: {} }).isRequired,
+  error: PropTypes.Object,
+  collaborator: PropTypes.Object
+};
+
+
+CollaboratorForm.defaultProps = {
+  error: {
+    collaboratorFormError: ''
+  },
+  collaborator: {
+    success: {}
+  }
 };
 
 const matchDispatchToProps = dispatch => bindActionCreators({

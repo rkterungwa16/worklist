@@ -1,137 +1,127 @@
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import decodeJwt from 'jwt-decode';
 import User from '../../../models/userModel';
 import Todo from '../../../models/todoListModel';
 import Task from '../../../models/taskModel';
 import app from '../../../../buildScripts/srcServer';
-import { setupDatabase, reset } from '../utils/db';
+import { reset } from '../utils/db';
 
 import mockUser from '../fixtures/userMockData.json';
+import mockTodo from '../fixtures/todoMockData.json';
+import mockTask from '../fixtures/taskMockData.json';
 
 const users = mockUser[0];
+const todo = mockTodo[0];
+const task = mockTask[0];
 
-describe('User', () => {
+describe('Worklist', () => {
   beforeEach(() => {
-    setupDatabase();
     const salt = bcrypt.genSaltSync(10);
     const password = bcrypt.hashSync(users.password, salt);
     User.create(new User({
+      _id: '59fc64377791732e09672530',
       username: users.username,
       email: users.email,
       password,
       salt
+    }));
+    Todo.create(new Todo({
+      _id: todo._id,
+      author: todo.author,
+      tasks: todo.tasks,
+      collaborators: todo.collaborators
+    }));
+
+    Task.create(new Task({
+      _id: task._id,
+      dateCreated: task.dateCreated,
+      task: task.task,
+      dueDate: task.dueDate,
+      priority: task.priority,
+      completed: task.completed
     }));
   });
 
   afterEach(() => {
     reset();
   });
-
-  it('should create a new user', (done) => {
-    request(app)
-      .post('/api/v1/user/signup')
-      .send({
-        username: 'newuser',
-        password: 'newuser_password',
-        email: 'newuser@example.com',
-        name: 'doe'
-      })
-      .expect(201)
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .end((err, res) => {
-        expect(typeof res.body).toEqual('object');
-        done();
-      });
-  });
-
-  it('should login', (done) => {
-    request(app)
-      .post('/api/v1/user/login')
-      .send({
-        password: 'johns',
-        email: 'johndoe@example.com'
-      })
-      .expect(201)
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .end((err, res) => {
-        expect(typeof res.body).toEqual('object');
-        done();
-      });
-  });
-
-  it('should create a todo', (done) => {
-    new User({
-      username: 'newuser',
-      password: 'newuser_password',
-      email: 'newuser@example.com',
-      name: 'doe'
-    }).save((err, user) => {
-      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
-        id: users.id }, 'secrete_key');
-      request(app)
-        .post(`/api/v1/todolist/${user._id}`)
-        .set('x-access-token', token)
-        .send({
-          todo: 'johns',
-          author: user._id
-        })
-        .expect(201)
-        .expect('Content-Type', 'application/json; charset=utf-8')
-        .end((err, res) => {
-          expect(typeof res.body).toEqual('object');
-          done();
-        });
-    });
-  });
-
-  // it('should get a user', (done) => {
-  //   new User({
-  //     username: 'newuser',
-  //     password: 'newuser_password',
-  //     email: 'newuser@example.com',
-  //     name: 'doe'
-  //   }).save((err, user) => {
-  //     const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
-  //       id: users.id }, 'secrete_key');
-  //     request(app)
-  //       .get(`/api/v1/user/${user._id}`)
-  //       .set('x-access-token', token)
-  //       .expect(201)
-  //       .expect('Content-Type', 'application/json; charset=utf-8')
-  //       .end((err, res) => {
-  //         expect(typeof res.body).toEqual('object');
-  //         done();
-  //       });
-  //   });
-  // });
-
-  it('should create a task', (done) => {
-    const dateCreated = new Date().getDate();
-    const dueDate = new Date().setDate(30);
-    const newTask = {
-      task: 'click bait',
-      dateCreated,
-      dueDate,
-      priority: 'normal'
-    };
-    new User({
-      username: 'newuser',
-      password: 'newuser_password',
-      email: 'newuser@example.com',
-      name: 'doe'
-    }).save((err, user) => {
-      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
-        id: users.id }, 'secrete_key');
-      const todo = new Todo({
-        author: user._id,
-        todo: 'Clear the rubbish'
-      });
-      todo.save((err, todo) => {
+  describe('user', () => {
+    describe('sign up', () => {
+      it('should create a new user', (done) => {
         request(app)
-          .post(`/api/v1/user/${user._id}/${todo._id}`)
-          .set('x-access-token', token)
-          .send(newTask)
+          .post('/api/v1/user/signup')
+          .send({
+            username: 'newuser',
+            password: 'newuser_password',
+            email: 'newuser@example.com',
+            name: 'doe'
+          })
+          .expect(201)
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .end((err, res) => {
+            expect(typeof res.body).toEqual('object');
+            done();
+          });
+      });
+
+      it('should return message for existing user', (done) => {
+        request(app)
+          .post('/api/v1/user/signup')
+          .send({
+            username: 'newuser',
+            password: 'newuser_password',
+            email: 'johndoe@example.com"',
+            name: 'doe'
+          })
+          .expect(422)
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .end((err, res) => {
+            expect(typeof res.body).toEqual('object');
+            done();
+          });
+      });
+    });
+
+    describe('login', () => {
+      it('should login a registered user', (done) => {
+        request(app)
+          .post('/api/v1/user/login')
+          .send({
+            password: 'johns',
+            email: 'johndoe@example.com'
+          })
+          .expect(201)
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .end((err, res) => {
+            expect(typeof res.body).toEqual('object');
+            done();
+          });
+      });
+
+      it('should not login a user that is not registered', (done) => {
+        request(app)
+          .post('/api/v1/user/login')
+          .send({
+            password: 'johns',
+            email: 'john@example.com'
+          })
+          .expect(201)
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .end((err, res) => {
+            expect(typeof res.body).toEqual('object');
+            done();
+          });
+      });
+
+      it('should not login a user with unmatched password', (done) => {
+        request(app)
+          .post('/api/v1/user/login')
+          .send({
+            password: 'john',
+            email: 'johndoe@example.com'
+          })
           .expect(201)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .end((err, res) => {
@@ -142,22 +132,105 @@ describe('User', () => {
     });
   });
 
-  it('should edit his profile', (done) => {
-    new User({
-      username: 'newuser',
-      password: 'newuser_password',
-      email: 'newuser@example.com',
-      name: 'doe'
-    }).save((err, user) => {
+  describe('todo', () => {
+    it('should create a todo', (done) => {
       const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
-        id: users.id }, 'secrete_key');
+        id: '59fc64377791732e09672530' }, 'secrete_key');
       request(app)
-        .post(`/api/v1/user/profile/${user._id}`)
+        .post('/api/v1/todos/')
         .set('x-access-token', token)
         .send({
-          password: 'johns',
-          username: 'johndoe'
+          todo: 'johns',
+          id: '59fc64377791732e09672530'
         })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should respond with an error message for wrong user id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/todos/')
+        .set('x-access-token', token)
+        .send({
+          todo: 'johns',
+          id: '59fc64377791732e096725'
+        })
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should get todos', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/todolist/59fc64377791732e09672530')
+        .set('x-access-token', token)
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should respond with error message for wrong user id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/todolist/59fc64377791732e09672')
+        .set('x-access-token', token)
+        .expect(400)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should get a todo', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/todo/53013524c6a9cb5e45868c01')
+        .set('x-access-token', token)
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should respond with an error message for wrong user id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/todo/53013524c6a9cb5e45868')
+        .set('x-access-token', token)
+        .expect(400)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should get todo lists of a user', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/todolist/59fc64377791732e09672530')
+        .set('x-access-token', token)
         .expect(201)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .end((err, res) => {
@@ -167,59 +240,427 @@ describe('User', () => {
     });
   });
 
-  it('should complete a task', (done) => {
-    const dateCreated = new Date().getDate();
-    const dueDate = new Date().setDate(30);
-    const newTask = {
-      task: 'click bait',
-      dateCreated,
-      dueDate,
-      priority: 'normal'
-    };
-    new User({
-      username: 'newuser',
-      password: 'newuser_password',
-      email: 'newuser@example.com',
-      name: 'doe'
-    }).save((err, user) => {
+  describe('task', () => {
+    it('should create a task', (done) => {
       const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
-        id: users.id }, 'secrete_key');
-      const todo = new Todo({
-        author: user._id,
-        todo: 'Clear the rubbish'
-      });
-      todo.save((err, todo) => {
-        const task = new Task(newTask);
-        task.save((err, task) => {
-          request(app)
-            .post('/api/v1/completeTask')
-            .set('x-access-token', token)
-            .send({
-              id: task._id,
-              completed: true
-            })
-            .expect(201)
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .end((err, res) => {
-              expect(typeof res.body).toEqual('object');
-              done();
-            });
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/tasks/')
+        .set('x-access-token', token)
+        .send({
+          id: '59fc64377791732e09672530',
+          todoId: '53013524c6a9cb5e45868c01',
+          dateCreated: '1970-01-01T00:00:00.003Z',
+          dueDate: '1970-01-01T00:00:00.003Z',
+          priority: 'critical',
+          task: 'my chore'
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
         });
-      });
+    });
+
+    it('should return error message for wrong todo id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/tasks/')
+        .set('x-access-token', token)
+        .send({
+          id: '59fc64377791732e09672530',
+          todoId: '53013524c6a9cb5e45868',
+          dateCreated: '1970-01-01T00:00:00.003Z',
+          dueDate: '1970-01-01T00:00:00.003Z',
+          priority: 'critical',
+          task: 'my chore'
+        })
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should get tasks', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/tasks/59fc64377791732e09672530/53013524c6a9cb5e45868c01')
+        .set('x-access-token', token)
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should return error message for wrong todo id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/tasks/59fc64377791732e09672530/53013524c6a9cb5e4586')
+        .set('x-access-token', token)
+        .expect(400)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should complete a task', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/completeTask')
+        .set('x-access-token', token)
+        .send({
+          id: task._id,
+          completed: true
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should return error message for wrong task id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/completeTask')
+        .set('x-access-token', token)
+        .send({
+          id: '123',
+          completed: true
+        })
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should set due date', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/dueDate')
+        .set('x-access-token', token)
+        .send({
+          id: task._id,
+          dueDate: new Date().getDate()
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should return error message for wrong task id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/dueDate')
+        .set('x-access-token', token)
+        .send({
+          id: '12334',
+          dueDate: new Date().getDate()
+        })
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should delete a task', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .delete('/api/v1/deleteTask/53013524c6a9cb5e45868c01/59fc51f2c8141e26c7bb9759')
+        .set('x-access-token', token)
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should not delete a task for a wrong todo id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .delete('/api/v1/deleteTask/59fc64377791732e09672530/53013524c6a9cb5e4586')
+        .set('x-access-token', token)
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should edit a task', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .put('/api/v1/edit')
+        .set('x-access-token', token)
+        .send({
+          taskId: '53013524c6a9cb5e4586',
+          task: 'New edit'
+        })
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should not edit a task for a wrong task id', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .put('/api/v1/edit')
+        .set('x-access-token', token)
+        .send({
+          taskId: '12233',
+          task: 'New edit'
+        })
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
     });
   });
-  // id_token
-  it('should login with google', (done) => {
-    request(app)
-      .post('/api/v1/auth/google')
-      .send({
-        id_token: '170866267321-gsutr8128dndq2cbftoea7n4tdagftom.apps.googleusercontent.com'
-      })
-      .expect(201)
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .end((err, res) => {
-        expect(typeof res.body).toEqual('object');
-        done();
-      });
+
+  describe('registered user', () => {
+    it('should get a user information', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .get('/api/v1/user/59fc64377791732e09672530')
+        .set('x-access-token', token)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    }, 20000);
+
+    it('should send an email to reset password', (done) => {
+      request(app)
+        .post('/api/v1/resetEmail')
+        .send({
+          email: 'johndoe@example.com'
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should not edit his profile password with empty strings', (done) => {
+      request(app)
+        .post('/api/v1/user/signup')
+        .send({
+          username: 'newuser',
+          password: 'newuser_password',
+          currentPassword: 'johns',
+          email: 'newuser@example.com',
+          name: 'doe'
+        })
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should edit his profile username only', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/user/profile/59fc64377791732e09672530')
+        .set('x-access-token', token)
+        .send({
+          newPassword: '',
+          currentPassword: 'johns',
+          username: 'johndoe'
+        })
+        .expect(401)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should edit his profile password only', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/user/profile/59fc64377791732e09672530')
+        .set('x-access-token', token)
+        .send({
+          newPassword: 'johndoe',
+          username: ''
+        })
+        .expect(401)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should add a collaborator', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/collaborator/')
+        .set('x-access-token', token)
+        .send({
+          todoId: '53013524c6a9cb5e45868c01',
+          email: 'johndoe@example.com'
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should send email if collaborator is not registered', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/collaborator/')
+        .set('x-access-token', token)
+        .send({
+          todoId: '53013524c6a9cb5e45868c01',
+          email: true
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should login with google', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/auth/google')
+        .send({
+          id_token: process.env.TOKEN_ID
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should profile image', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/user/profilePicture/59fc64377791732e09672530')
+        .set('x-access-token', token)
+        .send({
+          imageUrl: '/image/123k4'
+        })
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should not change image for a wrong user', (done) => {
+      const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + 10,
+        id: '59fc64377791732e09672530' }, 'secrete_key');
+      request(app)
+        .post('/api/v1/user/profilePicture/59fc64377791732e0967')
+        .set('x-access-token', token)
+        .send({
+          imageUrl: '/image/123k4'
+        })
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should change password', (done) => {
+      request(app)
+        .post('/api/v1/changePassword')
+        .send({
+          email: 'johndoe@example.com',
+          password: '12345'
+        })
+        .expect(200)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should not change password for a wrong user', (done) => {
+      request(app)
+        .post('/api/v1/changePassword')
+        .send({
+          email: 'john@example.com',
+          password: '12345'
+        })
+        .expect(422)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
+
+    it('should not send an email to reset password for wrong password', (done) => {
+      request(app)
+        .post('/api/v1/resetEmail')
+        .send({
+          email: 'doe@example.com'
+        })
+        .expect(201)
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .end((err, res) => {
+          expect(typeof res.body).toEqual('object');
+          done();
+        });
+    });
   });
 });
+

@@ -1,17 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import todoFormValidation from '../helper/todoFormValidation';
+import {
+  todoFormValidation
+} from '../helper/formValidation';
+import {
+  setTodoFormError
+} from '../actions/actionCreators';
 import {
   createTodo,
   getTodoList,
-  setTodoFormError
-} from '../actions/actionCreators';
+} from '../actions/todoActionServices';
 
 /**
 * Form to create todo lists
 */
-class TodoListForm extends React.Component {
+class TodoForm extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -46,7 +51,7 @@ class TodoListForm extends React.Component {
     event.preventDefault();
     if (todoFormValidation(this.state) === true) {
       this.props.createTodo(this.state);
-      this.props.getTodoList();
+      this.props.setTodoFormError('');
     } else {
       this.props.setTodoFormError(todoFormValidation(this.state));
     }
@@ -75,19 +80,21 @@ class TodoListForm extends React.Component {
         <div className='row'>
           <div className='input-field'>
             <input
-              className='validate'
+              className='validate black-text'
               type='text'
-              id='todo'
+              id='todo-input-form'
               name='todo'
-              placeholder='Your Todos'
+              maxLength='25'
+              placeholder='Create Your Todos'
               value={this.state.todo}
               onChange={this.handleChange}
             />
           </div>
           <button
-            className='btn waves-effect waves-light red'
+            className='btn waves-effect waves-light app-btn'
             type='submit'
             name='action'
+            id='todo-btn'
           >
             Create Todo List
           </button>
@@ -97,13 +104,18 @@ class TodoListForm extends React.Component {
   }
 }
 
-TodoListForm.propTypes = {
+TodoForm.propTypes = {
   createTodo: React.PropTypes.func.isRequired,
   getTodoList: React.PropTypes.func.isRequired,
   setTodoFormError: React.PropTypes.func.isRequired,
   todoList: React.PropTypes.shape([]).isRequired,
-  error: React.PropTypes.shape({
-    todoFormError: '' }).isRequired,
+  error: PropTypes.Object,
+};
+
+TodoForm.defaultProps = {
+  error: {
+    todoFormError: ''
+  }
 };
 
 const mapStateToProps = state => ({
@@ -117,4 +129,4 @@ const matchDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps,
-  matchDispatchToProps)(TodoListForm);
+  matchDispatchToProps)(TodoForm);

@@ -1,18 +1,24 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Tooltip from 'rc-tooltip';
 import { bindActionCreators } from 'redux';
-import taskFormValidation from '../helper/taskFormValidation';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import {
-  createTask,
-  getTasks,
+  taskFormValidation
+} from '../helper/formValidation';
+import {
   setTaskFormError
 } from '../actions/actionCreators';
+import {
+  createTask
+} from '../actions/taskActionServices';
 
 /**
 * Form to create todo lists
 */
-class TaskForm extends React.Component {
+export class TaskForm extends React.Component {
   /**
   * @param {objec} props Represents the state of the application
   */
@@ -46,19 +52,18 @@ class TaskForm extends React.Component {
     event.preventDefault();
     if (taskFormValidation(this.state) === true) {
       let priority;
-      if (document.getElementById('normalTask').checked) {
+      if (document.getElementById('normal').checked) {
         priority = 'normal';
-      } else if (document.getElementById('criticalTask').checked) {
+      } else if (document.getElementById('critical').checked) {
         priority = 'critical';
-      } else if (document.getElementById('urgentTask').checked) {
+      } else if (document.getElementById('urgent').checked) {
         priority = 'urgent';
       }
       this.props.createTask(this.state, this.props.todoId, priority);
-      this.props.getTasks(this.props.todoId);
+      this.props.setTaskFormError('');
     } else {
       this.props.setTaskFormError(taskFormValidation(this.state));
     }
-
 
     this.setState({
       task: '',
@@ -72,75 +77,131 @@ class TaskForm extends React.Component {
   render() {
     const { taskFormError } = this.props.error;
     return (
-      <form className='col s12' onSubmit={this.handleSubmit}>
-        {
-          this.state.task === '' && taskFormError ?
-            <div className='red-text'>
-              {taskFormError}
+
+      <div>
+        <form className='col s12' onSubmit={this.handleSubmit}>
+          {
+            this.state.task === '' && taskFormError ?
+              <div className='red-text'>
+                {taskFormError}
+              </div>
+              :
+              null
+          }
+          <div className='row col s12 m6 l6'>
+            <div className='input-field'>
+              <input
+                className='validate black-text'
+                type='text'
+                id='task-input-form'
+                name='task'
+                maxLength='65'
+                placeholder='Create Your Tasks'
+                value={this.state.task}
+                onChange={this.handleChange}
+              />
             </div>
-            :
-            null
-        }
-        <div className='row col s12 m6 l6'>
-          <div className='input-field'>
-            <input
-              className='validate'
-              type='text'
-              id='todolist'
-              name='task'
-              placeholder='Your Tasks'
-              value={this.state.task}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            <input
-              name='priority'
-              type='radio'
-              id='normalTask'
-              value='normal'
-              checked
-            />
-            <label htmlFor='normalTask'>Normal</label>
 
-            <input
-              name='priority'
-              type='radio'
-              id='criticalTask'
-              value='critical'
-            />
-            <label htmlFor='criticalTask'>Critical</label>
+            <div className='custom-radios'>
 
-            <input
-              name='priority'
-              type='radio'
-              id='urgentTask'
-              value='urgent'
-            />
-            <label htmlFor='urgentTask'>Urgent</label>
+              <Tooltip
+                placement='top'
+                overlay='Normal Task'
+                arrowContent={<div className='rc-tooltip-arrow-inner' />}
+              >
+                <div>
+                  <input
+                    name='priority'
+                    type='radio'
+                    id='normal'
+                    value='normal'
+                  />
+                  <label className='radio-label' htmlFor='normal'>
+                    <span>
+                      <img
+                        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg'
+                        alt='Checked Icon'
+                      />
+                    </span>
+                  </label>
+                </div>
+              </Tooltip>
+
+              <Tooltip
+                placement='top'
+                overlay='Critical Task'
+                arrowContent={<div className='rc-tooltip-arrow-inner' />}
+              >
+                <div>
+                  <input
+                    name='priority'
+                    type='radio'
+                    id='critical'
+                    value='critical'
+                  />
+                  <label className='radio-label' htmlFor='critical'>
+                    <span>
+                      <img
+                        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg'
+                        alt='Checked Icon'
+                      />
+                    </span>
+                  </label>
+                </div>
+              </Tooltip>
+
+              <Tooltip
+                placement='top'
+                overlay='Urgent Task'
+                arrowContent={<div className='rc-tooltip-arrow-inner' />}
+              >
+                <div>
+                  <input
+                    name='priority'
+                    type='radio'
+                    id='urgent'
+                    value='urgent'
+                  />
+                  <label className='radio-label' htmlFor='urgent'>
+                    <span>
+                      <img
+                        src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg'
+                        alt='Checked Icon'
+                      />
+                    </span>
+                  </label>
+                </div>
+              </Tooltip>
+
+              <div className='input-field add-task'>
+                <button
+                  id='task-btn'
+                  className='btn waves-effect waves-light app-btn'
+                  type='submit'
+                  name='action'
+                >
+                  Add Task
+                </button>
+              </div>
+            </div>
           </div>
-          <div className='input-field'>
-            <button
-              className='btn waves-effect waves-light red'
-              type='submit'
-              name='action'
-            >
-                Add Task
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }
 
 TaskForm.propTypes = {
   createTask: React.PropTypes.func.isRequired,
-  getTasks: React.PropTypes.func.isRequired,
   todoId: React.PropTypes.string.isRequired,
   setTaskFormError: React.PropTypes.func.isRequired,
-  error: React.PropTypes.shape({
-    taskFormError: '' }).isRequired,
+  error: PropTypes.Object,
+};
+
+TaskForm.defaultProps = {
+  error: {
+    taskFormError: ''
+  }
 };
 
 const mapStateToProps = state => ({
@@ -149,7 +210,6 @@ const mapStateToProps = state => ({
 
 const matchDispatchToProps = dispatch => bindActionCreators({
   createTask,
-  getTasks,
   setTaskFormError
 }, dispatch);
 

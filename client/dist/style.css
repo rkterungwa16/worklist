@@ -4421,36 +4421,6 @@ nav .input-field label.active i {
   }
 }
 
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Thin), url(/public6799264dc62c273b397886fe16428378.woff2) format("woff2"), url(/public64f595a3d6e7cd4d40583620e884b31e.woff) format("woff");
-  font-weight: 100;
-}
-
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Light), url(/public3305670a72d07aec13494ffc2f2352b7.woff2) format("woff2"), url(/public7bf7a0fd95a6c96940932f77cdb379ae.woff) format("woff");
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Regular), url(/publicf0e2a33643a0a0ef752fc158def208ae.woff2) format("woff2"), url(/publicc946e98d1dddacce4b36f9a68b35174d.woff) format("woff");
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Medium), url(/public0032f2523b064481e54bd254ba325ecb.woff2) format("woff2"), url(/publicc6eff5fb8dfcceda047b65431715c777.woff) format("woff");
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Bold), url(/public48b9286c4f3c52ed86866f040b3a6af4.woff2) format("woff2"), url(/publicd4d34bd6d3924caca6d0a246bfd46079.woff) format("woff");
-  font-weight: 700;
-}
-
 a {
   text-decoration: none;
 }
@@ -8309,10 +8279,19 @@ input[type=range]:focus::-ms-fill-upper {
   visibility: visible;
   -webkit-animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
           animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
-  -webkit-transition: opacity .3s, visibility 0s 1s, -webkit-transform .3s;
-  transition: opacity .3s, visibility 0s 1s, -webkit-transform .3s;
-  transition: opacity .3s, transform .3s, visibility 0s 1s;
-  transition: opacity .3s, transform .3s, visibility 0s 1s, -webkit-transform .3s;
+  -webkit-transition: opacity .3s,
+ visibility 0s 1s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ visibility 0s 1s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s 1s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s 1s,
+ -webkit-transform .3s;
 }
 
 .tap-target {
@@ -8365,10 +8344,19 @@ input[type=range]:focus::-ms-fill-upper {
 
 .tap-target-wave::after {
   visibility: hidden;
-  -webkit-transition: opacity .3s, visibility 0s, -webkit-transform .3s;
-  transition: opacity .3s, visibility 0s, -webkit-transform .3s;
-  transition: opacity .3s, transform .3s, visibility 0s;
-  transition: opacity .3s, transform .3s, visibility 0s, -webkit-transform .3s;
+  -webkit-transition: opacity .3s,
+ visibility 0s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ visibility 0s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s,
+ -webkit-transform .3s;
   z-index: -1;
 }
 
@@ -9387,6 +9375,33 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   stroke-linecap: round;
   /*shape-rendering: crispEdges;*/
 }
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  /*background-image: url("background.jpg");*/
+  background-color: #eeeeee;
+  font-style: normal;
+  font-variant-ligatures: normal;
+  font-variant-caps: normal;
+  font-variant-numeric: normal;
+  font-weight: bold;
+  font-stretch: normal;
+  font-size: 12px;
+  line-height: 18px;
+  font-family: sans-serif; }
+
+button.btn.waves-effect.waves-light.blue {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  margin-left: 700px;
+  margin-top: 20px; }
+
+#todo-page, #task-page {
+  height: 100%;
+  overflow: scroll; }
+
 .completed {
   text-decoration: line-through; }
 
@@ -9406,6 +9421,525 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   font-weight: 300;
   color: #fff;
   background: transparent; }
+
+.radio-label {
+  padding-left: 0px !important;
+  margin-right: 20px;
+  margin-bottom: 20px; }
+
+.transparent {
+  background-color: #1976d2 !important; }
+
+.radio-label:after {
+  background-color: transparent !important;
+  border: 0px !important; }
+
+.radio-label:before {
+  border: 0px !important; }
+
+img.responsive-img.circle.right.profile-img {
+  margin-top: 10px;
+  margin-left: 10px; }
+
+button.btn-floating.btn.waves-effect.waves-light.red {
+  margin-left: 20px; }
+
+.complete-input {
+  position: absolute;
+  margin-left: 750px;
+  background-color: cadetblue !important;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  border-radius: 50%; }
+
+.delete-btn {
+  position: absolute;
+  margin-left: 800px;
+  background-color: cadetblue !important;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  border-radius: 50%; }
+
+.edit-btn {
+  position: absolute;
+  margin-left: 700px;
+  background-color: cadetblue !important;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  border-radius: 50%; }
+
+.due-date-reminder {
+  font-size: smaller; }
+
+.card.white {
+  margin-left: 50px;
+  margin-top: 100px; }
+
+a.black-text.forgot-password {
+  margin: auto !important; }
+
+img.sigu-brand.logo {
+  margin-top: 10px !important; }
+
+span.task-priority {
+  margin-left: 10px;
+  font-size: large;
+  font-family: fantasy;
+  vertical-align: bottom; }
+
+div#taskCalendar {
+  border-bottom: ridge; }
+
+.custom-radios div {
+  display: inline-block; }
+
+.custom-radios input[type="radio"] + label {
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px; }
+  .custom-radios input[type="radio"] + label span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    line-height: 44px; }
+    .custom-radios input[type="radio"] + label span img {
+      opacity: 0;
+      transition: all .3s ease; }
+
+.custom-radios input[type="radio"]#normal + label span {
+  background-color: #2ecc71; }
+
+.custom-radios input[type="radio"]#urgent + label span {
+  background-color: #f1c40f; }
+
+.custom-radios input[type="radio"]#critical + label span {
+  background-color: #e74c3c; }
+
+.custom-radios input[type="radio"]:checked + label span img {
+  opacity: 1; }
+
+i.material-icons.tiny.black-text {
+  padding-top: 5px; }
+
+span.waves-effect.waves-light.task-cat.blue {
+  position: absolute;
+  font-size: large;
+  font-family: cursive; }
+
+div#todo-page {
+  margin-top: 0;
+  margin-bottom: 0; }
+
+nav .nav-wrapper {
+  position: relative;
+  height: 100%;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  z-index: 10001; }
+
+img.sigu-brand {
+  margin-top: 5px; }
+
+a#dropProfile {
+  margin-right: 25px; }
+
+.collab {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 100; }
+
+.add-task {
+  position: relative;
+  margin-top: 1rem;
+  margin-left: 20px; }
+
+img.sigu-brand.logo {
+  margin: auto; }
+
+.row {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px; }
+
+a.profile-nav {
+  display: -webkit-inline-box; }
+
+li.nav-img {
+  margin-right: 20px; }
+
+.dropdown-content {
+  background-color: #FFFFFF;
+  margin: 0;
+  display: none;
+  min-width: 170px;
+  /* Changed this to accomodate content width */
+  max-height: auto;
+  margin-left: -1px;
+  /* Add this to keep dropdown in line with edge of navbar */
+  overflow: hidden;
+  /* Changed this from overflow-y:auto; to overflow:hidden; */
+  opacity: 0;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 1;
+  will-change: width, height; }
+
+.app-btn {
+  background-color: #1976d2 !important; }
+
+.btn.waves-effect {
+  z-index: 0 !important; }
+
+input#todolist {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
+input#todo {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
+#edit-back-btn {
+  margin-top: 20px; }
+
+.collection.task {
+  margin-left: 20px; }
+
+span.color.grey-text.due-date-reminder-days {
+  margin-left: 20px; }
+
+ul#dropdown {
+  right: 20px !important;
+  left: inherit !important; }
+
+.profile-picture {
+  margin-left: 103px; }
+
+.spinner {
+  display: block;
+  position: fixed;
+  margin: auto;
+  top: 40%;
+  left: 45%; }
+
+button#clear-edit-btn {
+  position: absolute;
+  margin-left: 166px;
+  background-color: cadetblue !important;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 6px;
+  border-radius: 50%; }
+
+.edit-task-btn {
+  margin-left: 3px; }
+
+.input-field.edit-task-div {
+  margin-left: 20px; }
+
+#clear-edit-input {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px;
+  width: 450px !important; }
+
+input#todo-input-form {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
+input#task-input-form {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
+form#clear-edit-form {
+  display: -webkit-inline-box; }
+
+a.login-txt.red-text {
+  margin-left: 5px; }
+
+button.btn.blue.delete-modal-btn {
+  margin-left: 200px; }
+.rc-tooltip.rc-tooltip-zoom-enter,
+.rc-tooltip.rc-tooltip-zoom-leave {
+  display: block;
+}
+.rc-tooltip-zoom-enter,
+.rc-tooltip-zoom-appear {
+  opacity: 0;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+          animation-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+.rc-tooltip-zoom-leave {
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.6, -0.3, 0.74, 0.05);
+          animation-timing-function: cubic-bezier(0.6, -0.3, 0.74, 0.05);
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+.rc-tooltip-zoom-enter.rc-tooltip-zoom-enter-active,
+.rc-tooltip-zoom-appear.rc-tooltip-zoom-appear-active {
+  -webkit-animation-name: rcToolTipZoomIn;
+          animation-name: rcToolTipZoomIn;
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}
+.rc-tooltip-zoom-leave.rc-tooltip-zoom-leave-active {
+  -webkit-animation-name: rcToolTipZoomOut;
+          animation-name: rcToolTipZoomOut;
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}
+@-webkit-keyframes rcToolTipZoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+}
+@keyframes rcToolTipZoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+}
+@-webkit-keyframes rcToolTipZoomOut {
+  0% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+  }
+}
+@keyframes rcToolTipZoomOut {
+  0% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+  }
+}
+.rc-tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  visibility: visible;
+  line-height: 1.5;
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1px;
+  opacity: 0.9;
+}
+.rc-tooltip-hidden {
+  display: none;
+}
+.rc-tooltip-inner {
+  padding: 8px 10px;
+  color: #333333;
+  text-align: left;
+  text-decoration: none;
+  background-color: #ffffff;
+  border-radius: 3px;
+  min-height: 34px;
+  border: 1px solid #b1b1b1;
+}
+.rc-tooltip-arrow,
+.rc-tooltip-arrow-inner {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.rc-tooltip-placement-top .rc-tooltip-arrow,
+.rc-tooltip-placement-topLeft .rc-tooltip-arrow,
+.rc-tooltip-placement-topRight .rc-tooltip-arrow {
+  bottom: -5px;
+  margin-left: -6px;
+  border-width: 6px 6px 0;
+  border-top-color: #b1b1b1;
+}
+.rc-tooltip-placement-top .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-topLeft .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-topRight .rc-tooltip-arrow-inner {
+  bottom: 1px;
+  margin-left: -6px;
+  border-width: 6px 6px 0;
+  border-top-color: #ffffff;
+}
+.rc-tooltip-placement-top .rc-tooltip-arrow {
+  left: 50%;
+}
+.rc-tooltip-placement-topLeft .rc-tooltip-arrow {
+  left: 15%;
+}
+.rc-tooltip-placement-topRight .rc-tooltip-arrow {
+  right: 15%;
+}
+.rc-tooltip-placement-right .rc-tooltip-arrow,
+.rc-tooltip-placement-rightTop .rc-tooltip-arrow,
+.rc-tooltip-placement-rightBottom .rc-tooltip-arrow {
+  left: -5px;
+  margin-top: -6px;
+  border-width: 6px 6px 6px 0;
+  border-right-color: #b1b1b1;
+}
+.rc-tooltip-placement-right .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-rightTop .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-rightBottom .rc-tooltip-arrow-inner {
+  left: 1px;
+  margin-top: -6px;
+  border-width: 6px 6px 6px 0;
+  border-right-color: #ffffff;
+}
+.rc-tooltip-placement-right .rc-tooltip-arrow {
+  top: 50%;
+}
+.rc-tooltip-placement-rightTop .rc-tooltip-arrow {
+  top: 15%;
+  margin-top: 0;
+}
+.rc-tooltip-placement-rightBottom .rc-tooltip-arrow {
+  bottom: 15%;
+}
+.rc-tooltip-placement-left .rc-tooltip-arrow,
+.rc-tooltip-placement-leftTop .rc-tooltip-arrow,
+.rc-tooltip-placement-leftBottom .rc-tooltip-arrow {
+  right: -5px;
+  margin-top: -6px;
+  border-width: 6px 0 6px 6px;
+  border-left-color: #b1b1b1;
+}
+.rc-tooltip-placement-left .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-leftTop .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-leftBottom .rc-tooltip-arrow-inner {
+  right: 1px;
+  margin-top: -6px;
+  border-width: 6px 0 6px 6px;
+  border-left-color: #ffffff;
+}
+.rc-tooltip-placement-left .rc-tooltip-arrow {
+  top: 50%;
+}
+.rc-tooltip-placement-leftTop .rc-tooltip-arrow {
+  top: 15%;
+  margin-top: 0;
+}
+.rc-tooltip-placement-leftBottom .rc-tooltip-arrow {
+  bottom: 15%;
+}
+.rc-tooltip-placement-bottom .rc-tooltip-arrow,
+.rc-tooltip-placement-bottomLeft .rc-tooltip-arrow,
+.rc-tooltip-placement-bottomRight .rc-tooltip-arrow {
+  top: -5px;
+  margin-left: -6px;
+  border-width: 0 6px 6px;
+  border-bottom-color: #b1b1b1;
+}
+.rc-tooltip-placement-bottom .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-bottomLeft .rc-tooltip-arrow-inner,
+.rc-tooltip-placement-bottomRight .rc-tooltip-arrow-inner {
+  top: 1px;
+  margin-left: -6px;
+  border-width: 0 6px 6px;
+  border-bottom-color: #ffffff;
+}
+.rc-tooltip-placement-bottom .rc-tooltip-arrow {
+  left: 50%;
+}
+.rc-tooltip-placement-bottomLeft .rc-tooltip-arrow {
+  left: 15%;
+}
+.rc-tooltip-placement-bottomRight .rc-tooltip-arrow {
+  right: 15%;
+}
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow {
   margin-left: -8px;

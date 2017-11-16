@@ -1,12 +1,7 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  getTasks,
-  getTodoList
-} from '../actions/actionCreators';
 import TodoItem from './TodoItem';
-import AddedTodoItem from './AddedTodoItem';
 
 
 /**
@@ -23,53 +18,22 @@ class TodoList extends React.Component {
   }
 
   /**
-   * A react lifecycle method
-   * Get all todos of a user when this component mounts
-   * @memberof TodoItem
-   * @return {*} null
-   */
-  componentWillMount() {
-    this.props.getTodoList();
-  }
-
-  /**
-   * A react lifecycle method
-   * Recieve the current state of the application
-   * @param {any} nextProps
-   * @memberof TodoList
-   * @return {*} null
-  */
-  componentWillReceiveProps(nextProps) {
-    this.setState({ todos: nextProps.currentState.todo.todolists });
-  }
-
-  /**
   * Create a template of all tasks for a todo list
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
-    const addedTodo = this.props.currentState.todo.todoItem;
-    const todoItems = this.state.todos.map((todoItem) => {
+    const todos = this.props.todo.todolists;
+    const todoItems = todos.map((todoItem) => {
       return (
         <TodoItem
           key={todoItem._id}
           todoItem={todoItem}
-          getTasks={getTasks}
         />
       );
     });
     return (
       <div className='collection'>
         {todoItems}
-        {
-          addedTodo.createdTodo !== undefined ?
-            <AddedTodoItem
-              todoItem={addedTodo.createdTodo}
-              getTasks={getTasks}
-            />
-            :
-            null
-        }
       </div>
     );
   }
@@ -77,21 +41,19 @@ class TodoList extends React.Component {
 
 
 TodoList.propTypes = {
-  getTodoList: React.PropTypes.func.isRequired,
-  currentState: React.PropTypes.shape({
-    todo: {}
-  }).isRequired
+  todo: PropTypes.Object
+};
+
+TodoList.defaultProps = {
+  todo: {
+    todoItem: {}
+  }
 };
 
 const mapStateToProps = state => ({
-  currentState: state
+  todo: state.todo
 });
 
-const matchDispatchToProps = dispatch => bindActionCreators({
-  getTasks,
-  getTodoList
-}, dispatch);
-
 export default connect(mapStateToProps,
-  matchDispatchToProps)(TodoList);
+  null)(TodoList);
 

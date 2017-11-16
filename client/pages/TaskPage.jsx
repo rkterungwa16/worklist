@@ -11,9 +11,9 @@ class TaskPage extends React.Component {
   */
   constructor(props) {
     super(props);
-    this.createdTask = {};
-    this.tasks = [];
-    this.todo = {};
+    this.state = {
+      tasks: this.props.task.tasks,
+      todo: this.props.todo };
   }
 
   /**
@@ -24,10 +24,9 @@ class TaskPage extends React.Component {
    * @return {*} null
   */
   componentWillReceiveProps(nextProps) {
-    this.tasks = nextProps.currentState.task.tasks;
-    this.createdTask = nextProps.currentState.task.task;
-    this.tasks = nextProps.currentState.task.tasks;
-    this.todo = nextProps.currentState.todo.todoId;
+    this.setState({
+      tasks: nextProps.task.tasks,
+      todo: nextProps.todo });
   }
 
   /**
@@ -35,11 +34,15 @@ class TaskPage extends React.Component {
   * @returns {object} an object representing the html template of all tasks for a todo list.
   */
   render() {
+    const { todo, tasks } = this.state;
     return (
-      <div className='col s12 m8 l9 blue darken-1'>
+      <div
+        className='col s12 m8 l9'
+        id='task-page'
+      >
         <TaskList
-          tasks={this.tasks}
-          todo={this.todo}
+          tasks={tasks}
+          todo={todo}
         />
       </div>
     );
@@ -47,14 +50,17 @@ class TaskPage extends React.Component {
 }
 
 TaskPage.propTypes = {
-  currentState: React.PropTypes.shape({
+  task: React.PropTypes.shape({
     task: {},
-    todo: {}
-  }).isRequired
+    tasks: {}
+  }).isRequired,
+  todo: React.PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => ({
-  currentState: state
+  todo: state.todo.todo,
+  task: state.task
+
 });
 
 export default connect(mapStateToProps)(TaskPage);

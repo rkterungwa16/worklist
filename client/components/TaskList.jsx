@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
 import TaskItem from './TaskItem';
 import TaskForm from '../components/TaskForm';
-import AddedTaskItem from '../components/AddedTaskItem';
 import CollaboratorForm from '../components/CollaboratorForm';
 
 /**
@@ -24,10 +25,19 @@ class TaskList extends React.Component {
     this.closeModal = this.closeModal.bind(this);
 
     this.customStyles = {
+      overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.75)'
+      },
       content: {
-        top: '20%',
-        left: '60%',
+        top: '30%',
+        left: '52%',
         right: 'auto',
+        // background: '#bbb',
         bottom: 'auto',
         marginRight: '0%',
         transform: 'translate(-50%, -50%)'
@@ -65,56 +75,57 @@ class TaskList extends React.Component {
     const tasks = this.props.tasks;
     const todo = this.props.todo;
     const task = this.props.task;
-    const taskItems = tasks.map((taskItem) => {
-      return (
-        <TaskItem
-          key={taskItem._id}
-          tasks={taskItem}
-        />
-      );
-    });
+    const taskItems = tasks.map(taskItem => (
+      <TaskItem
+        key={taskItem._id}
+        tasks={taskItem}
+        todoId={todo._id}
+      />
+    ));
 
     return (
       <div>
         {
-          todo ?
+          todo.todo !== undefined ?
             <div>
-              <div className='card col l6'>
-                <h4>{todo.todo}</h4>
+              <div className='col l6'>
+                <h4>{todo.todo}
+                  <Tooltip
+                    placement='top'
+                    overlay='Add Collaborator'
+                    arrowContent={<div className='rc-tooltip-arrow-inner' />}
+                  >
+
+                    <button
+                      id='collab-btn'
+                      onClick={this.openModal}
+                      className='btn-floating btn-large collab waves-effect waves-light red'
+                    >
+                      <i className='material-icons'>group_add</i>
+                    </button>
+                  </Tooltip>
+                </h4>
+
               </div>
               <div className='row'>
                 <TaskForm
-                  todoId={todo.todoId}
+                  todoId={todo._id}
                 />
               </div>
 
-              <div>
-                <button
-                  onClick={this.openModal}
-                  className='btn waves-effect waves-light red'
-                >
-                  Add Collaborator
-                </button>
-              </div>
               <Modal
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}
                 style={this.customStyles}
+                contentLabel='Add Collaborator'
               >
+                <h5>Enter a registered email to add as collaborator</h5>
                 <CollaboratorForm
-                  todoId={this.props.todo.todoId}
+                  todoId={this.props.todo._id}
                 />
               </Modal>
-              <div className='collection'>
+              <div className='collection task'>
                 {taskItems}
-                {
-                  task.task !== undefined ?
-                    <AddedTaskItem
-                      tasks={task.task}
-                    />
-                    :
-                    null
-                }
               </div>
             </div>
             :

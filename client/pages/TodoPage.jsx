@@ -5,7 +5,7 @@ import TodoList from '../components/TodoList';
 import TodolistForm from '../components/TodoForm';
 import { createTodo,
   getTodoList
-} from '../actions/actionCreators';
+} from '../actions/todoActionServices';
 
 /**
 * Task Page form component
@@ -27,7 +27,7 @@ class TodoListPage extends React.Component {
    * @memberof TodoListPage
    * @return {*} null
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getTodoList();
   }
 
@@ -60,7 +60,10 @@ class TodoListPage extends React.Component {
     const formState = this.props.currentState.todo.formState;
     const todoList = this.props.currentState.todo.todolists;
     return (
-      <div className='col s12 m4 l3 color white'>
+      <div
+        className='card col s12 m4 l3 color white'
+        id='todo-page'
+      >
         <TodolistForm
           onSubmit={this.createTodo}
           formState={formState}

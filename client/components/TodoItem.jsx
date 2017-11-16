@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   getTasks,
+} from '../actions/taskActionServices';
+import {
   getTodoItem
-} from '../actions/actionCreators';
+} from '../actions/todoActionServices';
 
 /**
 * Get all todos for a user
@@ -29,7 +32,7 @@ class TodoListItem extends React.Component {
   handleClick(event) {
     event.preventDefault();
     this.props.getTasks(this.id);
-    this.props.getTodoItem(this.todo);
+    this.props.getTodoItem(this.id);
   }
 
   /**
@@ -44,12 +47,17 @@ class TodoListItem extends React.Component {
     return (
       <div>
         <a
+          id={`todo-link-btn${this.todo.todoId}`}
           className='collection-item'
           onClick={this.handleClick}
           role='menuitem'
           tabIndex='0'
         >
-          <span className='badge'>{this.props.todoItem.tasks.length}</span>
+          <span
+            id={`todo-text${this.todo.todoId}`}
+            className='badge'
+          >{this.props.todoItem.tasks.length}
+          </span>
           {this.props.todoItem.todo}
         </a>
       </div>
@@ -58,12 +66,17 @@ class TodoListItem extends React.Component {
 }
 
 TodoListItem.propTypes = {
-  todoItem: React.PropTypes.shape({
-    todo: '',
-    tasks: []
-  }).isRequired,
+  todoItem: PropTypes.Object,
   getTasks: React.PropTypes.func.isRequired,
   getTodoItem: React.PropTypes.func.isRequired
+};
+
+
+TodoListItem.defaultProps = {
+  todoItem: {
+    todo: '',
+    tasks: []
+  }
 };
 
 

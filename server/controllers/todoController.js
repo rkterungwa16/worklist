@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer';
-import jwt from 'jsonwebtoken';
 import smtpTransport from 'nodemailer-smtp-transport';
 import User from '../models/userModel';
 import TodoList from '../models/todoListModel';
@@ -11,11 +10,13 @@ import Tasks from '../models/taskModel';
 * @param {object} res for second parameter
 * @returns {object} a response object
 */
-export const createTodoList = (req, res) => {
-  const id = req.params.id;
+export const createTodo = (req, res) => {
+  const id = req.body.id;
   const todo = req.body.todo;
-
   User.findById(id, (err, user) => {
+    if (!user) {
+      return res.status(422).send('User does not exist');
+    }
     const newTodo = {
       author: user._id,
       todo
@@ -37,12 +38,13 @@ export const createTodoList = (req, res) => {
   * @returns {object} a response object
   */
 export const createTasks = (req, res) => {
-  const todoId = req.params.todoid;
-  const id = req.params.id;
-  const task = req.body.task.task;
+  const todoId = req.body.todoId;
+  const id = req.body.id;
+  const task = req.body.task;
   const priority = req.body.priority;
-  const dateCreated = new Date().getDate();
-  const dueDate = new Date().getDate();
+  const dateCreated = new Date().getDate().now;
+  const dueDate = new Date().getDate().now;
+  const completed = '';
 
   const query = {
     _id: todoId,
@@ -58,26 +60,57 @@ export const createTasks = (req, res) => {
     ]
   };
 
-  TodoList.findOne(query, (err, todolist) => {
-    const defaultTask = {
+  TodoList.findOne(query, (err, todos) => {
+    if (!todos) {
+      return res.status(422).send('Todo does not exist');
+    }
+    const currentTask = {
       task,
       dateCreated,
       dueDate,
-      priority
+      priority,
+      completed
     };
-
-    new Tasks(defaultTask).save((err, newtask) => {
-      todolist.tasks.push(newtask);
-      todolist.save();
+    new Tasks(currentTask).save((err, newtask) => {
+      todos.tasks.push(newtask);
+      todos.save();
       res
         .status(201)
         .json({
           task: newtask,
-          todolist
+          todos
         });
     });
   });
 };
+
+/**
+  * Delete a task for a todo
+  * @param {object} req for first parameter
+  * @param {object} res for second parameter
+  * @returns {object} a response object
+  */
+export const deleteTask = (req, res) => {
+  const taskId = req.params.taskId;
+  const todoId = req.params.todoId;
+  const query = {
+    _id: todoId
+  };
+
+  TodoList.findOne(query, (err, todo) => {
+    if (!todo) {
+      return res.status(422).send('Todo does not exist');
+    }
+    todo.tasks.remove(taskId);
+    todo.save();
+    const response = {
+      message: 'Task successfully deleted',
+      todo
+    };
+    res.status(200).send(response);
+  });
+};
+
 
 /**
 * Get todo lists
@@ -100,13 +133,37 @@ export const getTodoList = (req, res) => {
     ]
   };
 
-  // Get all todos for which I am the author
-  // Get all todos for which I am a collaborator
   TodoList.find(query, (err, todolist) => {
-    console.log('THIS IS THE VALUE OF COLLAB TODO', todolist);
+    if (!todolist) {
+      return res.status(400)
+        .send('This user does not have a todolist');
+    }
     res
       .status(200)
       .send(todolist);
+  });
+};
+
+/**
+* Get todo lists
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const getTodoItem = (req, res) => {
+  const id = req.params.todoId;
+  const query = {
+    _id: id
+  };
+
+  TodoList.findOne(query, (err, todo) => {
+    if (!todo) {
+      return res.status(400)
+        .send('This todo does not exist');
+    }
+    res
+      .status(200)
+      .send(todo);
   });
 };
 
@@ -137,6 +194,10 @@ export const getTasks = (req, res) => {
     .find(query)
     .populate('tasks')
     .exec((err, todo) => {
+      if (!todo) {
+        return res.status(422)
+          .send('Todo does not exist');
+      }
       res
         .status(200)
         .send(todo[0].tasks);
@@ -163,6 +224,37 @@ export const completeTask = (req, res) => {
   };
   const options = { new: true };
   Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    if (!task) {
+      return res.status(422)
+        .send('Task does not exist');
+    }
+    res
+      .status(200)
+      .send(task);
+  });
+};
+
+/**
+* Update tasks that are completed
+* @param {object} req for first parameter
+* @param {object} res for second parameter
+* @returns {object} a response object
+*/
+export const editTask = (req, res) => {
+  const id = req.body.taskId;
+  const task = req.body.task;
+  const query = {
+    _id: id
+  };
+  const update = {
+    task
+  };
+  const options = { new: true };
+  Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    if (!task) {
+      return res.status(422)
+        .send('Task does not exist');
+    }
     res
       .status(200)
       .send(task);
@@ -187,6 +279,10 @@ export const taskDueDate = (req, res) => {
   };
   const options = { new: true };
   Tasks.findOneAndUpdate(query, update, options, (err, task) => {
+    if (!task) {
+      return res.status(422)
+        .send('Task does not exist');
+    }
     res
       .status(200)
       .send(task);
@@ -209,6 +305,12 @@ export const addCollaborator = (req, res) => {
   User.findOne(query, (err, user) => {
     if (user) {
       TodoList.findOne({ _id: todoId }, (err, todo) => {
+        const collaborator = todo.collaborators.indexOf(user._id);
+        if (user._id.equals(todo.author) || collaborator > -1) {
+          return res
+            .status(400)
+            .send('This user already has access to this todo');
+        }
         todo.collaborators.push(user);
         todo.save();
         const transport = nodemailer.createTransport(smtpTransport({
@@ -226,34 +328,10 @@ export const addCollaborator = (req, res) => {
           You can now create tasks for this todo</h3>`
         };
         transport.sendMail(mailOptions);
+        return res.status(201).send({ status: 'An email has been sent to the collaborator' });
       });
-      return res.status(201).send({ status: 'An email has been sent to the collaborator' });
+    } else {
+      res.status(201).send({ status: 'This user is not registered' });
     }
-    const token = jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60),
-      id: todoId }, process.env.SECRET_KEY);
-    const transport = nodemailer.createTransport(smtpTransport({
-      service: 'Gmail', // sets automatically host, port and connection security settings
-      auth: {
-        user: 'kombolpostitapp@gmail.com',
-        pass: 'kombolPostIt'
-      }
-    }));
-    const mailOptions = {
-      to: email,
-      from: 'kombol@Worklist.com',
-      subject: 'Add you as a collaborator',
-      html: `<h4>You are receiving this because you (or someone else) has added you as a collaborator.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:</h4>
-        <a
-          href='http://${req.headers.host}/#/collaborator/${token}'
-        >
-        Sign Up
-        </a>
-
-        <h4>If you did not request this, please ignore this email and your password will remain unchanged.</h4>`
-    };
-    transport.sendMail(mailOptions);
-    res.status(201).send({ status: 'An email has been sent to the collaborator' });
   });
 };
-

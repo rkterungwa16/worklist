@@ -1,7 +1,3 @@
-import axios from 'axios';
-import decodeJwt from 'jwt-decode';
-import localStorage from 'localStorage';
-import axiosConfig from '../helper/axiosConfig';
 
 /**
  * Ensure successfull google sign up
@@ -14,14 +10,72 @@ export const profileChangeSuccess = value => ({
 });
 
 /**
- * Ensure successfull google sign up
+ * Sets the `currentlySending` state, which displays a loading indicator during requests
+ * @param  {boolean} value True means we're sending a request, false means we're not
+ * @return {object} action type and data
+ */
+export const sendingRequest = value => ({ type: 'SENDING_REQUEST', value });
+
+/**
+ * Ensure successfull user log out
  * @param  {boolean} value true means the group has been created hence route redirected.
+ * @return {object} action type and data
+ */
+export const userLogout = value => ({
+  type: 'USER_LOGOUT',
+  value
+});
+
+/**
+ * Ensure successfull adding of collaborator
+ * @param  {boolean} value true means collaborator was successfully added.
  * @return {object} action type and data
  */
 export const collaboratorSuccess = value => ({
   type: 'ADDED_COLLABORATOR_SUCCESS',
   value
 });
+
+/**
+ * Set reset password form error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const passwordResetError = value => ({
+  type: 'PASSWORD_RESET_FORM_ERROR',
+  value
+});
+
+/**
+ * Set reset password form error
+ * @param  {string} value a string representing the proper error type.
+ * @return {object} action type and data
+ */
+export const forgotPasswordError = value => ({
+  type: 'FORGOT_PASSWORD_FORM_ERROR',
+  value
+});
+
+/**
+ * Ensure successfull email sent
+ * @param  {boolean} value true means the email was successfully sent
+ * @return {object} action type and data
+ */
+export const passwordResetSuccess = value => ({
+  type: 'PASSWORD_RESET_SUCCESS',
+  value
+});
+
+/**
+ * Ensure successfull email sent
+ * @param  {boolean} value true means the email was successfully sent
+ * @return {object} action type and data
+ */
+export const emailSuccess = value => ({
+  type: 'EMAIL_SUCCESS',
+  value
+});
+
 
 /**
  * Set the signup  error
@@ -90,6 +144,19 @@ export const setTaskFormError = value => ({
  */
 export const setAuthState = newAuthState => ({ type: 'SET_AUTH', newAuthState });
 
+/**
+ * Confirms that a task is deleted
+ * @param  {boolean} value True means a task is deleted
+ * @return {object} action type and data
+ */
+export const deletedTask = value => ({ type: 'TASK_IS_DELETED', value });
+
+/**
+ * Confirms that a task is being edited
+ * @param  {boolean} value True means a task is being edited
+ * @return {object} action type and data
+ */
+export const editingTask = value => ({ type: 'EDITING_TASK', value });
 
 /**
  * Updates the form state when registering a user
@@ -126,7 +193,7 @@ export const getTasksAction = value => ({
  * @param  {boolean} value user created todo lists
  * @return {object} action type and data
  */
-export const getTodoItem = value => ({
+export const getTodoItemAction = value => ({
   type: 'GET_TODO_ITEM_ID',
   value
 });
@@ -191,209 +258,3 @@ export const taskCompleteUpdate = value => ({
   value
 });
 
-
-/**
- * Tells the app we want to register a user
- * @param  {object} userInfo The data we're sending for registration
- * @param  {string} userInfo.username The username of the user to register
- * @param  {string} userInfo.password The password of the user to register
- * @return {object} server response
- */
-
-export const registerUser = userInfo => (dispatch) => {
-  return axios.post('/api/v1/user/signup', userInfo)
-    .then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(setAuthState(true));
-    });
-};
-
-/**
- * Tells the app we want to login a user using google
- * @param  {object} userData The data we're sending for login
- * @param  {string} userData.username The username of the user to login
- * @param  {string} userData.email The password of the user to login
- * @return {object} action type and data
- */
-
-export const googleSignup = userData => (dispatch) => {
-  return axios.post('/api/v1/auth/google', userData)
-    .then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(setAuthState(true));
-    });
-};
-
-/**
- * Tells the app we want to login a user
- * @param  {object} userData The data we're sending for login
- * @param  {string} userData.username The username of the user to login
- * @param  {string} userData.password The password of the user to login
- * @return {object} action type and data
- */
-
-export const loginUser = userData => (dispatch) => {
-  return axios.post('/api/v1/user/login', userData)
-    .then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(setAuthState(true));
-    });
-};
-
-/**
- * Todo just created by a user
- * @param  {object} todo an object of the created todo
- * @return {object} server response
- */
-
-export const createTodo = todo => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
-  const config = axiosConfig(token);
-  return axios.post(`/api/v1/todolist/${id}`, todo, config)
-    .then((response) => {
-      dispatch(todoCreated(response.data));
-    });
-};
-
-/**
- * Get a users todo list
- * @return {object} server response
- */
-
-export const getTodoList = () => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
-  const config = axiosConfig(token);
-  return axios.get(`/api/v1/todolist/${id}`, config)
-    .then((response) => {
-      dispatch(getTodoLists(response.data));
-    });
-};
-
-/**
- * Get a users
- * @return {object} server response
- */
-
-export const getCurrentUser = () => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
-  const config = axiosConfig(token);
-  return axios.get(`/api/v1/user/${id}`, config)
-    .then((response) => {
-      dispatch(getUser(response.data));
-    });
-};
-
-/**
- * Tells the app we want to create a task for a todo
- * @param  {object} task The task just created by the user
- * @param  {object} priority The priority level for each task
- * @param  {object} todoId The id for a todo
- * @return {object} server response
- */
-
-export const createTask = (task, todoId, priority) => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
-  const taskInfo = {
-    task,
-    priority
-  };
-  const config = axiosConfig(token);
-  return axios.post(`/api/v1/tasks/${id}/${todoId}`, taskInfo, config)
-    .then((response) => {
-      dispatch(taskCreated(response.data));
-    });
-};
-
-/**
- * Tells the app we want to update the complete state of a task
- * @param  {object} task The information about task to be updated
- * @return {object} server response
- */
-
-export const completeTask = task => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const config = axiosConfig(token);
-  return axios.post('/api/v1/completeTask/', task, config)
-    .then((response) => {
-      dispatch(taskCompleteUpdate(response.data));
-    });
-};
-
-/**
- * Tells the app we want to update the task due date
- * @param  {object} task The information about task to be updated
- * @return {object} server response
- */
-
-export const setTaskDueDate = task => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const config = axiosConfig(token);
-  return axios.post('/api/v1/dueDate/', task, config)
-    .then((response) => {
-      dispatch(taskDueDate(response.data));
-    });
-};
-
-/**
- * Get todo list of a user
- * @param  {object} todoId The id of todo we're getting tasks for
- * @return {object} server response
- */
-
-export const getTasks = todoId => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
-  const config = axiosConfig(token);
-  return axios.get(`/api/v1/tasks/${id}/${todoId}`, config)
-    .then((response) => {
-      dispatch(getTasksAction(response.data));
-    });
-};
-
-/**
- * Edit the profile of a user
- * @param  {object} profile The information about profile to be updated
- * @return {object} server response
- */
-
-export const editProfile = profile => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const decodeToken = decodeJwt(token);
-  const id = decodeToken.id;
-  const config = axiosConfig(token);
-  return axios.post(`/api/v1/user/profile/${id}`, profile, config)
-    .then((response) => {
-      dispatch(profileChangeSuccess(true));
-    })
-    .catch((err) => {
-      dispatch(editProfileError('No data was sent to update'));
-    });
-};
-
-/**
- * Add a collaborator to a todo
- * @param  {object} email The information about profile to be updated
- * @return {object} server response
- */
-
-export const addCollaborator = email => (dispatch) => {
-  const token = localStorage.getItem('token') || null;
-  const config = axiosConfig(token);
-  return axios.post('/api/v1/collaborator/', email, config)
-    .then((response) => {
-      console.log('THIS IS THE COLLABORATOR', response.data);
-      dispatch(collaboratorSuccess(response.data));
-    })
-    .catch((err) => {
-      dispatch(collaboratorError('No data was sent to update'));
-    });
-};
