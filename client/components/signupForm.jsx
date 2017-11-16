@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import signupFormValidation from '../helper/signupFormValidation';
+import {
+  signupFormValidation,
+} from '../helper/formValidation';
 import {
   setSignupError
-} from '../actions/actionCreators';
+} from '../actions/userActionServices';
 
 /**
 * Registration form for the application

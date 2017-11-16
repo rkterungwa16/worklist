@@ -6,22 +6,26 @@ import axios from 'axios';
 import axiosConfig from '../helper/axiosConfig';
 import { registerUser, loginUser,
   googleSignup,
-  createTodo,
-  getTodoList,
   getCurrentUser,
-  getTodoItem,
+  editProfile,
+  profilePicture,
+  changePassword,
+  sendEmailForReset
+} from '../actions/userActionServices';
+import {
   createTask,
   completeTask,
   setTaskDueDate,
   getTasks,
-  editProfile,
-  profilePicture,
-  changePassword,
   editTask,
-  addCollaborator,
   deleteTask,
-  sendEmailForReset
-} from '../actions/actionCreators';
+} from '../actions/taskActionServices';
+import {
+  createTodo,
+  getTodoList,
+  addCollaborator,
+  getTodoItem,
+} from '../actions/todoActionServices';
 
 const instance = axios.create({
   baseURL: 'http://localhost:3000/#/'
@@ -119,14 +123,12 @@ describe('Action creator services: ', () => {
     });
 
     it('should call dispatch function on a register user post request', () => {
-      // Match against an exact URL value
       moxios.stubRequest('/api/user/signup', {
         status: 200,
         responseText: 'hello'
       });
 
       let dispatch = jest.fn();
-      // let onFulfilled = sinon.spy()
       axios.post('/api/user/signup').then(dispatch);
 
       moxios.wait(() => {

@@ -1,10 +1,12 @@
-import collaboratorFormValidation from '../helper/collaboratorFormValidation';
-import editProfileFormValidation from '../helper/editProfileFormValidation';
-import loginFormValidation from '../helper/loginFormValidation';
-import signupFormValidation from '../helper/signupFormValidation';
-import taskFormValidation from '../helper/taskFormValidation';
-import todoFormValidation from '../helper/todoFormValidation';
-import resetPasswordFormValidation from '../helper/resetPasswordFormValidation';
+import {
+  collaboratorFormValidation,
+  editProfileFormValidation,
+  loginFormValidation,
+  signupFormValidation,
+  taskFormValidation,
+  todoFormValidation,
+  resetPasswordFormValidation
+} from '../helper/formValidation';
 import axiosConfig from '../helper/axiosConfig';
 import {
   checkPriority,

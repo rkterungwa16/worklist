@@ -98,12 +98,5 @@ describe('Signup', () => {
     const wrapper = shallow(<SignupForm store={store} onSubmit={onSubmit} />);
 
     wrapper.dive().find('form').simulate('submit', event);
-
-    // expect(store.getActions()).toEqual([
-    //   {
-    //     type: 'SET_SIGNUP_ERROR',
-    //     value: 'Please enter your details'
-    //   }
-    // ]);
   });
 });

@@ -4,8 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   getTasks,
+} from '../actions/taskActionServices';
+import {
   getTodoItem
-} from '../actions/actionCreators';
+} from '../actions/todoActionServices';
 
 /**
 * Get all todos for a user

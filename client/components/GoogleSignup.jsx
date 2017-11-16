@@ -2,7 +2,7 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { googleSignup } from '../actions/actionCreators';
+import { googleSignup } from '../actions/userActionServices';
 
 /**
 * Google signup component

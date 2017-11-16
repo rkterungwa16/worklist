@@ -7,9 +7,11 @@ import { Redirect } from 'react-router-dom';
 import Spinner from 'react-spinner-material';
 import Dropzone from 'react-dropzone';
 import {
-  profilePicture,
   sendingRequest
 } from '../actions/actionCreators';
+import {
+  profilePicture,
+} from '../actions/userActionServices';
 
 /**
 * Edit profile form for the application

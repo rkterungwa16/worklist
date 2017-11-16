@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import forgotPasswordFormValidation from '../helper/forgotPasswordFormValidation';
+import {
+  forgotPasswordFormValidation
+} from '../helper/formValidation';
 import {
   forgotPasswordError,
   sendEmailForReset
-} from '../actions/actionCreators';
+} from '../actions/userActionServices';
 
 /**
 * Edit profile form for the application

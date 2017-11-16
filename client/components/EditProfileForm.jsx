@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import editProfileFormValidation from '../helper/editProfileFormValidation';
+import {
+  editProfileFormValidation,
+} from '../helper/formValidation';
 import {
   editProfileError,
   editProfile
-} from '../actions/actionCreators';
+} from '../actions/userActionServices';
 
 /**
 * Edit profile form for the application
@@ -127,7 +129,7 @@ export class EditProfileForm extends Component {
                   className='col s6 m6 l6 offset-s2 offset-m2 offset-l3 btn blue'
                   type='submit'
                 >
-                  EditProfile
+                  Edit Profile
                 </button>
               </div>
 
