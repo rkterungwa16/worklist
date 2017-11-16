@@ -4,6 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Tooltip from 'rc-tooltip';
+import Modal from 'react-modal';
 import 'rc-tooltip/assets/bootstrap_white.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
@@ -17,7 +18,7 @@ import {
   deleteTask,
   editingTask,
   editTask
-} from '../actions/actionCreators';
+} from '../actions/taskActionServices';
 
 /**
 * Task Item component
@@ -35,7 +36,7 @@ export class TaskItem extends React.Component {
       task: this.props.tasks.task,
       editedTask: this.props.tasks.task,
       isOpen: false,
-      deleted: this.props.deleted,
+      deleted: false,
       editing: this.props.editing,
       completed: this.props.tasks.completed
     };
@@ -46,6 +47,28 @@ export class TaskItem extends React.Component {
     this.clearEditOnClick = this.clearEditOnClick.bind(this);
     this.handleEditTaskChange = this.handleEditTaskChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+
+    this.customStyles = {
+      overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.75)'
+      },
+      content: {
+        top: '30%',
+        left: '52%',
+        right: 'auto',
+        // background: '#bbb',
+        bottom: 'auto',
+        marginRight: '0%',
+        transform: 'translate(-50%, -50%)'
+      }
+    };
   }
 
   /**
@@ -92,13 +115,36 @@ export class TaskItem extends React.Component {
   }
 
   /**
+   * Open modal on modal state true
+   * @param {*} null Html DOM object when register form is submitted
+   * @return {*} null
+   */
+  openModal() {
+    this.setState({
+      modalIsOpen: true
+    });
+  }
+
+  /**
+   * Close modal on modal state false
+   * @param {*} null Html DOM object when register form is submitted
+   * @return {*} null
+   */
+  closeModal() {
+    this.setState({
+      modalIsOpen: false
+    });
+  }
+
+  /**
    * Delete a task
    * @param {*} date the date selected in date picker
    * @return {*} null
    */
   deleteOnClick() {
     this.setState({
-      deleted: true
+      deleted: true,
+      modalIsOpen: false
     });
     const taskInfo = {
       taskId: this.props.tasks._id,
@@ -162,6 +208,7 @@ export class TaskItem extends React.Component {
       this.props.editTask(this.state.editedTask, this.props.tasks._id);
       this.setState({
         task: this.state.editedTask,
+        editing: false
       });
     }
     this.setState({
@@ -302,7 +349,7 @@ export class TaskItem extends React.Component {
                             className='delete-btn'
                             role='menuitem'
                             tabIndex='0'
-                            onClick={this.deleteOnClick}
+                            onClick={this.openModal}
                           >
                             <i
                               className='material-icons small circle'
@@ -374,6 +421,24 @@ export class TaskItem extends React.Component {
             :
             null
         }
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={this.customStyles}
+          contentLabel='Add Collaborator'
+        >
+          <h5>Are you sure you want to delete this task</h5>
+          <button
+            className='btn blue'
+            onClick={this.deleteOnClick}
+          >Delete
+          </button>
+          <button
+            onClick={this.closeModal}
+            className='btn blue delete-modal-btn'
+          >Cancel
+          </button>
+        </Modal>
       </div>
     );
   }
@@ -398,7 +463,8 @@ TaskItem.propTypes = {
 
 const mapStateToProps = state => ({
   completed: state.task.completed,
-  deleted: state.task.deleted
+  deleted: state.task.deleted,
+  editing: state.task.editing
 });
 
 const matchDispatchToProps = dispatch => bindActionCreators({
@@ -411,3 +477,4 @@ const matchDispatchToProps = dispatch => bindActionCreators({
 
 export default connect(mapStateToProps,
   matchDispatchToProps)(TaskItem);
+

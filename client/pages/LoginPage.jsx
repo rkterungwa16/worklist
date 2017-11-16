@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import LoginForm from '../components/LoginForm';
-import { loginUser } from '../actions/actionCreators';
+import { loginUser } from '../actions/userActionServices';
 
 /**
 * Registration form for the application
@@ -45,7 +45,7 @@ class Login extends React.Component {
                     <img
                       className='sigu-brand'
                       width='120'
-                      src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
+                      src='https://res.cloudinary.com/doy0uyv63/image/upload/v1510831655/Logomakr_8muXoA_ltajyd.png'
                       alt=''
                     />
                   </a>

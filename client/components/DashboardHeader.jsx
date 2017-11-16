@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  getCurrentUser,
   setAuthState,
   userLogout
 } from '../actions/actionCreators';
+import {
+  getCurrentUser
+} from '../actions/userActionServices';
 
 /**
 * MessageNavBar component
@@ -71,7 +73,7 @@ class Header extends React.Component {
                 <img
                   className='sigu-brand logo'
                   width='120'
-                  src='https://res.cloudinary.com/doy0uyv63/image/upload/v1510395854/Logomakr_2UJado_bdgm4v.png'
+                  src='https://res.cloudinary.com/doy0uyv63/image/upload/v1510834881/Logomakr_6wkF4Z_eigyj6.png'
                   alt=''
                 />
               </a>

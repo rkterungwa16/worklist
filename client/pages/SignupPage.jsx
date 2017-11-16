@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link, Redirect } from 'react-router-dom';
 import SignupForm from '../components/SignupForm';
 import GoogleSignup from '../components/GoogleSignup';
-import { registerUser } from '../actions/actionCreators';
+import { registerUser } from '../actions/userActionServices';
 
 /**
 * Registration form for the application
@@ -46,7 +46,7 @@ class Register extends React.Component {
                     <img
                       className='sigu-brand'
                       width='120'
-                      src='https://res.cloudinary.com/doy0uyv63/image/upload/v1509982818/Logomakr_0dMTs8_ayywlx.png'
+                      src='https://res.cloudinary.com/doy0uyv63/image/upload/v1510831655/Logomakr_8muXoA_ltajyd.png'
                       alt=''
                     />
                   </a>
@@ -63,9 +63,9 @@ class Register extends React.Component {
                 Already have an account?
                     <Link
                       to='/login'
-                      className='red-text'
+                      className='login-txt red-text'
                     >
-                Login
+                      Login
                     </Link>
                   </p>
                 </div>

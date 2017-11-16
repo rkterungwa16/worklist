@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  getTasks
-} from '../actions/actionCreators';
 import TodoItem from './TodoItem';
 
 
@@ -32,7 +28,6 @@ class TodoList extends React.Component {
         <TodoItem
           key={todoItem._id}
           todoItem={todoItem}
-          getTasks={getTasks}
         />
       );
     });
@@ -59,10 +54,6 @@ const mapStateToProps = state => ({
   todo: state.todo
 });
 
-const matchDispatchToProps = dispatch => bindActionCreators({
-  getTasks,
-}, dispatch);
-
 export default connect(mapStateToProps,
-  matchDispatchToProps)(TodoList);
+  null)(TodoList);
 

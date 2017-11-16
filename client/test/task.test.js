@@ -23,11 +23,6 @@ const mockStore = configureStore(middlewares);
 
 describe('Task', () => {
   const store = mockStore(initialTaskState);
-  beforeEach(() => {
-    taskForm = createTestComponent(TaskForm, {
-      store
-    });
-  });
   describe('form:', () => {
     const createTask = jest.fn();
     const setTaskFormError = jest.fn();
@@ -233,5 +228,23 @@ describe('Task', () => {
       wrapper.instance().handleSubmit(event);
       expect(editTask).toHaveBeenCalled();
     });
+
+    it('should open a modal', () => {
+      const wrapper = mount(<TaskItem
+        store={store}
+        {...props}
+      />);
+      wrapper.instance().openModal();
+      expect(wrapper.state().modalIsOpen).toEqual(true);
+    });
+
+    it('should close a modal', () => {
+      const wrapper = mount(<TaskItem
+        store={store}
+        {...props}
+      />);
+      wrapper.instance().closeModal();
+      expect(wrapper.state().modalIsOpen).toEqual(false);
+    });
   });
-}); // handleEditTaskChange
+});

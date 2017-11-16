@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import resetPasswordFormValidation from '../helper/resetPasswordFormValidation';
+import {
+  resetPasswordFormValidation
+} from '../helper/formValidation';
+
 import {
   passwordResetError,
   changePassword
-} from '../actions/actionCreators';
+} from '../actions/userActionServices';
 
 /**
 * Reset Password form for the application

@@ -9493,8 +9493,8 @@ button.btn-floating.btn.waves-effect.waves-light.red {
 a.black-text.forgot-password {
   margin: auto !important; }
 
-img.sigu-brand {
-  margin-top: 10px; }
+img.sigu-brand.logo {
+  margin-top: 10px !important; }
 
 span.task-priority {
   margin-left: 10px;
@@ -9667,6 +9667,9 @@ button#clear-edit-btn {
   font-size: 6px;
   border-radius: 50%; }
 
+.edit-task-btn {
+  margin-left: 3px; }
+
 .input-field.edit-task-div {
   margin-left: 20px; }
 
@@ -9678,8 +9681,28 @@ button#clear-edit-btn {
   padding: 0 6px;
   width: 450px !important; }
 
+input#todo-input-form {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
+input#task-input-form {
+  border: solid;
+  border-color: cadetblue;
+  border-radius: 2px;
+  background-color: white;
+  padding: 0 6px; }
+
 form#clear-edit-form {
   display: -webkit-inline-box; }
+
+a.login-txt.red-text {
+  margin-left: 5px; }
+
+button.btn.blue.delete-modal-btn {
+  margin-left: 200px; }
 .rc-tooltip.rc-tooltip-zoom-enter,
 .rc-tooltip.rc-tooltip-zoom-leave {
   display: block;
