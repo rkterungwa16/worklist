@@ -1,7 +1,9 @@
 import React from 'react';
+import decodeJwt from 'jwt-decode';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 
 /**
  * Function to protect some routes from being accesible
@@ -10,6 +12,12 @@ import { connect } from 'react-redux';
  * @returns {component} route or spinner
  */
 const RequireAuthRoute = ({ component: Component, path: route, authenticated }) => {
+  const decodeToken = decodeJwt(window.localStorage.token);
+  const exp = decodeToken.exp < new Date().getTime() / 1000;
+  if (exp === true) {
+    window.localStorage.clear();
+  }
+
   const access = authenticated.loggedIn || window.localStorage.token !== undefined;
   if (access) {
     return (<Route
