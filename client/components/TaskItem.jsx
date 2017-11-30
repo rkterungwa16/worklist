@@ -375,7 +375,7 @@ export class TaskItem extends React.Component {
                           arrowContent={<div className='rc-tooltip-arrow-inner' />}
                         >
                           <button
-                            className='btn waves-effect waves-light blue'
+                            className='btn waves-effect waves-light blue dueDate'
                             onClick={this.toggleCalendar}
                           >
                             {selectedDueDateFormat}

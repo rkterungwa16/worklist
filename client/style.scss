@@ -20,7 +20,7 @@ body {
   font-family: sans-serif;
 }
 
-button.btn.waves-effect.waves-light.blue {
+.dueDate {
   position: relative;
   display: inline-block;
   overflow: visible;
@@ -419,4 +419,20 @@ a.login-txt.red-text {
 // Delete Prompt
 button.btn.blue.delete-modal-btn {
   margin-left: 200px;
+}
+
+@media screen and (max-width: 1150px) {
+  .edit-btn {
+    margin-left: 75%;
+  }
+  .delete-btn {
+    margin-left: 85%;
+  }
+  .complete-input{
+    margin-left: 65%;
+  }
+
+  .dueDate{
+    margin-left: 75%;
+  }
 }

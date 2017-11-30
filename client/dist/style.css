@@ -9391,7 +9391,7 @@ body {
   line-height: 18px;
   font-family: sans-serif; }
 
-button.btn.waves-effect.waves-light.blue {
+.dueDate {
   position: relative;
   display: inline-block;
   overflow: visible;
@@ -9703,6 +9703,16 @@ a.login-txt.red-text {
 
 button.btn.blue.delete-modal-btn {
   margin-left: 200px; }
+
+@media screen and (max-width: 1150px) {
+  .edit-btn {
+    margin-left: 75%; }
+  .delete-btn {
+    margin-left: 85%; }
+  .complete-input {
+    margin-left: 65%; }
+  .dueDate {
+    margin-left: 75%; } }
 .rc-tooltip.rc-tooltip-zoom-enter,
 .rc-tooltip.rc-tooltip-zoom-leave {
   display: block;
