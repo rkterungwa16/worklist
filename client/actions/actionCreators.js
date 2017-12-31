@@ -15,7 +15,6 @@ export const profileChangeSuccess = value => ({
  * @return {object} action type and data
  */
 export const sendingRequest = value => ({ type: 'SENDING_REQUEST', value });
-
 /**
  * Ensure successfull user log out
  * @param  {boolean} value true means the group has been created hence route redirected.
